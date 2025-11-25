@@ -1,0 +1,3127 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>النجاح ليس صعبا كما تعتقد</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #e6e6e6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #4e54c8 0%, #8f94fb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .date-time-card {
+            background: rgba(30, 40, 70, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 0 auto 30px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 500px;
+        }
+
+        .date-time-card .date {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            color: #a5b1c2;
+        }
+
+        .date-time-card .time {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: rgba(30, 40, 70, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 20px;
+            color: white;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+        }
+
+        .stat-card .icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .stat-card .label {
+            font-size: 1.1em;
+            opacity: 0.9;
+            margin-bottom: 5px;
+            color: #a5b1c2;
+        }
+
+        .stat-card .value {
+            font-size: 2.5em;
+            font-weight: bold;
+        }
+
+        .stat-card .sub-value {
+            font-size: 0.9em;
+            opacity: 0.8;
+            margin-top: 5px;
+            color: #a5b1c2;
+        }
+
+        .buttons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .action-btn {
+            background: linear-gradient(135deg, #4e54c8 0%, #8f94fb 100%);
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 15px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-weight: bold;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+        }
+
+        .timer-section {
+            background: rgba(30, 40, 70, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .timer-section h3 {
+            color: white;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+        }
+
+        .timer-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+
+        .timer-display {
+            font-size: 5em;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+            min-width: 300px;
+        }
+
+        .timer-progress {
+            width: 100%;
+            max-width: 500px;
+            background: rgba(255,255,255,0.1);
+            height: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .timer-progress-fill {
+            background: linear-gradient(90deg, #11998e 0%, #38ef7d 100%);
+            height: 100%;
+            transition: width 1s linear;
+        }
+
+        .animation-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 20px;
+        }
+
+        .study-animation {
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 30%, #8f94fb, #4e54c8);
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(143, 148, 251, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4em;
+        }
+
+        .study-animation::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.3), transparent 70%);
+            border-radius: 50%;
+            opacity: 0.7;
+            animation: rotate 10s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .timer-controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .timer-btn {
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            color: white;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+
+        .timer-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .btn-start {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        }
+
+        .btn-pause {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .btn-reset {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+
+        .timer-break-stats {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .timer-break-stats .value {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 5px;
+        }
+
+        .timer-break-stats .label {
+            color: #a5b1c2;
+            font-size: 0.9em;
+        }
+
+        .challenges-section {
+            background: rgba(30, 40, 70, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .challenges-section h3 {
+            color: white;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+        }
+
+        .challenges-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .challenge-card {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.1);
+            cursor: pointer;
+        }
+
+        .challenge-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .challenge-card.active {
+            background: rgba(72, 187, 120, 0.2);
+            border-color: #48bb78;
+        }
+
+        .challenge-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .challenge-title {
+            color: white;
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+
+        .challenge-reward {
+            color: #ffd700;
+            font-weight: bold;
+        }
+
+        .challenge-progress {
+            background: rgba(255,255,255,0.2);
+            height: 8px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .challenge-progress-fill {
+            background: linear-gradient(90deg, #11998e 0%, #38ef7d 100%);
+            height: 100%;
+            transition: width 0.5s ease;
+        }
+
+        .challenge-info {
+            color: #a5b1c2;
+            font-size: 0.9em;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .subjects-section h2 {
+            color: white;
+            font-size: 2em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .subjects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .subject-card {
+            background: linear-gradient(135deg, rgba(30, 40, 70, 0.7), rgba(20, 30, 60, 0.5));
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            border: 2px solid rgba(255,255,255,0.1);
+        }
+
+        .subject-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+            border-color: rgba(143, 148, 251, 0.5);
+        }
+
+        .subject-card .icon {
+            font-size: 4em;
+            margin-bottom: 15px;
+        }
+
+        .subject-card h3 {
+            color: white;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+        }
+
+        .progress-bar {
+            background: rgba(255,255,255,0.1);
+            height: 12px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #11998e 0%, #38ef7d 100%);
+            height: 100%;
+            transition: width 0.5s ease;
+        }
+
+        .progress-text {
+            color: white;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .history-section {
+            background: rgba(30, 40, 70, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .history-section h3 {
+            color: white;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+        }
+
+        .history-item {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .history-item:hover {
+            background: rgba(255,255,255,0.15);
+        }
+
+        .history-item .day-info {
+            color: white;
+        }
+
+        .history-item .day-date {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .history-item .day-stats {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        .history-item .emoji {
+            font-size: 2em;
+        }
+
+        .parts-view, .levels-view, .achievements-view, .badges-view, .comparison-view, .titles-view, .settings-view {
+            display: none;
+        }
+
+        .parts-view.active, .levels-view.active, .achievements-view.active, .badges-view.active, .comparison-view.active, .titles-view.active, .settings-view.active {
+            display: block;
+        }
+
+        .back-btn {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.1em;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.2);
+            transform: scale(1.05);
+        }
+
+        .subject-header {
+            background: linear-gradient(135deg, rgba(30, 40, 70, 0.7), rgba(20, 30, 60, 0.5));
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .subject-header .left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .subject-header .icon {
+            font-size: 4em;
+        }
+
+        .subject-header h2 {
+            font-size: 2.5em;
+            margin-bottom: 5px;
+        }
+
+        .subject-header .progress-info {
+            font-size: 1.1em;
+            opacity: 0.9;
+            color: #a5b1c2;
+        }
+
+        .subject-header .right {
+            text-align: left;
+        }
+
+        .subject-header .progress-value {
+            font-size: 3em;
+            font-weight: bold;
+        }
+
+        .parts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .part-card {
+            background: rgba(30, 40, 70, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 15px;
+            border: 2px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .part-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .part-card.completed {
+            background: rgba(72, 187, 120, 0.3);
+            border-color: #48bb78;
+            box-shadow: 0 0 20px rgba(72, 187, 120, 0.5);
+        }
+
+        .part-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .part-header h3 {
+            color: white;
+            font-size: 1.5em;
+        }
+
+        .star-icon {
+            color: #ffd700;
+            font-size: 1.5em;
+        }
+
+        .task-item {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .task-item:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .task-item.completed {
+            background: rgba(72, 187, 120, 0.3);
+        }
+
+        .task-checkbox {
+            width: 24px;
+            height: 24px;
+            border: 2px solid white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .task-checkbox.checked {
+            background: #48bb78;
+            border-color: #48bb78;
+        }
+
+        .task-label {
+            flex: 1;
+            color: white;
+            font-size: 1.1em;
+            text-align: right;
+        }
+
+        .task-points {
+            color: #ffd700;
+            font-weight: bold;
+        }
+
+        .celebration {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 20px 40px;
+            border-radius: 50px;
+            font-size: 1.3em;
+            font-weight: bold;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+            z-index: 1000;
+            animation: bounce 0.5s ease infinite;
+            display: none;
+        }
+
+        .celebration.show {
+            display: block;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-10px); }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: white;
+            opacity: 0.7;
+        }
+
+        /* تصميم جديد للمقارنة والإحصائيات */
+        .comparison-section {
+            background: rgba(30, 40, 70, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .comparison-section h3 {
+            color: white;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .comparison-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .comparison-stat {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .comparison-stat:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .comparison-stat .value {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .comparison-stat .label {
+            color: #a5b1c2;
+            font-size: 1.1em;
+        }
+
+        .comparison-chart {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .chart-bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .chart-label {
+            width: 120px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .chart-bar-container {
+            flex: 1;
+            background: rgba(255,255,255,0.2);
+            height: 30px;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .chart-bar-fill {
+            background: linear-gradient(90deg, #11998e 0%, #38ef7d 100%);
+            height: 100%;
+            transition: width 0.5s ease;
+        }
+
+        .chart-value {
+            width: 80px;
+            text-align: left;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* تصميم جديد للألقاب والشارات */
+        .titles-badges-section {
+            background: rgba(30, 40, 70, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .titles-badges-section h3 {
+            color: white;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+        }
+
+        .titles-grid, .badges-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .title-card, .badge-card {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+        }
+
+        .title-card:hover, .badge-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .title-card.good, .badge-card.owned {
+            background: rgba(72, 187, 120, 0.2);
+            border-color: #48bb78;
+        }
+
+        .title-card.bad {
+            background: rgba(245, 101, 101, 0.2);
+            border-color: #f56565;
+        }
+
+        .title-card.locked, .badge-card.unavailable {
+            opacity: 0.5;
+        }
+
+        .title-header, .badge-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .title-name, .badge-title {
+            color: white;
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+
+        .title-icon, .badge-icon {
+            font-size: 1.5em;
+        }
+
+        .title-description, .badge-description {
+            color: #a5b1c2;
+            margin-bottom: 15px;
+        }
+
+        .title-requirements, .badge-price {
+            color: #ffd700;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+
+        .remove-bad-title-btn {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .remove-bad-title-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .remove-bad-title-btn:disabled {
+            background: rgba(255,255,255,0.2);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* تصميم الإعدادات */
+        .settings-section {
+            background: rgba(30, 40, 70, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .settings-section h3 {
+            color: white;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+        }
+
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .setting-card {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .setting-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .setting-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .setting-title {
+            color: white;
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+
+        .setting-icon {
+            font-size: 1.5em;
+        }
+
+        .setting-description {
+            color: #a5b1c2;
+            margin-bottom: 15px;
+        }
+
+        .setting-input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.1);
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .setting-btn {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .setting-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .danger-btn {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .subjects-list {
+            margin-top: 20px;
+        }
+
+        .subject-item {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .subject-item .name {
+            color: white;
+            font-weight: bold;
+        }
+
+        .subject-item .parts {
+            color: #a5b1c2;
+        }
+
+        .delete-btn {
+            background: rgba(245, 101, 101, 0.3);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .delete-btn:hover {
+            background: rgba(245, 101, 101, 0.5);
+        }
+
+        /* تصميم جديد للإنجازات والمستويات */
+        .achievements-grid, .levels-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .achievement-card, .level-card {
+            background: rgba(30, 40, 70, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 20px;
+            color: white;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .achievement-card:hover, .level-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+        }
+
+        .achievement-card.completed, .level-card.completed {
+            background: rgba(72, 187, 120, 0.3);
+            border-color: #48bb78;
+            box-shadow: 0 0 20px rgba(72, 187, 120, 0.5);
+        }
+
+        .level-card.current {
+            background: rgba(66, 153, 225, 0.3);
+            border-color: #4299e1;
+            box-shadow: 0 0 20px rgba(66, 153, 225, 0.5);
+        }
+
+        .achievement-header, .level-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .achievement-title, .level-number {
+            color: white;
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+
+        .achievement-reward, .level-reward {
+            color: #ffd700;
+            font-weight: bold;
+        }
+
+        .achievement-description, .level-requirements {
+            color: #a5b1c2;
+            margin-bottom: 15px;
+        }
+
+        .achievement-progress, .level-progress {
+            background: rgba(255,255,255,0.2);
+            height: 8px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .achievement-progress-fill, .level-progress-fill {
+            background: linear-gradient(90deg, #11998e 0%, #38ef7d 100%);
+            height: 100%;
+            transition: width 0.5s ease;
+        }
+
+        .achievement-info, .level-info {
+            color: #a5b1c2;
+            font-size: 0.9em;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* تصميم جديد للرسم المتحرك في العداد */
+        .timer-animation {
+            width: 200px;
+            height: 200px;
+            position: relative;
+        }
+
+        .timer-circle {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(
+                #4e54c8 0%,
+                #8f94fb 25%,
+                #4e54c8 50%,
+                #8f94fb 75%,
+                #4e54c8 100%
+            );
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(143, 148, 251, 0.5);
+            animation: rotate 10s linear infinite;
+        }
+
+        .timer-circle::before {
+            content: '';
+            position: absolute;
+            width: 80%;
+            height: 80%;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 50%;
+            top: 10%;
+            left: 10%;
+            z-index: 1;
+        }
+
+        .timer-circle::after {
+            content: '⏱️';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3em;
+            z-index: 2;
+            color: white;
+        }
+
+        .timer-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+            animation: float 3s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) scale(1); opacity: 0.7; }
+            50% { transform: translateY(-20px) scale(1.2); opacity: 1; }
+        }
+
+        /* تصميم جديد للإحصائيات */
+        .records-section, .other-stats-section {
+            background: rgba(30, 40, 70, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .records-section h3, .other-stats-section h3 {
+            color: white;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .records-grid, .other-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .record-card, .stat-card-new {
+            background: linear-gradient(135deg, rgba(78, 84, 200, 0.3), rgba(143, 148, 251, 0.2));
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 20px;
+            color: white;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .record-card::before, .stat-card-new::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .record-card:hover::before, .stat-card-new:hover::before {
+            opacity: 1;
+        }
+
+        .record-card:hover, .stat-card-new:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+
+        .record-icon, .stat-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .record-value, .stat-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #4e54c8 0%, #8f94fb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .record-label, .stat-label {
+            color: #a5b1c2;
+            font-size: 1.1em;
+        }
+
+        /* تصميم جديد للنوافذ المنبثقة */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: rgba(30, 40, 70, 0.9);
+            backdrop-filter: blur(20px);
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 90%;
+            color: white;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5em;
+            cursor: pointer;
+        }
+
+        .modal-body {
+            margin-bottom: 20px;
+            text-align: right;
+            line-height: 1.6;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .modal-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .modal-btn-primary {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+        }
+
+        .modal-btn-secondary {
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+
+        .modal-btn:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div id="celebration" class="celebration"></div>
+    
+    <!-- نافذة التعليمات -->
+    <div id="challengeModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title" id="modalTitle">تعليمات المهمة</div>
+                <button class="close-modal" onclick="closeModal()">✕</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                محتوى التعليمات سيظهر هنا
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn modal-btn-primary" onclick="closeModal()">فهمت</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div id="mainView">
+            <div class="header">
+                <h1>النجاح ليس صعبا كما تعتقد</h1>
+                <div class="date-time-card">
+                    <div class="date" id="currentDate"></div>
+                    <div class="time" id="currentTime"></div>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card" onclick="openLevels()">
+                    <div class="icon">🏆</div>
+                    <div class="label">النقاط</div>
+                    <div class="value" id="totalPoints">0</div>
+                    <div class="sub-value">المستوى <span id="level">1</span></div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="icon">⏰</div>
+                    <div class="label">ساعات المذاكرة</div>
+                    <div class="value" id="studyTime">0:00</div>
+                </div>
+
+                <div class="stat-card" onclick="openTitlesBadges()">
+                    <div class="icon">🎖️</div>
+                    <div class="label">شاراتي وألقابي</div>
+                    <div class="value" id="titlesBadgesCount">0</div>
+                </div>
+
+                <div class="stat-card" onclick="openAchievements()">
+                    <div class="icon">🎖️</div>
+                    <div class="label">الإنجازات</div>
+                    <div class="value" id="achievements">0</div>
+                </div>
+            </div>
+
+            <div class="buttons-grid">
+                <button class="action-btn" onclick="openComparison()">📊 مقارنة واحصائيات</button>
+                <button class="action-btn" onclick="openTitlesBadges()">👑 شاراتي وألقابي</button>
+                <button class="action-btn" onclick="openSettings()">⚙️ الإعدادات</button>
+            </div>
+
+            <div class="timer-section">
+                <h3>⏱️ مؤقت بدأ جلسه دراسيه (45 دقيقة)</h3>
+                <div class="timer-progress">
+                    <div class="timer-progress-fill" id="timerProgress" style="width: 0%"></div>
+                </div>
+                <div class="timer-container">
+                    <div class="timer-display" id="timerDisplay">45:00</div>
+                    <div class="animation-container">
+                        <div class="timer-animation">
+                            <div class="timer-circle"></div>
+                            <div class="timer-particles" id="timerParticles"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="timer-controls">
+                    <button class="timer-btn btn-start" id="startBtn" onclick="startTimer()">▶️ ابدأ</button>
+                    <button class="timer-btn btn-pause" id="pauseBtn" onclick="pauseTimer()" style="display:none">⏸️ توقف</button>
+                    <button class="timer-btn btn-reset" onclick="resetTimer()">🔄 إعادة</button>
+                </div>
+                
+                <div class="timer-break-stats">
+                    <div class="value" id="timerBreaks">0</div>
+                    <div class="label">عدد مرات كسر العداد</div>
+                </div>
+            </div>
+
+            <div class="challenges-section">
+                <h3>🎯 تحديات اليوم</h3>
+                <div class="challenges-grid" id="challengesGrid"></div>
+            </div>
+
+            <div class="subjects-section">
+                <h2>📖 المواد الدراسية</h2>
+                <div class="subjects-grid" id="subjectsGrid"></div>
+            </div>
+
+            <div class="history-section">
+                <h3>📅 سجل الأيام السابقة</h3>
+                <div id="historyList"></div>
+            </div>
+        </div>
+
+        <div id="partsView" class="parts-view">
+            <button class="back-btn" onclick="goBack()">← العودة للرئيسية</button>
+            <div id="subjectHeader"></div>
+            <div class="parts-grid" id="partsGrid"></div>
+        </div>
+
+        <div id="levelsView" class="levels-view">
+            <button class="back-btn" onclick="goBack()">← العودة للرئيسية</button>
+            <h2>📊 مستوياتي</h2>
+            <div class="levels-grid" id="levelsGrid"></div>
+        </div>
+
+        <div id="achievementsView" class="achievements-view">
+            <button class="back-btn" onclick="goBack()">← العودة للرئيسية</button>
+            <h2>🏆 إنجازاتي</h2>
+            <div class="achievements-grid" id="achievementsGrid"></div>
+        </div>
+
+        <div id="titlesBadgesView" class="titles-view">
+            <button class="back-btn" onclick="goBack()">← العودة للرئيسية</button>
+            
+            <div class="header">
+                <h2>👑 شاراتي وألقابي</h2>
+                <p>شارات وألقاب حصلت عليها بناءً على أدائك في الدراسة!</p>
+            </div>
+
+            <div class="titles-badges-section">
+                <h3>🏅 الألقاب الجيدة</h3>
+                <div class="titles-grid" id="goodTitlesGrid"></div>
+            </div>
+
+            <div class="titles-badges-section">
+                <h3>🎖️ الشارات</h3>
+                <div class="badges-grid" id="badgesGrid"></div>
+            </div>
+
+            <div class="titles-badges-section">
+                <h3>⚠️ الألقاب السيئة</h3>
+                <div class="titles-grid" id="badTitlesGrid"></div>
+            </div>
+        </div>
+
+        <div id="comparisonView" class="comparison-view">
+            <button class="back-btn" onclick="goBack()">← العودة للرئيسية</button>
+            <h2>📊 مقارنة وإحصائيات</h2>
+            
+            <div class="records-section">
+                <h3>🏆 الأرقام القياسية</h3>
+                <div class="records-grid" id="recordsGrid"></div>
+            </div>
+
+            <div class="other-stats-section">
+                <h3>📈 باقي الإحصائيات</h3>
+                <div class="other-stats-grid" id="otherStatsGrid"></div>
+            </div>
+        </div>
+
+        <div id="settingsView" class="settings-view">
+            <button class="back-btn" onclick="goBack()">← العودة للرئيسية</button>
+            
+            <div class="header">
+                <h2>⚙️ الإعدادات</h2>
+                <p>إدارة المواد والإعدادات الشخصية</p>
+            </div>
+
+            <div class="settings-section">
+                <h3>📚 إدارة المواد</h3>
+                <div class="settings-grid">
+                    <div class="setting-card">
+                        <div class="setting-header">
+                            <div class="setting-title">إضافة مادة جديدة</div>
+                            <div class="setting-icon">➕</div>
+                        </div>
+                        <div class="setting-description">أضف مادة جديدة إلى قائمة المواد الدراسية</div>
+                        <input type="text" class="setting-input" id="newSubjectName" placeholder="اسم المادة">
+                        <input type="number" class="setting-input" id="newSubjectParts" placeholder="عدد الأجزاء" min="1" max="30" value="15">
+                        <button class="setting-btn" onclick="addNewSubject()">إضافة المادة</button>
+                    </div>
+
+                    <div class="setting-card">
+                        <div class="setting-header">
+                            <div class="setting-title">تعديل مادة</div>
+                            <div class="setting-icon">✏️</div>
+                        </div>
+                        <div class="setting-description">تغيير اسم أو عدد أجزاء مادة موجودة</div>
+                        <select class="setting-input" id="editSubjectSelect">
+                            <option value="">اختر المادة</option>
+                        </select>
+                        <input type="text" class="setting-input" id="editSubjectName" placeholder="الاسم الجديد">
+                        <input type="number" class="setting-input" id="editSubjectParts" placeholder="عدد الأجزاء الجديد" min="1" max="30">
+                        <button class="setting-btn" onclick="editSubject()">تعديل المادة</button>
+                    </div>
+                </div>
+
+                <div class="subjects-list" id="subjectsList"></div>
+            </div>
+
+            <div class="settings-section">
+                <h3>⚠️ إدارة البيانات</h3>
+                <div class="settings-grid">
+                    <div class="setting-card">
+                        <div class="setting-header">
+                            <div class="setting-title">حذف التقدم</div>
+                            <div class="setting-icon">🗑️</div>
+                        </div>
+                        <div class="setting-description">حذف جميع النقاط والإنجازات والشارات والألقاب</div>
+                        <button class="setting-btn danger-btn" onclick="confirmResetProgress()">حذف تقدمي</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // المواد الافتراضية
+        let subjects = [
+            { id: 'accounting', name: 'Accounting', icon: '📊', parts: 15 },
+            { id: 'statistics', name: 'Statistics', icon: '📈', parts: 15 },
+            { id: 'public', name: 'Public', icon: '🏛️', parts: 15 },
+            { id: 'economic', name: 'Economic', icon: '💰', parts: 15 },
+            { id: 'mis', name: 'MIS', icon: '💻', parts: 15 },
+            { id: 'production', name: 'Production', icon: '🏭', parts: 15 },
+            { id: 'english', name: 'English', icon: '📚', parts: 15 }
+        ];
+
+        // التحديات اليومية - 30 مهمة مع التعليمات
+        const dailyChallenges = [
+            { 
+                id: 'study_30min', 
+                title: 'ادرس لمدة 30 دقيقة', 
+                target: 30, 
+                reward: 50, 
+                type: 'time',
+                instructions: 'لإكمال هذا التحدي، تحتاج إلى الدراسة لمدة 30 دقيقة متواصلة. يمكنك استخدام مؤقت الدراسة لتحقيق هذا الهدف. حاول التركيز خلال هذه الفترة وتجنب المشتتات.'
+            },
+            { 
+                id: 'complete_3tasks', 
+                title: 'أكمل 3 مهام', 
+                target: 3, 
+                reward: 30, 
+                type: 'tasks',
+                instructions: 'لإكمال هذا التحدي، تحتاج إلى إنهاء 3 مهام دراسية مختلفة. يمكن أن تكون هذه المهام مذاكرة شرح أو حل تمارين في أي مادة من المواد الدراسية.'
+            },
+            { 
+                id: 'study_2subjects', 
+                title: 'ادرس مادتين مختلفتين', 
+                target: 2, 
+                reward: 40, 
+                type: 'subjects',
+                instructions: 'لإكمال هذا التحدي، تحتاج إلى الدراسة في مادتين مختلفتين على الأقل. يمكنك اختيار أي مادتين من قائمة المواد الدراسية.'
+            },
+            { 
+                id: 'maintain_streak', 
+                title: 'حافظ على سلسلة الإنجازات', 
+                target: 1, 
+                reward: 25, 
+                type: 'streak',
+                instructions: 'لإكمال هذا التحدي، تحتاج إلى الدراسة ليوم واحد على الأقل بعد يوم الدراسة السابق. حاول أن تجعل الدراسة عادة يومية.'
+            },
+            { 
+                id: 'early_bird', 
+                title: 'ابدأ الدراسة قبل الساعة 9 صباحاً', 
+                target: 1, 
+                reward: 30, 
+                type: 'time',
+                instructions: 'لإكمال هذا التحدي، تحتاج إلى بدء جلسة الدراسة قبل الساعة 9 صباحاً. الدراسة في الصباح تساعد على تحسين التركيز والاستيعاب.'
+            },
+            { 
+                id: 'night_owl', 
+                title: 'ادرس بعد الساعة 10 مساءً', 
+                target: 1, 
+                reward: 40, 
+                type: 'time',
+                instructions: 'لإكمال هذا التحدي، تحتاج إلى الدراسة بعد الساعة 10 مساءً. إذا كنت من محبي الدراسة ليلاً، فهذا التحدي مناسب لك.'
+            },
+            { 
+                id: 'pomodoro_master', 
+                title: 'أكمل 3 جلسات بومودورو', 
+                target: 3, 
+                reward: 60, 
+                type: 'sessions',
+                instructions: 'لإكمال هذا التحدي، تحتاج إلى إكمال 3 جلسات بومودورو كاملة (45 دقيقة لكل جلسة). استخدم مؤقت الدراسة لتحقيق هذا الهدف.'
+            },
+            { 
+                id: 'subject_expert', 
+                title: 'أكمل 50% من مادة واحدة', 
+                target: 1, 
+                reward: 70, 
+                type: 'subjects',
+                instructions: 'لإكمال هذا التحدي، تحتاج إلى إكمال 50% من محتوى مادة دراسية واحدة. اختر المادة التي تريد التركيز عليها وابدأ في إكمال مهامها.'
+            },
+            { 
+                id: 'multi_tasker', 
+                title: 'ادرس 3 مواد مختلفة', 
+                target: 3, 
+                reward: 80, 
+                type: 'subjects',
+                instructions: 'لإكمال هذا التحدي، تحتاج إلى الدراسة في 3 مواد مختلفة على الأقل خلال اليوم. هذا يساعد على تنويع المحتوى الدراسي.'
+            },
+            { 
+                id: 'point_collector', 
+                title: 'اجمع 200 نقطة في يوم واحد', 
+                target: 200, 
+                reward: 120, 
+                type: 'points',
+                instructions: 'لإكمال هذا التحدي، تحتاج إلى جمع 200 نقطة في يوم واحد. يمكنك تحقيق ذلك بإكمال المهام والتحديات المختلفة.'
+            }
+        ];
+
+        // المستويات - 30 مستوى
+        const levels = [];
+        for (let i = 1; i <= 30; i++) {
+            const pointsNeeded = i === 1 ? 150 : levels[i-2].pointsNeeded + 150;
+            levels.push({
+                level: i,
+                pointsNeeded: pointsNeeded,
+                reward: 0
+            });
+        }
+
+        // الإنجازات - 30 إنجاز مختلف
+        const achievements = [
+            { id: 'first_task', title: 'المهمة الأولى', description: 'أكمل أول مهمة دراسية', target: 1, reward: 0, type: 'tasks' },
+            { id: 'first_10_tasks', title: '10 مهام مكتملة', description: 'أكمل 10 مهام دراسية', target: 10, reward: 0, type: 'tasks' },
+            { id: 'first_50_tasks', title: '50 مهمة مكتملة', description: 'أكمل 50 مهمة دراسية', target: 50, reward: 0, type: 'tasks' },
+            { id: 'first_100_tasks', title: '100 مهمة مكتملة', description: 'أكمل 100 مهمة دراسية', target: 100, reward: 0, type: 'tasks' },
+            { id: 'first_subject_25', title: '25% من مادة', description: 'أكمل 25% من مادة دراسية', target: 1, reward: 0, type: 'subjects' },
+            { id: 'first_subject_50', title: '50% من مادة', description: 'أكمل 50% من مادة دراسية', target: 1, reward: 0, type: 'subjects' },
+            { id: 'first_subject_75', title: '75% من مادة', description: 'أكمل 75% من مادة دراسية', target: 1, reward: 0, type: 'subjects' },
+            { id: 'first_subject_100', title: '100% من مادة', description: 'أكمل 100% من مادة دراسية', target: 1, reward: 0, type: 'subjects' },
+            { id: 'study_1_hour', title: 'ساعة دراسة', description: 'اجمع ساعة واحدة من الدراسة', target: 60, reward: 0, type: 'time' },
+            { id: 'study_5_hours', title: '5 ساعات دراسة', description: 'اجمع 5 ساعات من الدراسة', target: 300, reward: 0, type: 'time' },
+            { id: 'study_10_hours', title: '10 ساعات دراسة', description: 'اجمع 10 ساعات من الدراسة', target: 600, reward: 0, type: 'time' },
+            { id: 'study_24_hours', title: '24 ساعة دراسة', description: 'اجمع 24 ساعة من الدراسة', target: 1440, reward: 0, type: 'time' },
+            { id: 'first_pomodoro', title: 'أول جلسة بومودورو', description: 'أكمل أول جلسة بومودورو', target: 1, reward: 0, type: 'sessions' },
+            { id: '5_pomodoros', title: '5 جلسات بومودورو', description: 'أكمل 5 جلسات بومودورو', target: 5, reward: 0, type: 'sessions' },
+            { id: '10_pomodoros', title: '10 جلسات بومودورو', description: 'أكمل 10 جلسات بومودورو', target: 10, reward: 0, type: 'sessions' },
+            { id: '25_pomodoros', title: '25 جلسة بومودورو', description: 'أكمل 25 جلسة بومودورو', target: 25, reward: 0, type: 'sessions' },
+            { id: 'streak_3_days', title: '3 أيام متتالية', description: 'ادرس 3 أيام متتالية', target: 3, reward: 0, type: 'streak' },
+            { id: 'streak_7_days', title: 'أسبوع متتالي', description: 'ادرس 7 أيام متتالية', target: 7, reward: 0, type: 'streak' },
+            { id: 'streak_30_days', title: 'شهر متتالي', description: 'ادرس 30 يوم متتالي', target: 30, reward: 0, type: 'streak' },
+            { id: 'first_500_points', title: '500 نقطة', description: 'اجمع 500 نقطة', target: 500, reward: 0, type: 'points' },
+            { id: 'first_1000_points', title: '1000 نقطة', description: 'اجمع 1000 نقطة', target: 1000, reward: 0, type: 'points' },
+            { id: 'first_5000_points', title: '5000 نقطة', description: 'اجمع 5000 نقطة', target: 5000, reward: 0, type: 'points' },
+            { id: 'level_5', title: 'المستوى الخامس', description: 'وصل للمستوى الخامس', target: 5, reward: 0, type: 'level' },
+            { id: 'level_10', title: 'المستوى العاشر', description: 'وصل للمستوى العاشر', target: 10, reward: 0, type: 'level' },
+            { id: 'level_20', title: 'المستوى العشرين', description: 'وصل للمستوى العشرين', target: 20, reward: 0, type: 'level' },
+            { id: 'level_30', title: 'المستوى الثلاثين', description: 'وصل للمستوى الثلاثين', target: 30, reward: 0, type: 'level' },
+            { id: 'all_subjects_started', title: 'كل المواد', description: 'ابدأ الدراسة في كل المواد', target: 7, reward: 0, type: 'subjects' },
+            { id: 'early_bird_achievement', title: 'طائر الصباح', description: 'ادرس في الصباح 10 مرات', target: 10, reward: 0, type: 'time' },
+            { id: 'night_owl_achievement', title: 'بومة الليل', description: 'ادرس في الليل 10 مرات', target: 10, reward: 0, type: 'time' },
+            { id: 'consistency_king', title: 'ملك الاستمرارية', description: 'ادرس 5 أيام متتالية', target: 5, reward: 0, type: 'streak' }
+        ];
+
+        // الشارات - 15 شارة
+        const badges = [
+            { id: 'badge_beginner', title: 'المبتدئ', description: 'شارة المبتدئ في الدراسة', icon: '🌱', price: 100 },
+            { id: 'badge_learner', title: 'المتعلم', description: 'شارة المتعلم النشط', icon: '📖', price: 200 },
+            { id: 'badge_scholar', title: 'الطالب المجتهد', description: 'شارة الطالب المجتهد', icon: '🎓', price: 500 },
+            { id: 'badge_achiever', title: 'المحقق', description: 'شارة محقق الأهداف', icon: '🏅', price: 800 },
+            { id: 'badge_master', title: 'السيد', description: 'شارة سيد الدراسة', icon: '👑', price: 1200 },
+            { id: 'badge_legend', title: 'الأسطورة', description: 'شارة أسطورة الدراسة', icon: '🌟', price: 2000 },
+            { id: 'badge_time_master', title: 'سيد الوقت', description: 'شارة إدارة الوقت المثالية', icon: '⏰', price: 1500 },
+            { id: 'badge_streak_king', title: 'ملك الاستمرارية', description: 'شارة ملك الاستمرارية في الدراسة', icon: '🔥', price: 1800 },
+            { id: 'badge_pomodoro_pro', title: 'محترف البومودورو', description: 'شارة محترف تقنية البومودورو', icon: '🍅', price: 1000 },
+            { id: 'badge_subject_expert', title: 'خبير المواد', description: 'شارة خبير جميع المواد', icon: '🧠', price: 2500 },
+            { id: 'badge_fast_learner', title: 'المتعلم السريع', description: 'شارة المتعلم السريع', icon: '⚡', price: 800 },
+            { id: 'badge_creative_thinker', title: 'المفكر المبدع', description: 'شارة المفكر المبدع', icon: '💡', price: 1200 },
+            { id: 'badge_problem_solver', title: 'حلال المشكلات', description: 'شارة حلال المشكلات', icon: '🔍', price: 1500 },
+            { id: 'badge_researcher', title: 'الباحث', description: 'شارة الباحث المجتهد', icon: '🔬', price: 1200 },
+            { id: 'badge_analyst', title: 'المحلل', description: 'شارة المحلل الماهر', icon: '📊', price: 1500 }
+        ];
+
+        // الألقاب الجيدة (15 لقب)
+        const goodTitles = [
+            { id: 'title_study_master', name: 'سيد الدراسة', icon: '👑', description: 'أكمل 100 ساعة دراسة', requirement: { type: 'study_hours', value: 100 } },
+            { id: 'title_task_completer', name: 'منجز المهام', icon: '✅', description: 'أكمل 500 مهمة دراسية', requirement: { type: 'tasks_completed', value: 500 } },
+            { id: 'title_early_riser', name: 'طائر الصباح', icon: '🌅', description: 'ادرس 50 مرة قبل الساعة 9 صباحاً', requirement: { type: 'early_study', value: 50 } },
+            { id: 'title_night_owl', name: 'بومة الليل', icon: '🦉', description: 'ادرس 50 مرة بعد الساعة 10 مساءً', requirement: { type: 'night_study', value: 50 } },
+            { id: 'title_streak_king', name: 'ملك الاستمرارية', icon: '🔥', description: 'حافظ على سلسلة إنجاز لمدة 30 يوم', requirement: { type: 'streak_days', value: 30 } },
+            { id: 'title_pomodoro_expert', name: 'خبير البومودورو', icon: '🍅', description: 'أكمل 100 جلسة بومودورو', requirement: { type: 'pomodoro_sessions', value: 100 } },
+            { id: 'title_subject_master', name: 'سيد المواد', icon: '📚', description: 'أكمل 100% من 3 مواد دراسية', requirement: { type: 'subjects_completed', value: 3 } },
+            { id: 'title_point_collector', name: 'جامع النقاط', icon: '💰', description: 'اجمع 10000 نقطة', requirement: { type: 'total_points', value: 10000 } },
+            { id: 'title_level_30', name: 'المستوى الأعلى', icon: '🏆', description: 'وصل للمستوى 30', requirement: { type: 'level', value: 30 } },
+            { id: 'title_achievement_hunter', name: 'صائد الإنجازات', icon: '🎖️', description: 'أكمل 20 إنجاز', requirement: { type: 'achievements', value: 20 } },
+            { id: 'title_challenge_master', name: 'سيد التحديات', icon: '🎯', description: 'أكمل 100 تحدي يومي', requirement: { type: 'challenges_completed', value: 100 } },
+            { id: 'title_focused_mind', name: 'العقل المركز', icon: '🎯', description: 'ادرس 10 ساعات متواصلة', requirement: { type: 'continuous_study', value: 600 } },
+            { id: 'title_quick_learner', name: 'المتعلم السريع', icon: '⚡', description: 'أكمل 10 مهام في يوم واحد', requirement: { type: 'tasks_in_day', value: 10 } },
+            { id: 'title_weekend_warrior', name: 'محارب عطلة نهاية الأسبوع', icon: '🗓️', description: 'ادرس في 20 عطلة نهاية أسبوع', requirement: { type: 'weekend_study', value: 20 } },
+            { id: 'title_motivated_soul', name: 'الروح المتحمسة', icon: '💪', description: 'ابدأ الدراسة 100 مرة', requirement: { type: 'study_sessions', value: 100 } }
+        ];
+
+        // الألقاب السيئة (10 لقب)
+        const badTitles = [
+            { id: 'title_timer_breaker_1', name: 'هارب العداد', icon: '🏃', description: 'كسر العداد 5 مرات', requirement: { type: 'timer_breaks', value: 5 } },
+            { id: 'title_timer_breaker_2', name: 'هارب محترف', icon: '💨', description: 'كسر العداد 20 مرة', requirement: { type: 'timer_breaks', value: 20 } },
+            { id: 'title_timer_breaker_3', name: 'ملك الهروب', icon: '👑', description: 'كسر العداد 50 مرة', requirement: { type: 'timer_breaks', value: 50 } },
+            { id: 'title_short_study_1', name: 'المذاكر القصير', icon: '⏱️', description: 'أقل من 10 دقائق دراسة في 10 أيام', requirement: { type: 'short_study_days', value: 10 } },
+            { id: 'title_short_study_2', name: 'المتقاعس', icon: '😴', description: 'أقل من 10 دقائق دراسة في 30 يوماً', requirement: { type: 'short_study_days', value: 30 } },
+            { id: 'title_task_avoider_1', name: 'متجنب المهام', icon: '🚫', description: 'لم تكمل أي مهمة في 5 أيام', requirement: { type: 'no_task_days', value: 5 } },
+            { id: 'title_task_avoider_2', name: 'المتهرب', icon: '🏃‍♂️', description: 'لم تكمل أي مهمة في 15 يوماً', requirement: { type: 'no_task_days', value: 15 } },
+            { id: 'title_streak_breaker_1', name: 'كاسر السلسلة', icon: '⛓️', description: 'كسر سلسلة الإنجاز 10 مرات', requirement: { type: 'streak_breaks', value: 10 } },
+            { id: 'title_streak_breaker_2', name: 'محطم الأحلام', icon: '💔', description: 'كسر سلسلة الإنجاز 25 مرة', requirement: { type: 'streak_breaks', value: 25 } },
+            { id: 'title_low_points_1', name: 'جامع النقاط الضعيف', icon: '💸', description: 'أقل من 50 نقطة في 10 أيام', requirement: { type: 'low_points_days', value: 10 } }
+        ];
+
+        // بيانات التطبيق الرئيسية
+        let studyData = {};
+        let totalPoints = 0;
+        let level = 1;
+        let streak = 0;
+        let totalStudyMinutes = 0;
+        let dailyHistory = [];
+        let achievementsList = [];
+        let currentSubject = null;
+        let timerInterval = null;
+        let timerMinutes = 45;
+        let timerSeconds = 0;
+        let isTimerRunning = false;
+        let completedChallenges = [];
+        let todayChallenges = {};
+        let studiedSubjectsToday = new Set();
+        let userBadges = [];
+        let completedAchievements = [];
+        let totalPomodoroSessions = 0;
+        
+        // البيانات الجديدة للميزات المضافة
+        let timerBreaks = 0;
+        let userTitles = [];
+        let earlyStudyCount = 0;
+        let nightStudyCount = 0;
+        let studySessions = 0;
+        let pomodoroQuits = 0;
+        let streakBreaks = 0;
+        let shortStudyDays = 0;
+        let noTaskDays = 0;
+        let lowPointsDays = 0;
+        let weekendStudyCount = 0;
+        let continuousStudyRecord = 0;
+        let currentContinuousStudy = 0;
+        let tasksInDayRecord = 0;
+        let subjectsInDayRecord = 0;
+        let studyStartTime = null;
+        
+        // إحصائيات جديدة
+        let timerPauses = 0;
+        let studyTime_2_7 = 0; // الدراسة بين 2ص و7ص
+        let studyTime_7_12 = 0; // الدراسة بين 7ص و12م
+        let studyTime_12_5 = 0; // الدراسة بين 12م و5م
+        let studyTime_5_12 = 0; // الدراسة بين 5م و12ص
+        let totalTasksCompleted = 0;
+        let totalStudyTasks = 0;
+        let totalPracticeTasks = 0;
+        let pointsDeducted = 0;
+        let pointsSpentOnBadges = 0;
+
+        function init() {
+            loadData();
+            updateCurrentDateTime();
+            setInterval(updateCurrentDateTime, 1000);
+            renderSubjects();
+            updateStats();
+            updateHistory();
+            initChallenges();
+            renderChallenges();
+            renderSubjectsList();
+            updateEditSubjectSelect();
+            createTimerParticles();
+            
+            // إضافة مستمعي الأحداث للعقوبات
+            setupPunishmentListeners();
+            
+            // استئناف العداد إذا كان شغالاً
+            if (localStorage.getItem('isTimerRunning') === 'true') {
+                const savedTime = parseInt(localStorage.getItem('timerEndTime')) - Date.now();
+                if (savedTime > 0) {
+                    timerMinutes = Math.floor(savedTime / 60000);
+                    timerSeconds = Math.floor((savedTime % 60000) / 1000);
+                    startTimer();
+                } else {
+                    localStorage.setItem('isTimerRunning', 'false');
+                }
+            }
+        }
+
+        function createTimerParticles() {
+            const particlesContainer = document.getElementById('timerParticles');
+            particlesContainer.innerHTML = '';
+            
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                particle.style.animationDelay = `${Math.random() * 3}s`;
+                particle.style.background = `hsl(${Math.random() * 360}, 70%, 70%)`;
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        function getCurrentDate() {
+            const days = ['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
+            const months = ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'];
+            const now = new Date();
+            return {
+                dateKey: now.toISOString().split('T')[0],
+                displayDate: `${now.getDate()} ${months[now.getMonth()]} (${days[now.getDay()]})`,
+                dayOfWeek: now.getDay(),
+                hour: now.getHours()
+            };
+        }
+
+        function updateCurrentDateTime() {
+            const now = new Date();
+            const days = ['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
+            const months = ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'];
+            
+            const dateStr = `${now.getDate()} ${months[now.getMonth()]} (${days[now.getDay()]})`;
+            const timeStr = now.toLocaleTimeString('ar-EG');
+            
+            document.getElementById('currentDate').textContent = dateStr;
+            document.getElementById('currentTime').textContent = timeStr;
+        }
+
+        function loadData() {
+            studyData = JSON.parse(localStorage.getItem('studyData') || '{}');
+            totalPoints = parseInt(localStorage.getItem('totalPoints') || '0');
+            level = parseInt(localStorage.getItem('level') || '1');
+            streak = parseInt(localStorage.getItem('streak') || '0');
+            totalStudyMinutes = parseInt(localStorage.getItem('totalStudyMinutes') || '0');
+            dailyHistory = JSON.parse(localStorage.getItem('dailyHistory') || '[]');
+            achievementsList = JSON.parse(localStorage.getItem('achievements') || '[]');
+            completedChallenges = JSON.parse(localStorage.getItem('completedChallenges') || '[]');
+            todayChallenges = JSON.parse(localStorage.getItem('todayChallenges') || '{}');
+            userBadges = JSON.parse(localStorage.getItem('userBadges') || '[]');
+            completedAchievements = JSON.parse(localStorage.getItem('completedAchievements') || '[]');
+            totalPomodoroSessions = parseInt(localStorage.getItem('totalPomodoroSessions') || '0');
+            
+            // تحميل المواد المخصصة
+            const savedSubjects = localStorage.getItem('customSubjects');
+            if (savedSubjects) {
+                subjects = JSON.parse(savedSubjects);
+            }
+            
+            // تحميل البيانات الجديدة
+            timerBreaks = parseInt(localStorage.getItem('timerBreaks') || '0');
+            userTitles = JSON.parse(localStorage.getItem('userTitles') || '[]');
+            earlyStudyCount = parseInt(localStorage.getItem('earlyStudyCount') || '0');
+            nightStudyCount = parseInt(localStorage.getItem('nightStudyCount') || '0');
+            studySessions = parseInt(localStorage.getItem('studySessions') || '0');
+            pomodoroQuits = parseInt(localStorage.getItem('pomodoroQuits') || '0');
+            streakBreaks = parseInt(localStorage.getItem('streakBreaks') || '0');
+            shortStudyDays = parseInt(localStorage.getItem('shortStudyDays') || '0');
+            noTaskDays = parseInt(localStorage.getItem('noTaskDays') || '0');
+            lowPointsDays = parseInt(localStorage.getItem('lowPointsDays') || '0');
+            weekendStudyCount = parseInt(localStorage.getItem('weekendStudyCount') || '0');
+            continuousStudyRecord = parseInt(localStorage.getItem('continuousStudyRecord') || '0');
+            currentContinuousStudy = parseInt(localStorage.getItem('currentContinuousStudy') || '0');
+            tasksInDayRecord = parseInt(localStorage.getItem('tasksInDayRecord') || '0');
+            subjectsInDayRecord = parseInt(localStorage.getItem('subjectsInDayRecord') || '0');
+            
+            // تحميل الإحصائيات الجديدة
+            timerPauses = parseInt(localStorage.getItem('timerPauses') || '0');
+            studyTime_2_7 = parseInt(localStorage.getItem('studyTime_2_7') || '0');
+            studyTime_7_12 = parseInt(localStorage.getItem('studyTime_7_12') || '0');
+            studyTime_12_5 = parseInt(localStorage.getItem('studyTime_12_5') || '0');
+            studyTime_5_12 = parseInt(localStorage.getItem('studyTime_5_12') || '0');
+            totalTasksCompleted = parseInt(localStorage.getItem('totalTasksCompleted') || '0');
+            totalStudyTasks = parseInt(localStorage.getItem('totalStudyTasks') || '0');
+            totalPracticeTasks = parseInt(localStorage.getItem('totalPracticeTasks') || '0');
+            pointsDeducted = parseInt(localStorage.getItem('pointsDeducted') || '0');
+            pointsSpentOnBadges = parseInt(localStorage.getItem('pointsSpentOnBadges') || '0');
+            
+            // تحديث إحصائيات كسر العداد
+            updateTimerBreaksDisplay();
+        }
+
+        function saveData() {
+            localStorage.setItem('studyData', JSON.stringify(studyData));
+            localStorage.setItem('totalPoints', totalPoints.toString());
+            localStorage.setItem('level', level.toString());
+            localStorage.setItem('streak', streak.toString());
+            localStorage.setItem('totalStudyMinutes', totalStudyMinutes.toString());
+            localStorage.setItem('dailyHistory', JSON.stringify(dailyHistory));
+            localStorage.setItem('achievements', JSON.stringify(achievementsList));
+            localStorage.setItem('completedChallenges', JSON.stringify(completedChallenges));
+            localStorage.setItem('todayChallenges', JSON.stringify(todayChallenges));
+            localStorage.setItem('userBadges', JSON.stringify(userBadges));
+            localStorage.setItem('completedAchievements', JSON.stringify(completedAchievements));
+            localStorage.setItem('totalPomodoroSessions', totalPomodoroSessions.toString());
+            localStorage.setItem('customSubjects', JSON.stringify(subjects));
+            
+            // حفظ البيانات الجديدة
+            localStorage.setItem('timerBreaks', timerBreaks.toString());
+            localStorage.setItem('userTitles', JSON.stringify(userTitles));
+            localStorage.setItem('earlyStudyCount', earlyStudyCount.toString());
+            localStorage.setItem('nightStudyCount', nightStudyCount.toString());
+            localStorage.setItem('studySessions', studySessions.toString());
+            localStorage.setItem('pomodoroQuits', pomodoroQuits.toString());
+            localStorage.setItem('streakBreaks', streakBreaks.toString());
+            localStorage.setItem('shortStudyDays', shortStudyDays.toString());
+            localStorage.setItem('noTaskDays', noTaskDays.toString());
+            localStorage.setItem('lowPointsDays', lowPointsDays.toString());
+            localStorage.setItem('weekendStudyCount', weekendStudyCount.toString());
+            localStorage.setItem('continuousStudyRecord', continuousStudyRecord.toString());
+            localStorage.setItem('currentContinuousStudy', currentContinuousStudy.toString());
+            localStorage.setItem('tasksInDayRecord', tasksInDayRecord.toString());
+            localStorage.setItem('subjectsInDayRecord', subjectsInDayRecord.toString());
+            
+            // حفظ الإحصائيات الجديدة
+            localStorage.setItem('timerPauses', timerPauses.toString());
+            localStorage.setItem('studyTime_2_7', studyTime_2_7.toString());
+            localStorage.setItem('studyTime_7_12', studyTime_7_12.toString());
+            localStorage.setItem('studyTime_12_5', studyTime_12_5.toString());
+            localStorage.setItem('studyTime_5_12', studyTime_5_12.toString());
+            localStorage.setItem('totalTasksCompleted', totalTasksCompleted.toString());
+            localStorage.setItem('totalStudyTasks', totalStudyTasks.toString());
+            localStorage.setItem('totalPracticeTasks', totalPracticeTasks.toString());
+            localStorage.setItem('pointsDeducted', pointsDeducted.toString());
+            localStorage.setItem('pointsSpentOnBadges', pointsSpentOnBadges.toString());
+        }
+
+        function initChallenges() {
+            const today = getCurrentDate().dateKey;
+            
+            // إذا كان اليوم جديد، إعادة تعيين تحديات اليوم
+            if (!todayChallenges.date || todayChallenges.date !== today) {
+                todayChallenges = {
+                    date: today,
+                    challenges: {}
+                };
+                
+                // تعيين تحديات عشوائية لليوم (6 تحديات)
+                const shuffled = [...dailyChallenges].sort(() => 0.5 - Math.random());
+                const selected = shuffled.slice(0, 6);
+                
+                selected.forEach(challenge => {
+                    todayChallenges.challenges[challenge.id] = {
+                        ...challenge,
+                        progress: 0,
+                        completed: false
+                    };
+                });
+                
+                saveData();
+            }
+        }
+
+        function renderChallenges() {
+            const grid = document.getElementById('challengesGrid');
+            const challenges = Object.values(todayChallenges.challenges || {});
+            
+            if (challenges.length === 0) {
+                grid.innerHTML = '<div class="empty-state">لا توجد تحديات اليوم، عد غداً! 🎯</div>';
+                return;
+            }
+            
+            grid.innerHTML = challenges.map(challenge => {
+                const progressPercent = (challenge.progress / challenge.target) * 100;
+                const isCompleted = challenge.completed;
+                
+                return `
+                    <div class="challenge-card ${isCompleted ? 'active' : ''}" onclick="showChallengeInstructions('${challenge.id}')">
+                        <div class="challenge-header">
+                            <div class="challenge-title">${challenge.title}</div>
+                            <div class="challenge-reward">+${challenge.reward}</div>
+                        </div>
+                        <div class="challenge-progress">
+                            <div class="challenge-progress-fill" style="width: ${Math.min(progressPercent, 100)}%"></div>
+                        </div>
+                        <div class="challenge-info">
+                            <span>${challenge.progress}/${challenge.target}</span>
+                            <span>${isCompleted ? 'مكتمل! ✓' : 'قيد التقدم'}</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function showChallengeInstructions(challengeId) {
+            const challenge = todayChallenges.challenges[challengeId];
+            if (!challenge) return;
+            
+            document.getElementById('modalTitle').textContent = challenge.title;
+            document.getElementById('modalBody').innerHTML = `
+                <p><strong>التعليمات:</strong></p>
+                <p>${challenge.instructions}</p>
+                <p><strong>المكافأة:</strong> ${challenge.reward} نقطة</p>
+                <p><strong>التقدم الحالي:</strong> ${challenge.progress}/${challenge.target}</p>
+            `;
+            
+            document.getElementById('challengeModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('challengeModal').classList.remove('active');
+        }
+
+        function updateChallengeProgress(challengeId, value) {
+            if (!todayChallenges.challenges || !todayChallenges.challenges[challengeId]) return;
+            
+            const challenge = todayChallenges.challenges[challengeId];
+            if (challenge.completed) return;
+            
+            challenge.progress += value;
+            
+            if (challenge.progress >= challenge.target) {
+                challenge.completed = true;
+                challenge.progress = challenge.target;
+                addPoints(challenge.reward);
+                celebrate(`🎉 أكملت تحدي "${challenge.title}"! +${challenge.reward} نقطة`);
+            }
+            
+            saveData();
+            renderChallenges();
+        }
+
+        function renderSubjects() {
+            const grid = document.getElementById('subjectsGrid');
+            grid.innerHTML = subjects.map(subject => {
+                const progress = getSubjectProgress(subject.id);
+                return `
+                    <div class="subject-card" onclick="openSubject('${subject.id}')">
+                        <div class="icon">${subject.icon}</div>
+                        <h3>${subject.name}</h3>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${progress}%"></div>
+                        </div>
+                        <div class="progress-text">${progress}% مكتمل</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function getSubjectProgress(subjectId) {
+            const subject = subjects.find(s => s.id === subjectId);
+            if (!subject) return 0;
+            
+            let completed = 0;
+            for (let i = 1; i <= subject.parts; i++) {
+                if (studyData[`${subjectId}-${i}-study`]) completed++;
+                if (studyData[`${subjectId}-${i}-practice`]) completed++;
+            }
+            return Math.round((completed / (subject.parts * 2)) * 100);
+        }
+
+        function openSubject(subjectId) {
+            currentSubject = subjectId;
+            const subject = subjects.find(s => s.id === subjectId);
+            const progress = getSubjectProgress(subjectId);
+
+            // تحديث تحدي المواد المدروسة
+            studiedSubjectsToday.add(subjectId);
+            updateChallengeProgress('study_2subjects', 1);
+
+            document.getElementById('mainView').style.display = 'none';
+            document.getElementById('partsView').classList.add('active');
+
+            document.getElementById('subjectHeader').innerHTML = `
+                <div class="subject-header">
+                    <div class="left">
+                        <div class="icon">${subject.icon}</div>
+                        <div>
+                            <h2>${subject.name}</h2>
+                            <div class="progress-info">التقدم: ${progress}%</div>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <div class="progress-value">${progress}%</div>
+                        <div>مكتمل</div>
+                    </div>
+                </div>
+            `;
+
+            renderParts(subjectId);
+        }
+
+        function renderParts(subjectId) {
+            const grid = document.getElementById('partsGrid');
+            const subject = subjects.find(s => s.id === subjectId);
+            if (!subject) return;
+            
+            let html = '';
+
+            for (let i = 1; i <= subject.parts; i++) {
+                const studyKey = `${subjectId}-${i}-study`;
+                const practiceKey = `${subjectId}-${i}-practice`;
+                const studyDone = studyData[studyKey] || false;
+                const practiceDone = studyData[practiceKey] || false;
+                const allDone = studyDone && practiceDone;
+
+                html += `
+                    <div class="part-card ${allDone ? 'completed' : ''}">
+                        <div class="part-header">
+                            <h3>Part ${i}</h3>
+                            ${allDone ? '<div class="star-icon">⭐</div>' : ''}
+                        </div>
+                        
+                        <div class="task-item ${studyDone ? 'completed' : ''}" onclick="toggleTask('${subjectId}', ${i}, 'study')">
+                            <div class="task-checkbox ${studyDone ? 'checked' : ''}">
+                                ${studyDone ? '✓' : ''}
+                            </div>
+                            <div class="task-label">مذاكرة الشرح</div>
+                            ${studyDone ? '<div class="task-points">+20</div>' : ''}
+                        </div>
+
+                        <div class="task-item ${practiceDone ? 'completed' : ''}" onclick="toggleTask('${subjectId}', ${i}, 'practice')">
+                            <div class="task-checkbox ${practiceDone ? 'checked' : ''}">
+                                ${practiceDone ? '✓' : ''}
+                            </div>
+                            <div class="task-label">حل التمارين</div>
+                            ${practiceDone ? '<div class="task-points">+20</div>' : ''}
+                        </div>
+                    </div>
+                `;
+            }
+
+            grid.innerHTML = html;
+        }
+
+        function toggleTask(subjectId, partNum, taskType) {
+            const key = `${subjectId}-${partNum}-${taskType}`;
+            studyData[key] = !studyData[key];
+
+            if (studyData[key]) {
+                addPoints(20);
+                updateDailyProgress();
+                updateChallengeProgress('complete_3tasks', 1);
+                celebrate('✨ مهمة مكتملة!');
+                checkAchievements();
+                checkTitles();
+                
+                // تحديث الإحصائيات
+                totalTasksCompleted++;
+                if (taskType === 'study') {
+                    totalStudyTasks++;
+                } else {
+                    totalPracticeTasks++;
+                }
+            }
+
+            saveData();
+            updateStats();
+            renderParts(subjectId);
+            
+            const subject = subjects.find(s => s.id === subjectId);
+            const progress = getSubjectProgress(subjectId);
+            document.getElementById('subjectHeader').querySelector('.progress-value').textContent = progress + '%';
+            document.getElementById('subjectHeader').querySelector('.progress-info').textContent = `التقدم: ${progress}%`;
+        }
+
+        function goBack() {
+            document.getElementById('mainView').style.display = 'block';
+            document.getElementById('partsView').classList.remove('active');
+            document.getElementById('levelsView').classList.remove('active');
+            document.getElementById('achievementsView').classList.remove('active');
+            document.getElementById('titlesBadgesView').classList.remove('active');
+            document.getElementById('comparisonView').classList.remove('active');
+            document.getElementById('settingsView').classList.remove('active');
+            renderSubjects();
+            currentSubject = null;
+        }
+
+        function openLevels() {
+            document.getElementById('mainView').style.display = 'none';
+            document.getElementById('levelsView').classList.add('active');
+            renderLevels();
+        }
+
+        function renderLevels() {
+            const grid = document.getElementById('levelsGrid');
+            grid.innerHTML = levels.map(lvl => {
+                const isCurrent = lvl.level === level;
+                const isCompleted = totalPoints >= lvl.pointsNeeded;
+                const progressPercent = Math.min((totalPoints / lvl.pointsNeeded) * 100, 100);
+                
+                return `
+                    <div class="level-card ${isCurrent ? 'current' : ''} ${isCompleted ? 'completed' : ''}">
+                        <div class="level-header">
+                            <div class="level-number">المستوى ${lvl.level}</div>
+                            <div class="level-reward">${lvl.reward > 0 ? `+${lvl.reward}` : '🏆'}</div>
+                        </div>
+                        <div class="level-requirements">${lvl.pointsNeeded} نقطة مطلوبة</div>
+                        <div class="level-progress">
+                            <div class="level-progress-fill" style="width: ${progressPercent}%"></div>
+                        </div>
+                        <div class="level-info">
+                            <span>${totalPoints}/${lvl.pointsNeeded}</span>
+                            <span>${isCompleted ? 'مكتمل! ✓' : 'قيد التقدم'}</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function openAchievements() {
+            document.getElementById('mainView').style.display = 'none';
+            document.getElementById('achievementsView').classList.add('active');
+            renderAchievements();
+        }
+
+        function renderAchievements() {
+            const grid = document.getElementById('achievementsGrid');
+            grid.innerHTML = achievements.map(achievement => {
+                const progress = getAchievementProgress(achievement);
+                const progressPercent = Math.min((progress / achievement.target) * 100, 100);
+                const isCompleted = completedAchievements.includes(achievement.id);
+                
+                return `
+                    <div class="achievement-card ${isCompleted ? 'completed' : ''}">
+                        <div class="achievement-header">
+                            <div class="achievement-title">${achievement.title}</div>
+                            <div class="achievement-reward">${achievement.reward > 0 ? `+${achievement.reward}` : '🏆'}</div>
+                        </div>
+                        <div class="achievement-description">${achievement.description}</div>
+                        <div class="achievement-progress">
+                            <div class="achievement-progress-fill" style="width: ${progressPercent}%"></div>
+                        </div>
+                        <div class="achievement-info">
+                            <span>${progress}/${achievement.target}</span>
+                            <span>${isCompleted ? 'مكتمل! ✓' : 'قيد التقدم'}</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function getAchievementProgress(achievement) {
+            switch(achievement.type) {
+                case 'tasks':
+                    return Object.values(studyData).filter(v => v).length;
+                case 'subjects':
+                    if (achievement.id.includes('subject_')) {
+                        const percent = achievement.id.split('_')[2];
+                        return subjects.filter(subject => getSubjectProgress(subject.id) >= parseInt(percent)).length;
+                    } else if (achievement.id === 'all_subjects_started') {
+                        return subjects.filter(subject => {
+                            for (let i = 1; i <= subject.parts; i++) {
+                                if (studyData[`${subject.id}-${i}-study`] || studyData[`${subject.id}-${i}-practice`]) {
+                                    return true;
+                                }
+                            }
+                            return false;
+                        }).length;
+                    }
+                    return studiedSubjectsToday.size;
+                case 'time':
+                    return totalStudyMinutes;
+                case 'sessions':
+                    return totalPomodoroSessions;
+                case 'streak':
+                    return streak;
+                case 'points':
+                    return totalPoints;
+                case 'level':
+                    return level;
+                default:
+                    return 0;
+            }
+        }
+
+        function checkAchievements() {
+            achievements.forEach(achievement => {
+                if (!completedAchievements.includes(achievement.id)) {
+                    const progress = getAchievementProgress(achievement);
+                    if (progress >= achievement.target) {
+                        completedAchievements.push(achievement.id);
+                        celebrate(`🏆 إنجاز جديد: ${achievement.title}!`);
+                        saveData();
+                        updateStats();
+                    }
+                }
+            });
+        }
+
+        function openTitlesBadges() {
+            document.getElementById('mainView').style.display = 'none';
+            document.getElementById('titlesBadgesView').classList.add('active');
+            renderTitlesBadges();
+        }
+
+        function renderTitlesBadges() {
+            renderGoodTitles();
+            renderBadTitles();
+            renderBadges();
+        }
+
+        function renderGoodTitles() {
+            const grid = document.getElementById('goodTitlesGrid');
+            grid.innerHTML = goodTitles.map(title => {
+                const isUnlocked = checkTitleRequirement(title);
+                const isOwned = userTitles.includes(title.id);
+                const statusClass = isOwned ? 'good' : (isUnlocked ? 'good' : 'locked');
+                
+                return `
+                    <div class="title-card ${statusClass}">
+                        <div class="title-header">
+                            <div class="title-name">${title.name}</div>
+                            <div class="title-icon">${title.icon}</div>
+                        </div>
+                        <div class="title-description">${title.description}</div>
+                        <div class="title-requirements">${getTitleRequirementText(title)}</div>
+                        ${isUnlocked && !isOwned ? 
+                            `<button class="setting-btn" onclick="unlockTitle('${title.id}')">فتح اللقب</button>` : 
+                            (isOwned ? '<div style="color: #48bb78; font-weight: bold;">✓ مملوك</div>' : '')
+                        }
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderBadTitles() {
+            const grid = document.getElementById('badTitlesGrid');
+            grid.innerHTML = badTitles.map(title => {
+                const isUnlocked = checkTitleRequirement(title);
+                const isOwned = userTitles.includes(title.id);
+                const statusClass = isOwned ? 'bad' : (isUnlocked ? 'bad' : 'locked');
+                
+                return `
+                    <div class="title-card ${statusClass}">
+                        <div class="title-header">
+                            <div class="title-name">${title.name}</div>
+                            <div class="title-icon">${title.icon}</div>
+                        </div>
+                        <div class="title-description">${title.description}</div>
+                        <div class="title-requirements">${getTitleRequirementText(title)}</div>
+                        ${isUnlocked && !isOwned ? 
+                            `<button class="remove-bad-title-btn" onclick="unlockTitle('${title.id}')">اكتسب اللقب</button>` : 
+                            (isOwned ? 
+                                `<button class="remove-bad-title-btn" ${totalPoints < 100 ? 'disabled' : ''} onclick="removeBadTitle('${title.id}')">
+                                    إزالة اللقب (100 نقطة)
+                                </button>` : 
+                                '')
+                        }
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderBadges() {
+            const grid = document.getElementById('badgesGrid');
+            grid.innerHTML = badges.map(badge => {
+                const isOwned = userBadges.includes(badge.id);
+                const canAfford = totalPoints >= badge.price;
+                const statusClass = isOwned ? 'owned' : (canAfford ? 'available' : 'unavailable');
+                
+                return `
+                    <div class="badge-card ${statusClass}" onclick="${!isOwned && canAfford ? `buyBadge('${badge.id}')` : ''}">
+                        <div class="badge-icon">${badge.icon}</div>
+                        <div class="badge-title">${badge.title}</div>
+                        <div class="badge-price">${badge.price} نقطة</div>
+                        <div class="badge-description">${badge.description}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function checkTitleRequirement(title) {
+            switch(title.requirement.type) {
+                case 'study_hours':
+                    return totalStudyMinutes >= title.requirement.value * 60;
+                case 'tasks_completed':
+                    return Object.values(studyData).filter(v => v).length >= title.requirement.value;
+                case 'early_study':
+                    return earlyStudyCount >= title.requirement.value;
+                case 'night_study':
+                    return nightStudyCount >= title.requirement.value;
+                case 'streak_days':
+                    return streak >= title.requirement.value;
+                case 'pomodoro_sessions':
+                    return totalPomodoroSessions >= title.requirement.value;
+                case 'subjects_completed':
+                    return subjects.filter(subject => getSubjectProgress(subject.id) === 100).length >= title.requirement.value;
+                case 'total_points':
+                    return totalPoints >= title.requirement.value;
+                case 'level':
+                    return level >= title.requirement.value;
+                case 'achievements':
+                    return completedAchievements.length >= title.requirement.value;
+                case 'challenges_completed':
+                    return completedChallenges.length >= title.requirement.value;
+                case 'continuous_study':
+                    return continuousStudyRecord >= title.requirement.value;
+                case 'tasks_in_day':
+                    return tasksInDayRecord >= title.requirement.value;
+                case 'weekend_study':
+                    return weekendStudyCount >= title.requirement.value;
+                case 'study_sessions':
+                    return studySessions >= title.requirement.value;
+                case 'timer_breaks':
+                    return timerBreaks >= title.requirement.value;
+                case 'short_study_days':
+                    return shortStudyDays >= title.requirement.value;
+                case 'no_task_days':
+                    return noTaskDays >= title.requirement.value;
+                case 'streak_breaks':
+                    return streakBreaks >= title.requirement.value;
+                case 'low_points_days':
+                    return lowPointsDays >= title.requirement.value;
+                default:
+                    return false;
+            }
+        }
+
+        function getTitleRequirementText(title) {
+            switch(title.requirement.type) {
+                case 'study_hours':
+                    return `مطلوب: ${title.requirement.value} ساعة دراسة`;
+                case 'tasks_completed':
+                    return `مطلوب: ${title.requirement.value} مهمة مكتملة`;
+                case 'early_study':
+                    return `مطلوب: ${title.requirement.value} جلسة دراسة صباحية`;
+                case 'night_study':
+                    return `مطلوب: ${title.requirement.value} جلسة دراسة ليلية`;
+                case 'streak_days':
+                    return `مطلوب: ${title.requirement.value} يوم متتالي`;
+                case 'pomodoro_sessions':
+                    return `مطلوب: ${title.requirement.value} جلسة بومودورو`;
+                case 'subjects_completed':
+                    return `مطلوب: ${title.requirement.value} مادة مكتملة`;
+                case 'total_points':
+                    return `مطلوب: ${title.requirement.value} نقطة`;
+                case 'level':
+                    return `مطلوب: المستوى ${title.requirement.value}`;
+                case 'achievements':
+                    return `مطلوب: ${title.requirement.value} إنجاز`;
+                case 'challenges_completed':
+                    return `مطلوب: ${title.requirement.value} تحدي`;
+                case 'continuous_study':
+                    return `مطلوب: ${title.requirement.value} دقيقة دراسة متواصلة`;
+                case 'tasks_in_day':
+                    return `مطلوب: ${title.requirement.value} مهمة في يوم واحد`;
+                case 'weekend_study':
+                    return `مطلوب: ${title.requirement.value} يوم دراسة في العطلة`;
+                case 'study_sessions':
+                    return `مطلوب: ${title.requirement.value} جلسة دراسة`;
+                case 'timer_breaks':
+                    return `مطلوب: كسر العداد ${title.requirement.value} مرة`;
+                case 'short_study_days':
+                    return `مطلوب: ${title.requirement.value} يوم دراسة قصير`;
+                case 'no_task_days':
+                    return `مطلوب: ${title.requirement.value} يوم بدون مهام`;
+                case 'streak_breaks':
+                    return `مطلوب: كسر السلسلة ${title.requirement.value} مرة`;
+                case 'low_points_days':
+                    return `مطلوب: ${title.requirement.value} يوم بنقاط قليلة`;
+                default:
+                    return `مطلوب: ${title.requirement.value}`;
+            }
+        }
+
+        function unlockTitle(titleId) {
+            if (!userTitles.includes(titleId)) {
+                userTitles.push(titleId);
+                saveData();
+                renderTitlesBadges();
+                celebrate(`👑 فتحت اللقب: ${getTitleName(titleId)}!`);
+            }
+        }
+
+        function removeBadTitle(titleId) {
+            if (userTitles.includes(titleId) && totalPoints >= 100) {
+                totalPoints -= 100;
+                userTitles = userTitles.filter(id => id !== titleId);
+                saveData();
+                updateStats();
+                renderTitlesBadges();
+                celebrate(`✅ أزلت اللقب السيء: ${getTitleName(titleId)}!`);
+            }
+        }
+
+        function getTitleName(titleId) {
+            const allTitles = [...goodTitles, ...badTitles];
+            const title = allTitles.find(t => t.id === titleId);
+            return title ? title.name : 'لقب غير معروف';
+        }
+
+        function checkTitles() {
+            const allTitles = [...goodTitles, ...badTitles];
+            allTitles.forEach(title => {
+                if (!userTitles.includes(title.id) && checkTitleRequirement(title)) {
+                    unlockTitle(title.id);
+                }
+            });
+        }
+
+        function buyBadge(badgeId) {
+            const badge = badges.find(b => b.id === badgeId);
+            if (totalPoints >= badge.price && !userBadges.includes(badgeId)) {
+                totalPoints -= badge.price;
+                pointsSpentOnBadges += badge.price;
+                userBadges.push(badgeId);
+                saveData();
+                updateStats();
+                renderBadges();
+                celebrate(`🎖️ اشتريت شارة ${badge.title}!`);
+            }
+        }
+
+        function addPoints(points) {
+            totalPoints += points;
+            const newLevel = levels.findIndex(l => totalPoints < l.pointsNeeded);
+            if (newLevel !== -1 && newLevel + 1 !== level) {
+                level = newLevel + 1;
+                celebrate(`🎊 مستوى جديد! أنت الآن في المستوى ${level}`);
+            }
+            saveData();
+            updateStats();
+        }
+
+        function updateDailyProgress() {
+            const today = getCurrentDate();
+            const existingDay = dailyHistory.find(d => d.date === today.dateKey);
+            
+            if (existingDay) {
+                existingDay.tasksCompleted++;
+                existingDay.points += 20;
+            } else {
+                dailyHistory.push({
+                    date: today.dateKey,
+                    displayDate: today.displayDate,
+                    tasksCompleted: 1,
+                    points: 20,
+                    studyMinutes: 0
+                });
+                
+                // تحديث سلسلة الإنجازات
+                streak++;
+                updateChallengeProgress('maintain_streak', 1);
+            }
+            saveData();
+            updateHistory();
+        }
+
+        function updateStats() {
+            document.getElementById('totalPoints').textContent = totalPoints;
+            document.getElementById('level').textContent = level;
+            document.getElementById('titlesBadgesCount').textContent = userTitles.length + userBadges.length;
+            document.getElementById('achievements').textContent = completedAchievements.length;
+            
+            const hours = Math.floor(totalStudyMinutes / 60);
+            const minutes = totalStudyMinutes % 60;
+            document.getElementById('studyTime').textContent = `${hours}:${minutes.toString().padStart(2, '0')}`;
+        }
+
+        function updateHistory() {
+            const historyList = document.getElementById('historyList');
+            
+            if (dailyHistory.length === 0) {
+                historyList.innerHTML = '<div class="empty-state">ابدأ المذاكرة لتسجيل تقدمك اليومي! 🚀</div>';
+                return;
+            }
+
+            historyList.innerHTML = dailyHistory.slice().reverse().map(day => {
+                const emoji = day.tasksCompleted >= 5 ? '🌟' : day.tasksCompleted >= 3 ? '⭐' : '✨';
+                return `
+                    <div class="history-item">
+                        <div class="day-info">
+                            <div class="day-date">${day.displayDate}</div>
+                            <div class="day-stats">${day.tasksCompleted} مهمة • ${day.points} نقطة • ${day.studyMinutes} دقيقة</div>
+                        </div>
+                        <div class="emoji">${emoji}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function celebrate(message) {
+            const cel = document.getElementById('celebration');
+            cel.textContent = message;
+            cel.classList.add('show');
+            setTimeout(() => {
+                cel.classList.remove('show');
+            }, 3000);
+        }
+
+        // الميزات الجديدة: نظام العقوبات والمكافآت
+        function setupPunishmentListeners() {
+            // عقوبة عند إخفاء الصفحة
+            document.addEventListener("visibilitychange", function() {
+                if (document.hidden && isTimerRunning) {
+                    punishTimerBreak();
+                }
+            });
+
+            // عقوبة عند إغلاق الصفحة
+            window.addEventListener("beforeunload", function(e) {
+                if (isTimerRunning) {
+                    punishTimerBreak();
+                }
+            });
+        }
+
+        function punishTimerBreak() {
+            if (isTimerRunning) {
+                timerBreaks++;
+                pointsDeducted += 50;
+                totalPoints = Math.max(0, totalPoints - 50); // خصم 50 نقطة
+                pomodoroQuits++;
+                
+                // إضافة لقب سيء إذا تم كسر العداد عدد معين من المرات
+                checkTitles();
+                
+                // حفظ البيانات
+                saveData();
+                updateStats();
+                updateTimerBreaksDisplay();
+                
+                // إيقاف العداد
+                pauseTimer();
+                
+                celebrate("⚠️ خصم 50 نقطة لكسر العداد!");
+            }
+        }
+
+        function updateTimerBreaksDisplay() {
+            document.getElementById('timerBreaks').textContent = timerBreaks;
+        }
+
+        function startTimer() {
+            isTimerRunning = true;
+            studyStartTime = Date.now();
+            studySessions++;
+            
+            // حفظ وقت انتهاء العداد للاستئناف
+            const endTime = Date.now() + (timerMinutes * 60 * 1000) + (timerSeconds * 1000);
+            localStorage.setItem('timerEndTime', endTime.toString());
+            localStorage.setItem('isTimerRunning', 'true');
+            
+            // تحديث إحصائيات وقت البدء
+            const currentTime = getCurrentDate();
+            if (currentTime.hour < 9) {
+                earlyStudyCount++;
+            } else if (currentTime.hour >= 22) {
+                nightStudyCount++;
+            }
+            
+            if (currentTime.dayOfWeek === 0 || currentTime.dayOfWeek === 6) {
+                weekendStudyCount++;
+            }
+            
+            document.getElementById('startBtn').style.display = 'none';
+            document.getElementById('pauseBtn').style.display = 'inline-block';
+
+            timerInterval = setInterval(() => {
+                if (timerSeconds > 0) {
+                    timerSeconds--;
+                } else if (timerMinutes > 0) {
+                    timerMinutes--;
+                    timerSeconds = 59;
+                    updateStudyTime(1);
+                    
+                    // تحديث تحدي وقت الدراسة
+                    updateChallengeProgress('study_30min', 1);
+                    
+                    // تحديث الدراسة المتواصلة
+                    currentContinuousStudy++;
+                    if (currentContinuousStudy > continuousStudyRecord) {
+                        continuousStudyRecord = currentContinuousStudy;
+                    }
+                } else {
+                    isTimerRunning = false;
+                    clearInterval(timerInterval);
+                    celebrate('🎉 أحسنت! أكملت جلسة دراسية!');
+                    addPoints(50);
+                    totalPomodoroSessions++;
+                    updateChallengeProgress('pomodoro_master', 1);
+                    
+                    // إعادة تعيين الدراسة المتواصلة
+                    currentContinuousStudy = 0;
+                    
+                    saveData();
+                    resetTimer();
+                    document.getElementById('startBtn').style.display = 'inline-block';
+                    document.getElementById('pauseBtn').style.display = 'none';
+                    
+                    // إزالة بيانات العداد من التخزين
+                    localStorage.setItem('isTimerRunning', 'false');
+                }
+                updateTimerDisplay();
+                updateTimerProgress();
+            }, 1000);
+        }
+
+        function updateTimerProgress() {
+            const totalSeconds = 45 * 60;
+            const remainingSeconds = timerMinutes * 60 + timerSeconds;
+            const progressPercent = ((totalSeconds - remainingSeconds) / totalSeconds) * 100;
+            document.getElementById('timerProgress').style.width = `${progressPercent}%`;
+        }
+
+        function pauseTimer() {
+            isTimerRunning = false;
+            timerPauses++;
+            clearInterval(timerInterval);
+            document.getElementById('startBtn').style.display = 'inline-block';
+            document.getElementById('pauseBtn').style.display = 'none';
+            
+            // إزالة بيانات العداد من التخزين
+            localStorage.setItem('isTimerRunning', 'false');
+        }
+
+        function resetTimer() {
+            isTimerRunning = false;
+            clearInterval(timerInterval);
+            timerMinutes = 45;
+            timerSeconds = 0;
+            updateTimerDisplay();
+            updateTimerProgress();
+            document.getElementById('startBtn').style.display = 'inline-block';
+            document.getElementById('pauseBtn').style.display = 'none';
+            
+            // إزالة بيانات العداد من التخزين
+            localStorage.setItem('isTimerRunning', 'false');
+        }
+
+        function updateTimerDisplay() {
+            const display = `${timerMinutes.toString().padStart(2, '0')}:${timerSeconds.toString().padStart(2, '0')}`;
+            document.getElementById('timerDisplay').textContent = display;
+        }
+
+        function updateStudyTime(minutes) {
+            totalStudyMinutes += minutes;
+            
+            const today = getCurrentDate();
+            const existingDay = dailyHistory.find(d => d.date === today.dateKey);
+            if (existingDay) {
+                existingDay.studyMinutes += minutes;
+            }
+            
+            // تحديث إحصائيات أوقات الدراسة
+            const currentHour = today.hour;
+            if (currentHour >= 2 && currentHour < 7) {
+                studyTime_2_7 += minutes;
+            } else if (currentHour >= 7 && currentHour < 12) {
+                studyTime_7_12 += minutes;
+            } else if (currentHour >= 12 && currentHour < 17) {
+                studyTime_12_5 += minutes;
+            } else {
+                studyTime_5_12 += minutes;
+            }
+            
+            saveData();
+            updateStats();
+            updateHistory();
+            checkAchievements();
+            checkTitles();
+        }
+
+        // وظائف المقارنة والإحصائيات
+        function openComparison() {
+            document.getElementById('mainView').style.display = 'none';
+            document.getElementById('comparisonView').classList.add('active');
+            renderComparison();
+        }
+
+        function renderComparison() {
+            renderRecords();
+            renderOtherStats();
+        }
+
+        function renderRecords() {
+            const grid = document.getElementById('recordsGrid');
+            
+            // حساب الأرقام القياسية
+            let maxStudyHours = { studyMinutes: 0, date: '' };
+            let maxStudyTasks = { studyTasks: 0, date: '' };
+            let maxPracticeTasks = { practiceTasks: 0, date: '' };
+            let maxDailyTasks = { tasksCompleted: 0, date: '' };
+            let longestStreak = { streak: 0 };
+            
+            dailyHistory.forEach(day => {
+                if (day.studyMinutes > maxStudyHours.studyMinutes) {
+                    maxStudyHours = { studyMinutes: day.studyMinutes, date: day.displayDate };
+                }
+                if (day.tasksCompleted > maxDailyTasks.tasksCompleted) {
+                    maxDailyTasks = { tasksCompleted: day.tasksCompleted, date: day.displayDate };
+                }
+            });
+            
+            // حساب أطول سلسلة أيام متتالية بمذاكرة أكثر من 45 دقيقة
+            let currentStreak = 0;
+            let maxStreak = 0;
+            
+            dailyHistory.forEach(day => {
+                if (day.studyMinutes >= 45) {
+                    currentStreak++;
+                    if (currentStreak > maxStreak) {
+                        maxStreak = currentStreak;
+                    }
+                } else {
+                    currentStreak = 0;
+                }
+            });
+            
+            longestStreak.streak = maxStreak;
+            
+            grid.innerHTML = `
+                <div class="record-card">
+                    <div class="record-icon">⏰</div>
+                    <div class="record-value">${Math.round(maxStudyHours.studyMinutes / 60 * 10) / 10}</div>
+                    <div class="record-label">أكثر عدد ساعات مذاكرة في يوم</div>
+                </div>
+                <div class="record-card">
+                    <div class="record-icon">📚</div>
+                    <div class="record-value">${totalStudyTasks}</div>
+                    <div class="record-label">أكثر عدد مذاكرة شروحات في يوم</div>
+                </div>
+                <div class="record-card">
+                    <div class="record-icon">✏️</div>
+                    <div class="record-value">${totalPracticeTasks}</div>
+                    <div class="record-label">أكثر عدد حل تمارين في يوم</div>
+                </div>
+                <div class="record-card">
+                    <div class="record-icon">✅</div>
+                    <div class="record-value">${maxDailyTasks.tasksCompleted}</div>
+                    <div class="record-label">أكثر عدد مهام يومية مكتملة في يوم</div>
+                </div>
+                <div class="record-card">
+                    <div class="record-icon">🔥</div>
+                    <div class="record-value">${longestStreak.streak}</div>
+                    <div class="record-label">أطول سلسلة أيام متتالية بمذاكرة أكثر من 45 دقيقة</div>
+                </div>
+            `;
+        }
+
+        function renderOtherStats() {
+            const grid = document.getElementById('otherStatsGrid');
+            
+            grid.innerHTML = `
+                <div class="stat-card-new">
+                    <div class="stat-icon">⏸️</div>
+                    <div class="stat-value">${timerPauses}</div>
+                    <div class="stat-label">عدد مرات إيقاف العداد مؤقتاً</div>
+                </div>
+                <div class="stat-card-new">
+                    <div class="stat-icon">🌙</div>
+                    <div class="stat-value">${Math.round(studyTime_2_7 / 60 * 10) / 10}</div>
+                    <div class="stat-label">ساعات المذاكرة بين 2ص و7ص</div>
+                </div>
+                <div class="stat-card-new">
+                    <div class="stat-icon">☀️</div>
+                    <div class="stat-value">${Math.round(studyTime_7_12 / 60 * 10) / 10}</div>
+                    <div class="stat-label">ساعات المذاكرة بين 7ص و12م</div>
+                </div>
+                <div class="stat-card-new">
+                    <div class="stat-icon">🌅</div>
+                    <div class="stat-value">${Math.round(studyTime_12_5 / 60 * 10) / 10}</div>
+                    <div class="stat-label">ساعات المذاكرة بين 12م و5م</div>
+                </div>
+                <div class="stat-card-new">
+                    <div class="stat-icon">🌇</div>
+                    <div class="stat-value">${Math.round(studyTime_5_12 / 60 * 10) / 10}</div>
+                    <div class="stat-label">ساعات المذاكرة بين 5م و12ص</div>
+                </div>
+                <div class="stat-card-new">
+                    <div class="stat-icon">👑</div>
+                    <div class="stat-value">${userTitles.length}</div>
+                    <div class="stat-label">عدد الألقاب التي لدي</div>
+                </div>
+                <div class="stat-card-new">
+                    <div class="stat-icon">🏆</div>
+                    <div class="stat-value">${completedAchievements.length}</div>
+                    <div class="stat-label">عدد الإنجازات التي لدي</div>
+                </div>
+                <div class="stat-card-new">
+                    <div class="stat-icon">🎖️</div>
+                    <div class="stat-value">${userBadges.length}</div>
+                    <div class="stat-label">عدد الشارات التي لدي</div>
+                </div>
+                <div class="stat-card-new">
+                    <div class="stat-icon">✅</div>
+                    <div class="stat-value">${totalTasksCompleted}</div>
+                    <div class="stat-label">إجمالي المهام اليومية المكتملة</div>
+                </div>
+                <div class="stat-card-new">
+                    <div class="stat-icon">📚</div>
+                    <div class="stat-value">${totalStudyTasks}</div>
+                    <div class="stat-label">إجمالي الشروحات التي ذاكرتها</div>
+                </div>
+                <div class="stat-card-new">
+                    <div class="stat-icon">✏️</div>
+                    <div class="stat-value">${totalPracticeTasks}</div>
+                    <div class="stat-label">إجمالي التمارين التي حليتها</div>
+                </div>
+                <div class="stat-card-new">
+                    <div class="stat-icon">⏱️</div>
+                    <div class="stat-value">${totalPomodoroSessions}</div>
+                    <div class="stat-label">إجمالي جلسات المذاكرة (45 دقيقة = جلسة)</div>
+                </div>
+                <div class="stat-card-new">
+                    <div class="stat-icon">💔</div>
+                    <div class="stat-value">${pointsDeducted}</div>
+                    <div class="stat-label">عدد النقاط التي خصمت بسبب كسر العداد</div>
+                </div>
+                <div class="stat-card-new">
+                    <div class="stat-icon">💰</div>
+                    <div class="stat-value">${pointsSpentOnBadges}</div>
+                    <div class="stat-label">عدد النقاط التي اشتريت بها شارات</div>
+                </div>
+            `;
+        }
+
+        // وظائف الإعدادات
+        function openSettings() {
+            document.getElementById('mainView').style.display = 'none';
+            document.getElementById('settingsView').classList.add('active');
+        }
+
+        function renderSubjectsList() {
+            const container = document.getElementById('subjectsList');
+            container.innerHTML = subjects.map(subject => {
+                const progress = getSubjectProgress(subject.id);
+                return `
+                    <div class="subject-item">
+                        <div class="name">${subject.icon} ${subject.name}</div>
+                        <div class="parts">${subject.parts} جزء • ${progress}% مكتمل</div>
+                        <button class="delete-btn" onclick="deleteSubject('${subject.id}')">حذف</button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function updateEditSubjectSelect() {
+            const select = document.getElementById('editSubjectSelect');
+            select.innerHTML = '<option value="">اختر المادة</option>' + 
+                subjects.map(subject => 
+                    `<option value="${subject.id}">${subject.name}</option>`
+                ).join('');
+        }
+
+        function addNewSubject() {
+            const nameInput = document.getElementById('newSubjectName');
+            const partsInput = document.getElementById('newSubjectParts');
+            
+            const name = nameInput.value.trim();
+            const parts = parseInt(partsInput.value);
+            
+            if (!name) {
+                alert('يرجى إدخال اسم المادة');
+                return;
+            }
+            
+            if (isNaN(parts) || parts < 1 || parts > 30) {
+                alert('يرجى إدخال عدد أجزاء صحيح بين 1 و 30');
+                return;
+            }
+            
+            const id = name.toLowerCase().replace(/\s+/g, '_');
+            
+            // التحقق من عدم وجود مادة بنفس الاسم
+            if (subjects.some(s => s.id === id)) {
+                alert('هناك مادة بنفس الاسم موجودة بالفعل');
+                return;
+            }
+            
+            subjects.push({
+                id: id,
+                name: name,
+                icon: '📚',
+                parts: parts
+            });
+            
+            saveData();
+            renderSubjects();
+            renderSubjectsList();
+            updateEditSubjectSelect();
+            
+            nameInput.value = '';
+            partsInput.value = '15';
+            
+            celebrate(`📚 تمت إضافة المادة "${name}" بنجاح!`);
+        }
+
+        function editSubject() {
+            const select = document.getElementById('editSubjectSelect');
+            const nameInput = document.getElementById('editSubjectName');
+            const partsInput = document.getElementById('editSubjectParts');
+            
+            const subjectId = select.value;
+            const newName = nameInput.value.trim();
+            const newParts = parseInt(partsInput.value);
+            
+            if (!subjectId) {
+                alert('يرجى اختيار المادة المراد تعديلها');
+                return;
+            }
+            
+            const subject = subjects.find(s => s.id === subjectId);
+            if (!subject) return;
+            
+            if (newName) {
+                subject.name = newName;
+            }
+            
+            if (!isNaN(newParts) && newParts >= 1 && newParts <= 30) {
+                subject.parts = newParts;
+            }
+            
+            saveData();
+            renderSubjects();
+            renderSubjectsList();
+            updateEditSubjectSelect();
+            
+            select.value = '';
+            nameInput.value = '';
+            partsInput.value = '';
+            
+            celebrate(`✏️ تم تعديل المادة بنجاح!`);
+        }
+
+        function deleteSubject(subjectId) {
+            if (!confirm('هل أنت متأكد من حذف هذه المادة؟ سيتم حذف جميع التقدم المرتبط بها.')) {
+                return;
+            }
+            
+            subjects = subjects.filter(s => s.id !== subjectId);
+            
+            // حذف بيانات الدراسة المرتبطة بهذه المادة
+            Object.keys(studyData).forEach(key => {
+                if (key.startsWith(subjectId + '-')) {
+                    delete studyData[key];
+                }
+            });
+            
+            saveData();
+            renderSubjects();
+            renderSubjectsList();
+            updateEditSubjectSelect();
+            
+            celebrate(`🗑️ تم حذف المادة بنجاح!`);
+        }
+
+        function confirmResetProgress() {
+            if (!confirm('هل أنت متأكد من حذف جميع تقدمك؟ هذا الإجراء لا يمكن التراجع عنه.')) {
+                return;
+            }
+            
+            if (!confirm('هذا سيحذف جميع نقاطك وإنجازاتك وشاراتك وألقابك. هل أنت متأكد تماماً؟')) {
+                return;
+            }
+            
+            resetProgress();
+        }
+
+        function resetProgress() {
+            // إعادة تعيين جميع البيانات
+            studyData = {};
+            totalPoints = 0;
+            level = 1;
+            streak = 0;
+            totalStudyMinutes = 0;
+            dailyHistory = [];
+            achievementsList = [];
+            completedChallenges = [];
+            todayChallenges = {};
+            studiedSubjectsToday = new Set();
+            userBadges = [];
+            completedAchievements = [];
+            totalPomodoroSessions = 0;
+            timerBreaks = 0;
+            userTitles = [];
+            earlyStudyCount = 0;
+            nightStudyCount = 0;
+            studySessions = 0;
+            pomodoroQuits = 0;
+            streakBreaks = 0;
+            shortStudyDays = 0;
+            noTaskDays = 0;
+            lowPointsDays = 0;
+            weekendStudyCount = 0;
+            continuousStudyRecord = 0;
+            currentContinuousStudy = 0;
+            tasksInDayRecord = 0;
+            subjectsInDayRecord = 0;
+            
+            // إعادة تعيين الإحصائيات الجديدة
+            timerPauses = 0;
+            studyTime_2_7 = 0;
+            studyTime_7_12 = 0;
+            studyTime_12_5 = 0;
+            studyTime_5_12 = 0;
+            totalTasksCompleted = 0;
+            totalStudyTasks = 0;
+            totalPracticeTasks = 0;
+            pointsDeducted = 0;
+            pointsSpentOnBadges = 0;
+            
+            // إعادة تعيين العداد
+            if (isTimerRunning) {
+                clearInterval(timerInterval);
+                isTimerRunning = false;
+            }
+            timerMinutes = 45;
+            timerSeconds = 0;
+            
+            // حفظ البيانات
+            saveData();
+            
+            // تحديث الواجهة
+            updateStats();
+            updateHistory();
+            renderSubjects();
+            renderChallenges();
+            renderSubjectsList();
+            updateTimerDisplay();
+            updateTimerProgress();
+            
+            document.getElementById('startBtn').style.display = 'inline-block';
+            document.getElementById('pauseBtn').style.display = 'none';
+            
+            celebrate('🔄 تم حذف جميع التقدم بنجاح! يمكنك البدء من جديد.');
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>
