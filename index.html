@@ -255,6 +255,50 @@
                         <p class="text-sm text-hevy-text font-semibold leading-relaxed relative z-10" x-text="aiMessage"></p>
                     </div>
 
+                    <!-- نظام المستويات (Gamification) وترشيح الكوتش -->
+                    <div class="space-y-3 mt-1">
+                        <!-- بطاقة المستوى (Level System) -->
+                        <div class="bg-gradient-to-br from-hevy-card to-hevy-input border border-hevy-border rounded-xl p-4 shadow-lg relative overflow-hidden">
+                            <!-- تأثير إضاءة في الخلفية -->
+                            <div class="absolute -left-4 -top-4 w-16 h-16 bg-yellow-500/10 rounded-full blur-xl"></div>
+                            <div class="flex justify-between items-end mb-3 relative z-10">
+                                <div>
+                                    <span class="text-[10px] font-bold text-hevy-muted uppercase tracking-wider block mb-1">مستوى الوحش (XP)</span>
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-7 h-7 rounded-full bg-yellow-500/20 flex items-center justify-center border border-yellow-500/30 shadow-[0_0_10px_rgba(234,179,8,0.2)]">
+                                            <i class="fa-solid fa-crown text-yellow-500 text-xs"></i>
+                                        </div>
+                                        <span class="text-lg font-black text-white font-mono" x-text="'LVL ' + (Math.floor(userStats.totalWorkouts / 10) + 1)"></span>
+                                    </div>
+                                </div>
+                                <div class="text-left">
+                                    <span class="text-[10px] font-bold text-yellow-500 bg-yellow-500/10 border border-yellow-500/20 px-2 py-1 rounded" x-text="(10 - (userStats.totalWorkouts % 10)) + ' تمارين ع الليفل الجاي'"></span>
+                                </div>
+                            </div>
+                            <!-- شريط الخبرة XP -->
+                            <div class="w-full bg-hevy-bg rounded-full h-2 overflow-hidden border border-hevy-border/50 relative z-10">
+                                <div class="bg-gradient-to-r from-yellow-500 to-orange-500 h-2 rounded-full transition-all duration-1000 shadow-[0_0_10px_rgba(234,179,8,0.5)]" :style="'width: ' + ((userStats.totalWorkouts % 10) / 10 * 100) + '%'"></div>
+                            </div>
+                        </div>
+
+                        <!-- ترشيح الكوتش المبني على العضلات الضعيفة -->
+                        <div class="bg-hevy-card border border-rose-500/20 rounded-xl p-3.5 shadow-sm flex items-center gap-3 relative overflow-hidden">
+                            <div class="w-1.5 h-full bg-rose-500 absolute right-0 top-0"></div>
+                            <div class="flex-1 pr-2">
+                                <h4 class="text-xs font-black text-white mb-1 flex items-center gap-1.5">
+                                    <i class="fa-solid fa-bullseye text-rose-500 animate-pulse"></i> التارجت العضلي للنهاردة
+                                </h4>
+                                <p class="text-[10px] text-hevy-muted font-semibold leading-relaxed">
+                                    أقل عضلة لعبتها مؤخراً هي <span class="text-rose-400 font-bold bg-rose-500/10 border border-rose-500/20 px-1 rounded inline-block" x-text="userStats.leastTrainedMuscle"></span>، الكوتش بينصحك تفجرها التمرينة دي عشان تظبط التناسق العضلي.
+                                </p>
+                            </div>
+                            <!-- زرار ينقله لقسم التمرين مباشرة -->
+                            <button @click="changeTab('workout')" class="shrink-0 w-10 h-10 rounded-full bg-rose-500/10 text-rose-500 flex items-center justify-center border border-rose-500/20 hover:bg-rose-500 hover:text-white transition-all active:scale-90 shadow-lg">
+                                <i class="fa-solid fa-dumbbell text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+
                     <!-- شبكة الإحصائيات السريعة الشاملة (6 إحصائيات) -->
                     <div>
                         <h2 class="text-hevy-muted text-xs font-bold mb-3 uppercase tracking-wider">أرقامك يا وحش</h2>
@@ -877,12 +921,25 @@
                                 </div>
                                 <span class="text-xs bg-hevy-blue/20 text-hevy-blue px-2 py-1 rounded font-bold">كجم (KG)</span>
                             </div>
-                            <div class="flex justify-between items-center p-4">
+                            <div class="flex justify-between items-center p-4 border-b border-hevy-border/50">
                                 <div class="flex items-center gap-3">
                                     <div class="w-8 h-8 rounded bg-hevy-input flex items-center justify-center text-hevy-blue"><i class="fa-solid fa-volume-high"></i></div>
                                     <span class="font-bold text-white text-sm">صوت وقت الراحة (Beep)</span>
                                 </div>
-                                <input type="checkbox" class="toggle toggle-info toggle-sm" checked />
+                                <input type="checkbox" x-model="soundEnabled" @change="localStorage.setItem('hevySound', soundEnabled)" class="toggle toggle-info toggle-sm" />
+                            </div>
+                            <div class="flex justify-between items-center p-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded bg-hevy-input flex items-center justify-center text-hevy-blue"><i class="fa-solid fa-stopwatch"></i></div>
+                                    <span class="font-bold text-white text-sm">وقت الراحة الافتراضي</span>
+                                </div>
+                                <select x-model="defaultRestTime" @change="localStorage.setItem('hevyDefaultRest', defaultRestTime)" class="bg-hevy-input text-xs text-white p-1.5 rounded outline-none border border-hevy-border cursor-pointer">
+                                    <option value="60">دقيقة (60 ثانية)</option>
+                                    <option value="90">دقيقة ونص (90 ثانية)</option>
+                                    <option value="120">دقيقتين (120 ثانية)</option>
+                                    <option value="150">دقيقتين ونص (150 ثانية)</option>
+                                    <option value="180">3 دقايق (180 ثانية)</option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -1493,6 +1550,8 @@
                 restSeconds: 0,
                 restInterval: null,
                 restDuration: 90,
+                defaultRestTime: 90,
+                soundEnabled: true,
 
                 typeDropdownOpen: null,
                 showExerciseModal: false,
@@ -2902,6 +2961,17 @@
                         this.currentTheme = savedTheme;
                     }
 
+                    // تحميل إعدادات الصوت ووقت الراحة
+                    const savedSound = localStorage.getItem('hevySound');
+                    if (savedSound !== null) {
+                        this.soundEnabled = savedSound === 'true';
+                    }
+                    const savedRest = localStorage.getItem('hevyDefaultRest');
+                    if (savedRest !== null) {
+                        this.defaultRestTime = parseInt(savedRest);
+                        this.restDuration = this.defaultRestTime;
+                    }
+
                     // حساب الإحصائيات وتوليد نصيحة الكوتش الذكي عند فتح التطبيق
                     this.calculateStats();
 
@@ -4146,6 +4216,7 @@
 
                 triggerRestTimer() {
                     this.showRest = true;
+                    this.restDuration = this.defaultRestTime; // تحديث للوقت الافتراضي
                     this.restSeconds = this.restDuration;
                     if (this.restInterval) clearInterval(this.restInterval);
                     this.restInterval = setInterval(() => {
@@ -4172,7 +4243,10 @@
                 finishRest() {
                     this.stopRestTimer();
                     const beep = document.getElementById('beepSound');
-                    if (beep) beep.play().catch(e => console.log('Audio error:', e));
+                    // تشغيل الصوت فقط لو المستخدم مفعله في الإعدادات
+                    if (this.soundEnabled && beep) {
+                        beep.play().catch(e => console.log('Audio error:', e));
+                    }
                     if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
                 },
 
