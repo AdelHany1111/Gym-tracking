@@ -1,7 +1,7 @@
 {
-  "name": "جيم وحوش - Hevy Clone",
-  "short_name": "جيم وحوش",
-  "description": "تطبيق تتبع التمارين الرياضية الأقوى والأذكى بالذكاء الاصطناعي",
+  "name": "متتبع الجيم",
+  "short_name": "متتبع الجيم",
+  "description": "تتبع تمارينك بفعاليه كامله",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#0b0f19",
