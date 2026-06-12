@@ -308,12 +308,71 @@
 
         /* دعم الشاشات الحديثة للايفون والاندرويد لزرار الـ Home indicator */
         .pb-safe { padding-bottom: env(safe-area-inset-bottom, 24px); }
+
+        /* 🚀 تحديثات: حلقات زيجارنيك (Zeigarnik Rings) */
+        .ring-container {
+            position: relative;
+            width: 80px;
+            height: 80px;
+        }
+        .ring-bg {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.05);
+            stroke-width: 8;
+        }
+        .ring-progress {
+            fill: none;
+            stroke-width: 8;
+            stroke-linecap: round;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+            transition: stroke-dashoffset 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+            filter: drop-shadow(0 0 6px currentColor);
+        }
+
+        /* 🚀 تحديثات: أنيميشن الـ Onboarding والتنبيهات */
+        @keyframes floatPulse {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .animate-float {
+            animation: floatPulse 3s ease-in-out infinite;
+        }
+        
+        /* 🚀 تحديثات: الوحش الأوتوماتيكي (Auto-Monster) */
+        .monster-nudge {
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+            animation: pulse-pump 2s infinite;
+        }
     </style>
 </head>
 <body x-data="hevyApp()" x-init="initApp()" :data-theme="currentTheme">
 
     <div class="mobile-container">
         
+        <!-- ================= SPLASH SCREEN (شاشة التحميل الفخمة) ================= -->
+        <div x-show="showSplash" class="absolute inset-0 z-[9999] bg-[#09090B] flex flex-col items-center justify-center transition-opacity duration-700" :class="showSplash ? 'opacity-100' : 'opacity-0 pointer-events-none'">
+            <div class="relative flex flex-col items-center">
+                <!-- دوائر نيون بتلف -->
+                <div class="w-32 h-32 rounded-full border-4 border-white/5 border-t-hevy-blue border-r-purple-500 animate-spin absolute top-0 left-1/2 -translate-x-1/2"></div>
+                <div class="w-24 h-24 rounded-full border-4 border-white/5 border-b-emerald-500 border-l-amber-500 animate-spin absolute top-4 left-1/2 -translate-x-1/2" style="animation-direction: reverse; animation-duration: 1.5s;"></div>
+                
+                <div class="w-32 h-32 flex items-center justify-center relative z-10">
+                    <i class="fa-solid fa-dumbbell text-5xl text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.8)] animate-pulse"></i>
+                </div>
+                
+                <h1 class="text-3xl font-black text-white mt-6 tracking-widest uppercase drop-shadow-lg">GYM <span class="text-hevy-blue">BEAST</span></h1>
+                <p class="text-xs text-gray-400 font-bold mt-2 tracking-widest">بنسخن الحديد وبنجهز الداتا...</p>
+                
+                <!-- شريط التحميل اللي بيعد -->
+                <div class="w-48 bg-white/10 rounded-full h-1.5 mt-8 overflow-hidden relative shadow-inner">
+                    <div class="bg-gradient-to-r from-hevy-blue via-purple-500 to-emerald-500 h-full rounded-full transition-all duration-300 ease-out" :style="'width: ' + splashProgress + '%'"></div>
+                </div>
+                <div class="text-sm font-black text-white mt-2 font-mono" x-text="Math.round(splashProgress) + '%'"></div>
+            </div>
+        </div>
+
         <!-- ================= MAIN APP VIEW (Tabs) ================= -->
         <div x-show="!isWorkingOut" class="flex flex-col h-full w-full">
             
@@ -363,37 +422,49 @@
                         <p class="text-[13px] text-gray-300 font-semibold leading-relaxed relative z-10" x-text="aiMessage"></p>
                     </div>
 
-                    <!-- نظام المستويات وترشيح الكوتش -->
-                    <div class="space-y-4">
-                        <!-- بطاقة المستوى (Level System) -->
-                        <div class="glass-card p-5 relative overflow-hidden border-yellow-500/20">
-                            <div class="absolute -left-10 -top-10 w-48 h-48 bg-[radial-gradient(circle,rgba(234,179,8,0.1)_0%,transparent_70%)] rounded-full transform translate-z-0 pointer-events-none"></div>
-                            <div class="flex justify-between items-end mb-4 relative z-10">
-                                <div>
-                                    <span class="text-xs font-bold text-yellow-500/80 uppercase tracking-widest block mb-1">مستوى الوحش (XP)</span>
-                                    <div class="flex items-center gap-2">
-                                        <div class="w-8 h-8 rounded-full bg-yellow-500/20 flex items-center justify-center border border-yellow-500/30">
-                                            <i class="fa-solid fa-crown text-yellow-500 text-sm"></i>
-                                        </div>
-                                        <span class="text-xl font-black text-white font-mono" x-text="'LVL ' + (Math.floor(userStats.totalWorkouts / 10) + 1)"></span>
-                                    </div>
-                                </div>
-                                <div class="text-left">
-                                    <span class="text-[11px] font-bold text-yellow-400 bg-yellow-500/10 border border-yellow-500/20 px-2.5 py-1.5 rounded-lg" x-text="(10 - (userStats.totalWorkouts % 10)) + ' تمارين للـ Level الجاي'"></span>
-                                </div>
+                    <!-- 🚀 تحديثات: حلقات زيجارنيك (Zeigarnik Rings) للمتابعة الأسبوعية -->
+                    <div class="glass-card p-5 relative overflow-hidden border-hevy-blue/20">
+                        <div class="flex justify-between items-center mb-4">
+                            <div>
+                                <h4 class="text-sm font-extrabold text-white flex items-center gap-2">
+                                    <i class="fa-solid fa-fire text-orange-500 animate-pulse drop-shadow-[0_0_8px_rgba(249,115,22,0.5)]"></i> تارجت الأسبوع
+                                </h4>
+                                <p class="text-xs text-gray-400 font-bold mt-1" x-text="getZeigarnikMessage()"></p>
                             </div>
-                            <!-- شريط الخبرة XP -->
-                            <div class="w-full bg-black/40 rounded-full h-2.5 overflow-hidden border border-white/5 relative z-10 shadow-inner">
-                                <div class="bg-gradient-to-r from-yellow-600 to-yellow-400 h-full rounded-full transition-all duration-1000 shadow-[0_0_10px_rgba(234,179,8,0.5)]" :style="'width: ' + ((userStats.totalWorkouts % 10) / 10 * 100) + '%'"></div>
+                            
+                            <!-- الحلقة الدائرية -->
+                            <div class="ring-container shrink-0">
+                                <svg class="w-full h-full" viewBox="0 0 100 100">
+                                    <circle class="ring-bg" cx="50" cy="50" r="40"></circle>
+                                    <circle class="ring-progress text-hevy-blue" cx="50" cy="50" r="40"
+                                            :stroke-dasharray="251.2"
+                                            :stroke-dashoffset="251.2 - (Math.min(userStats.workoutsThisWeek || 0, userProfile.targetDays || 3) / (userProfile.targetDays || 3)) * 251.2">
+                                    </circle>
+                                </svg>
+                                <div class="absolute inset-0 flex flex-col items-center justify-center">
+                                    <span class="text-lg font-black text-white font-mono leading-none" x-text="userStats.workoutsThisWeek || 0"></span>
+                                    <span class="text-[9px] text-gray-400 font-bold uppercase tracking-widest mt-0.5" x-text="'من ' + (userProfile.targetDays || 3)"></span>
+                                </div>
                             </div>
                         </div>
+                        <!-- شريط الخبرة XP -->
+                        <div class="flex justify-between items-end mb-2">
+                            <span class="text-[11px] font-bold text-yellow-500/80 uppercase tracking-widest">مستوى الوحش (XP)</span>
+                            <span class="text-sm font-black text-white font-mono" x-text="'LVL ' + (Math.floor(userStats.totalWorkouts / 10) + 1)"></span>
+                        </div>
+                        <div class="w-full bg-black/40 rounded-full h-2.5 overflow-hidden border border-white/5 relative shadow-inner">
+                            <div class="bg-gradient-to-r from-yellow-600 to-yellow-400 h-full rounded-full transition-all duration-1000 shadow-[0_0_10px_rgba(234,179,8,0.5)]" :style="'width: ' + ((userStats.totalWorkouts % 10) / 10 * 100) + '%'"></div>
+                        </div>
+                    </div>
 
+                    <!-- نظام المستويات وترشيح الكوتش -->
+                    <div class="space-y-4">
                         <!-- ترشيح الكوتش المبني على العضلات الضعيفة -->
                         <div class="glass-card border-rose-500/20 p-4 flex items-center gap-4 relative overflow-hidden">
                             <div class="w-1.5 h-full bg-gradient-to-b from-rose-500 to-rose-700 absolute right-0 top-0"></div>
                             <div class="flex-1 pr-2">
                                 <h4 class="text-sm font-extrabold text-white mb-1.5 flex items-center gap-2">
-                                    <i class="fa-solid fa-bullseye text-rose-500 animate-pulse"></i> تارجت النهاردة
+                                    <i class="fa-solid fa-bullseye text-rose-500"></i> تارجت النهاردة
                                 </h4>
                                 <p class="text-xs text-gray-400 font-semibold leading-relaxed">
                                     أقل عضلة لعبتها مؤخراً هي <span class="text-rose-400 font-bold bg-rose-500/10 border border-rose-500/20 px-1.5 py-0.5 rounded-md mx-0.5" x-text="userStats.leastTrainedMuscle"></span>، الكوتش بينصحك تفجرها التمرينة دي.
@@ -405,32 +476,43 @@
                         </div>
                     </div>
 
-                    <!-- خريطة الاستشفاء (Recovery Heatmap) -->
-                    <div x-show="userStats.totalWorkouts > 0" class="animate__animated animate__fadeIn">
+                    <!-- 🚀 تحديثات: خريطة الاستشفاء التفاعلية (Interactive Recovery Heatmap) -->
+                    <div class="animate__animated animate__fadeIn">
                         <div class="glass-card p-5 relative overflow-hidden">
                             <div class="flex justify-between items-center mb-4">
                                 <h4 class="text-sm font-extrabold text-white flex items-center gap-2 tracking-wide">
-                                    <i class="fa-solid fa-battery-half text-hevy-blue"></i> خريطة الاستشفاء العضلي
+                                    <i class="fa-solid fa-battery-half text-hevy-blue"></i> حالة العضلات (دوس عليها)
                                 </h4>
                                 <button @click="showRecoveryExplanation()" class="bg-white/5 hover:bg-white/10 text-gray-300 border border-white/10 px-2.5 py-1.5 rounded-lg text-xs font-bold transition-colors">
                                     <i class="fa-solid fa-brain text-hevy-blue mr-1"></i> الشرح
                                 </button>
                             </div>
-                            <div class="grid grid-cols-5 gap-3">
-                                <template x-for="muscle in [{id:'Chest', name:'البنش'}, {id:'Back', name:'الضهر'}, {id:'Legs', name:'الرجل'}, {id:'Shoulders', name:'الكتف'}, {id:'Arms', name:'الدراع'}]">
-                                    <div class="flex flex-col items-center gap-2">
-                                        <div class="w-full h-10 rounded-xl flex items-center justify-center text-white border shadow-inner transition-colors duration-500"
-                                             :class="{
-                                                 'bg-emerald-500/15 border-emerald-500/40 text-emerald-400 drop-shadow-[0_0_8px_rgba(16,185,129,0.3)]': recoveryHeatmap[muscle.id] === 'green',
-                                                 'bg-amber-500/15 border-amber-500/40 text-amber-400 drop-shadow-[0_0_8px_rgba(245,158,11,0.3)]': recoveryHeatmap[muscle.id] === 'yellow',
-                                                 'bg-rose-500/15 border-rose-500/40 text-rose-400 drop-shadow-[0_0_8px_rgba(244,63,94,0.3)]': recoveryHeatmap[muscle.id] === 'red'
-                                             }">
-                                            <i class="fa-solid fa-dumbbell text-xs"></i>
-                                        </div>
-                                        <span class="text-[11px] font-extrabold text-gray-400" x-text="muscle.name"></span>
-                                    </div>
-                                </template>
-                            </div>
+                            
+                            <template x-if="userStats.totalWorkouts === 0">
+                                <div class="bg-white/5 rounded-xl p-4 text-center border border-white/10">
+                                    <i class="fa-solid fa-bed text-2xl text-emerald-500 mb-2"></i>
+                                    <p class="text-xs text-gray-300 font-bold leading-relaxed">عضلاتك كلها فريش ومستريحة 100%، ابدأ أول تمرينة عشان الخريطة دي تشتغل وتتابعك.</p>
+                                </div>
+                            </template>
+
+                            <template x-if="userStats.totalWorkouts > 0">
+                                <div class="grid grid-cols-5 gap-3">
+                                    <template x-for="muscle in [{id:'Chest', name:'البنش'}, {id:'Back', name:'الضهر'}, {id:'Legs', name:'الرجل'}, {id:'Shoulders', name:'الكتف'}, {id:'Arms', name:'الدراع'}]">
+                                        <!-- تحويلها لـ Button عشان تبقى Clickable (Fitts's Law) -->
+                                        <button @click="showMuscleRecoveryTip(muscle.id, muscle.name)" class="flex flex-col items-center gap-2 transition-transform active:scale-90 w-full">
+                                            <div class="w-full h-12 rounded-xl flex items-center justify-center text-white border shadow-inner transition-colors duration-500"
+                                                 :class="{
+                                                     'bg-emerald-500/15 border-emerald-500/40 text-emerald-400 drop-shadow-[0_0_8px_rgba(16,185,129,0.3)] hover:bg-emerald-500/25': recoveryHeatmap[muscle.id] === 'green',
+                                                     'bg-amber-500/15 border-amber-500/40 text-amber-400 drop-shadow-[0_0_8px_rgba(245,158,11,0.3)] hover:bg-amber-500/25': recoveryHeatmap[muscle.id] === 'yellow',
+                                                     'bg-rose-500/15 border-rose-500/40 text-rose-400 drop-shadow-[0_0_8px_rgba(244,63,94,0.3)] hover:bg-rose-500/25': recoveryHeatmap[muscle.id] === 'red'
+                                                 }">
+                                                <i class="fa-solid fa-dumbbell text-sm"></i>
+                                            </div>
+                                            <span class="text-[11px] font-extrabold text-gray-400" x-text="muscle.name"></span>
+                                        </button>
+                                    </template>
+                                </div>
+                            </template>
                         </div>
                     </div>
 
@@ -1035,116 +1117,110 @@
                 </div>
 
                 <!-- 6. SETTINGS TAB (الإعدادات) -->
-                <div x-show="currentTab === 'settings'" class="p-5 space-y-6 animate__animated animate__fadeIn">
+                <div x-show="currentTab === 'settings'" class="p-5 space-y-5 animate__animated animate__fadeIn">
                     
-                    <!-- إعدادات الأجهزة (لذكاء اصطناعي أدق) 🚀 -->
-                    <div>
-                        <h2 class="text-purple-500 text-xs font-bold mb-4 uppercase tracking-widest pl-1">أجهزة الجيم بتاعتك (فلتر الذكاء الاصطناعي)</h2>
-                        <div class="glass-card overflow-hidden p-4 border-t-2 border-t-purple-500 space-y-4">
-                            <p class="text-[12px] text-gray-400 font-bold leading-relaxed mb-2">الذكاء الاصطناعي هيشيل أي تمرين بيعتمد على جهاز مش متعلم عليه صح هنا.</p>
-                            <div class="flex justify-between items-center bg-white/5 p-3 rounded-xl">
-                                <span class="font-extrabold text-white text-sm flex items-center gap-2"><i class="fa-solid fa-dumbbell text-purple-400"></i> أوزان حرة (بار ودمبل)</span>
-                                <input type="checkbox" x-model="userEquipment.barbell" @change="saveEquipment()" class="toggle toggle-primary toggle-sm border-white/20" />
+                    <!-- الهيدر الجميل -->
+                    <div class="glass-card p-6 text-center relative overflow-hidden bg-gradient-to-b from-white/5 to-transparent mb-2">
+                        <i class="fa-solid fa-gear text-4xl text-hevy-blue mb-3 drop-shadow-[0_0_15px_var(--primary-glow)] animate-[spin_4s_linear_infinite]"></i>
+                        <h2 class="text-2xl font-black text-white tracking-wide">لوحة التحكم</h2>
+                        <p class="text-xs text-gray-400 font-bold mt-1">ظبط الأبلكيشن على مقاسك بالظبط.</p>
+                    </div>
+
+                    <!-- 1. إعدادات الكوتش الذكي والأجهزة -->
+                    <div x-data="{ open: false }" class="glass-card overflow-hidden">
+                        <button @click="open = !open" class="w-full flex items-center justify-between p-4 bg-white/5 hover:bg-white/10 transition-colors text-white font-bold">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400 shadow-[0_0_10px_rgba(168,85,247,0.2)]"><i class="fa-solid fa-gears text-sm"></i></div>
+                                <span class="text-sm">أجهزة الجيم بتاعتك</span>
                             </div>
-                            <div class="flex justify-between items-center bg-white/5 p-3 rounded-xl">
-                                <span class="font-extrabold text-white text-sm flex items-center gap-2"><i class="fa-solid fa-plug text-purple-400"></i> أجهزة كابلات (بكرات)</span>
-                                <input type="checkbox" x-model="userEquipment.cables" @change="saveEquipment()" class="toggle toggle-primary toggle-sm border-white/20" />
-                            </div>
-                            <div class="flex justify-between items-center bg-white/5 p-3 rounded-xl">
-                                <span class="font-extrabold text-white text-sm flex items-center gap-2"><i class="fa-solid fa-robot text-purple-400"></i> أجهزة معزولة (مكبس، سميث..)</span>
-                                <input type="checkbox" x-model="userEquipment.machines" @change="saveEquipment()" class="toggle toggle-primary toggle-sm border-white/20" />
-                            </div>
-                            <div class="flex justify-between items-center bg-white/5 p-3 rounded-xl">
-                                <span class="font-extrabold text-white text-sm flex items-center gap-2"><i class="fa-solid fa-child-reaching text-purple-400"></i> وزن الجسم (عقلة، غطس)</span>
-                                <input type="checkbox" x-model="userEquipment.bodyweight" @change="saveEquipment()" class="toggle toggle-primary toggle-sm border-white/20" />
-                            </div>
+                            <i class="fa-solid text-sm transition-transform duration-300" :class="open ? 'fa-chevron-up text-purple-400' : 'fa-chevron-down text-gray-500'"></i>
+                        </button>
+                        <div x-show="open" x-collapse class="p-5 border-t border-white/5 bg-black/20 text-center">
+                            <p class="text-[12px] text-gray-300 mb-4 font-semibold leading-relaxed">حدد الأجهزة المتاحة ليك في الجيم عشان الكوتش الذكي ميقترحش تمرين متعرفش تلعبه.</p>
+                            <button @click="showEquipmentModal = true" class="w-full bg-purple-500/10 hover:bg-purple-500/20 text-purple-400 border border-purple-500/20 font-extrabold py-3.5 rounded-xl transition-all shadow-sm text-sm flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-sliders"></i> ظبط الأجهزة دلوقتي
+                            </button>
                         </div>
                     </div>
 
-                    <!-- إعدادات الصوت والموسيقى 🚀 -->
-                    <div>
-                        <h2 class="text-hevy-blue text-xs font-bold mb-4 uppercase tracking-widest pl-1">مزاجك في الجيم (صوت وأغاني)</h2>
-                        <div class="glass-card overflow-hidden border-t-2 border-t-hevy-blue">
+                    <!-- 2. المزاج والصوتيات -->
+                    <div x-data="{ open: false }" class="glass-card overflow-hidden">
+                        <button @click="open = !open" class="w-full flex items-center justify-between p-4 bg-white/5 hover:bg-white/10 transition-colors text-white font-bold">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-full bg-hevy-blue/20 flex items-center justify-center text-hevy-blue shadow-[0_0_10px_var(--primary-glow)]"><i class="fa-solid fa-headphones text-sm"></i></div>
+                                <span class="text-sm">المزاج (صوت وأغاني)</span>
+                            </div>
+                            <i class="fa-solid text-sm transition-transform duration-300" :class="open ? 'fa-chevron-up text-hevy-blue' : 'fa-chevron-down text-gray-500'"></i>
+                        </button>
+                        <div x-show="open" x-collapse class="bg-black/20 border-t border-white/5">
                             <div class="flex justify-between items-center p-4 border-b border-white/5">
-                                <div class="flex items-center gap-4">
-                                    <div class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-hevy-blue border border-white/10 shadow-sm"><i class="fa-solid fa-volume-high text-lg"></i></div>
-                                    <span class="font-extrabold text-white text-sm">صوت وقت الراحة</span>
-                                </div>
+                                <span class="font-bold text-gray-300 text-[13px]">صوت منبه الراحة</span>
                                 <input type="checkbox" x-model="soundEnabled" @change="localStorage.setItem('hevySound', soundEnabled)" class="toggle toggle-info toggle-sm border-white/20" />
                             </div>
-                            
                             <div class="p-4 border-b border-white/5 space-y-3">
-                                <span class="font-extrabold text-white text-sm block">غير نغمة الراحة (بصوتك أو أغنية)</span>
-                                <label class="w-full bg-hevy-blue/10 hover:bg-hevy-blue/20 text-hevy-blue border border-hevy-blue/20 font-extrabold py-3 rounded-xl transition-all cursor-pointer text-sm flex justify-center items-center gap-2">
+                                <span class="font-bold text-gray-300 text-[13px] block">نغمة المنبه المخصصة</span>
+                                <label class="w-full bg-hevy-blue/10 hover:bg-hevy-blue/20 text-hevy-blue border border-hevy-blue/20 font-extrabold py-3 rounded-xl transition-all cursor-pointer text-[12px] flex justify-center items-center gap-2">
                                     <input type="file" accept="audio/*" class="hidden" @change="uploadRestSound($event)">
                                     <i class="fa-solid fa-music"></i> اختار نغمة من جهازك
                                 </label>
-                                <!-- زرار مسح نغمة الراحة المخصصة -->
                                 <div class="flex justify-between items-center bg-emerald-500/5 p-3 rounded-xl border border-emerald-500/20" x-show="customRestSound">
-                                    <span class="text-[11px] text-emerald-400 font-bold flex items-center gap-1.5"><i class="fa-solid fa-circle-check"></i> نغمة مخصصة شغالة دلوقتي</span>
+                                    <span class="text-[11px] text-emerald-400 font-bold flex items-center gap-1.5"><i class="fa-solid fa-circle-check"></i> شغال بنغمتك الخاصة</span>
                                     <button @click="deleteRestSound()" class="w-8 h-8 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500 hover:text-white transition-colors flex items-center justify-center shadow-sm" title="امسح النغمة"><i class="fa-solid fa-trash-can text-xs"></i></button>
                                 </div>
                             </div>
-
                             <div class="p-4 space-y-3">
-                                <div class="flex justify-between items-center mb-2">
-                                    <span class="font-extrabold text-white text-sm">قائمة أغانيك (Playlist)</span>
-                                    <span class="text-xs bg-white/10 px-2 py-1 rounded-md text-gray-300 font-bold" x-text="musicPlaylist.length + ' تراك'"></span>
+                                <div class="flex justify-between items-center mb-1">
+                                    <span class="font-bold text-gray-300 text-[13px]">البلاي ليست بتاعتك (أوفلاين)</span>
+                                    <span class="text-[10px] bg-white/10 px-2 py-1 rounded-md text-gray-400 font-bold" x-text="musicPlaylist.length + ' تراك'"></span>
                                 </div>
-                                <label class="w-full bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/20 font-extrabold py-3 rounded-xl transition-all cursor-pointer text-sm flex justify-center items-center gap-2">
+                                <label class="w-full bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/20 font-extrabold py-3 rounded-xl transition-all cursor-pointer text-[12px] flex justify-center items-center gap-2">
                                     <input type="file" accept="audio/*" multiple class="hidden" @change="uploadMusic($event)">
-                                    <i class="fa-solid fa-headphones"></i> ارفع أغانيك هنا تسمعها أوفلاين
+                                    <i class="fa-solid fa-upload"></i> ارفع أغانيك هنا
                                 </label>
-                                
-                                <!-- لستة الأغاني المرفوعة عشان يمسح منها -->
-                                <div class="mt-3 space-y-2 max-h-48 overflow-y-auto pr-1 scrollbar-none" x-show="musicPlaylist.length > 0">
+                                <div class="mt-3 space-y-2 max-h-40 overflow-y-auto pr-1 scrollbar-none" x-show="musicPlaylist.length > 0">
                                     <template x-for="(track, index) in musicPlaylist" :key="track.id">
-                                        <div class="flex justify-between items-center bg-black/20 p-3 rounded-xl border border-white/5 hover:border-white/10 transition-colors">
+                                        <div class="flex justify-between items-center bg-white/5 p-3 rounded-xl border border-white/5 hover:border-white/10 transition-colors">
                                             <div class="flex items-center gap-2 overflow-hidden pr-2">
                                                 <i class="fa-solid fa-music text-hevy-muted text-[10px]"></i>
                                                 <span class="text-[11px] text-gray-300 font-bold truncate max-w-[200px]" x-text="track.name"></span>
                                             </div>
-                                            <button @click="deleteMusicTrack(index)" class="w-8 h-8 rounded-lg bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-colors flex items-center justify-center flex-shrink-0 shadow-sm" title="امسح الأغنية"><i class="fa-solid fa-trash-can text-xs"></i></button>
+                                            <button @click="deleteMusicTrack(index)" class="w-7 h-7 rounded-lg bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-colors flex items-center justify-center flex-shrink-0 shadow-sm"><i class="fa-solid fa-xmark text-[10px]"></i></button>
                                         </div>
                                     </template>
                                 </div>
-
-                                <button x-show="musicPlaylist.length > 0" @click="showMusicPlayer = !showMusicPlayer" class="w-full text-center text-xs text-gray-400 hover:text-white mt-2 font-bold transition-colors">
-                                    <i class="fa-solid" :class="showMusicPlayer ? 'fa-eye-slash' : 'fa-eye'"></i> إظهار/إخفاء مشغل الموسيقى
+                                <button x-show="musicPlaylist.length > 0" @click="showMusicPlayer = !showMusicPlayer" class="w-full text-center text-xs text-hevy-blue hover:text-white mt-2 font-bold transition-colors">
+                                    <i class="fa-solid" :class="showMusicPlayer ? 'fa-eye-slash' : 'fa-eye'"></i> إظهار/إخفاء المشغل العائم
                                 </button>
                             </div>
                         </div>
                     </div>
 
-                    <!-- إعدادات عامة -->
-                    <div>
-                        <h2 class="text-hevy-muted text-xs font-bold mb-4 uppercase tracking-widest pl-1">إعدادات عامة</h2>
-                        <div class="glass-card overflow-hidden">
+                    <!-- 3. إعدادات عامة للتطبيق -->
+                    <div x-data="{ open: false }" class="glass-card overflow-hidden">
+                        <button @click="open = !open" class="w-full flex items-center justify-between p-4 bg-white/5 hover:bg-white/10 transition-colors text-white font-bold">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-500 shadow-[0_0_10px_rgba(245,158,11,0.2)]"><i class="fa-solid fa-sliders text-sm"></i></div>
+                                <span class="text-sm">تفضيلات الأبلكيشن</span>
+                            </div>
+                            <i class="fa-solid text-sm transition-transform duration-300" :class="open ? 'fa-chevron-up text-amber-500' : 'fa-chevron-down text-gray-500'"></i>
+                        </button>
+                        <div x-show="open" x-collapse class="bg-black/20 border-t border-white/5">
                             <div class="flex justify-between items-center p-4 border-b border-white/5">
-                                <div class="flex items-center gap-4">
-                                    <div class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-hevy-blue border border-white/10 shadow-sm"><i class="fa-solid fa-palette text-lg"></i></div>
-                                    <span class="font-extrabold text-white text-sm">ثيم التطبيق</span>
-                                </div>
-                                <select x-model="currentTheme" @change="changeTheme()" class="bg-white/5 text-sm font-bold text-white p-2 rounded-lg outline-none border border-white/10 cursor-pointer focus:border-hevy-blue transition-colors">
-                                    <option value="dark">دارك (الأساسي)</option>
+                                <span class="font-bold text-gray-300 text-[13px]">ثيم الألوان</span>
+                                <select x-model="currentTheme" @change="changeTheme()" class="bg-white/5 text-[12px] font-bold text-white p-2 rounded-lg outline-none border border-white/10 cursor-pointer focus:border-amber-500 transition-colors">
+                                    <option value="dark">دارك مطفي (الأساسي)</option>
                                     <option value="blue">أزرق ليلي</option>
                                     <option value="green">أخضر نيون</option>
                                     <option value="red">أحمر دموي</option>
                                 </select>
                             </div>
                             <div class="flex justify-between items-center p-4 border-b border-white/5">
-                                <div class="flex items-center gap-4">
-                                    <div class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-hevy-blue border border-white/10 shadow-sm"><i class="fa-solid fa-scale-balanced text-lg"></i></div>
-                                    <span class="font-extrabold text-white text-sm">وحدة الأوزان</span>
-                                </div>
-                                <span class="text-xs bg-hevy-blue/10 text-hevy-blue border border-hevy-blue/20 px-3 py-1.5 rounded-lg font-bold">كجم (KG)</span>
+                                <span class="font-bold text-gray-300 text-[13px]">وحدة الأوزان</span>
+                                <span class="text-[11px] bg-amber-500/10 text-amber-500 border border-amber-500/20 px-3 py-1.5 rounded-lg font-bold">كجم (KG)</span>
                             </div>
                             <div class="flex justify-between items-center p-4">
-                                <div class="flex items-center gap-4">
-                                    <div class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-hevy-blue border border-white/10 shadow-sm"><i class="fa-solid fa-stopwatch text-lg"></i></div>
-                                    <span class="font-extrabold text-white text-sm">راحة افتراضية</span>
-                                </div>
-                                <select x-model="defaultRestTime" @change="localStorage.setItem('hevyDefaultRest', defaultRestTime)" class="bg-white/5 text-sm font-bold text-white p-2 rounded-lg outline-none border border-white/10 cursor-pointer focus:border-hevy-blue transition-colors">
+                                <span class="font-bold text-gray-300 text-[13px]">مدة الراحة الافتراضية</span>
+                                <select x-model="defaultRestTime" @change="localStorage.setItem('hevyDefaultRest', defaultRestTime)" class="bg-white/5 text-[12px] font-bold text-white p-2 rounded-lg outline-none border border-white/10 cursor-pointer focus:border-amber-500 transition-colors">
                                     <option value="60">60 ثانية</option>
                                     <option value="90">90 ثانية</option>
                                     <option value="120">120 ثانية</option>
@@ -1155,95 +1231,345 @@
                         </div>
                     </div>
 
-                    <!-- النسخ الاحتياطي والاسترداد -->
-                    <div>
-                        <h2 class="text-emerald-500 text-xs font-bold mb-4 uppercase tracking-widest pl-1">حفظ واسترجاع بياناتك</h2>
-                        <div class="glass-card overflow-hidden p-6 text-center border-t-2 border-t-emerald-500">
-                            <div class="w-16 h-16 mx-auto rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-500 mb-4 border border-emerald-500/20 shadow-[0_0_15px_rgba(16,185,129,0.2)]">
-                                <i class="fa-solid fa-cloud-arrow-down text-3xl"></i>
+                    <!-- 4. الداتا والأمان (النسخ الاحتياطي) -->
+                    <div x-data="{ open: false }" class="glass-card overflow-hidden">
+                        <button @click="open = !open" class="w-full flex items-center justify-between p-4 bg-white/5 hover:bg-white/10 transition-colors text-white font-bold">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.2)]"><i class="fa-solid fa-cloud-arrow-down text-sm"></i></div>
+                                <span class="text-sm">حفظ واسترجاع الداتا</span>
                             </div>
-                            <h3 class="font-extrabold text-white text-lg mb-2">النسخة الاحتياطية</h3>
-                            <p class="text-[13px] text-gray-400 mb-6 font-semibold leading-relaxed">احفظ كل تمارينك، إحصائياتك، وأغانيك في ملف عشان متفقدش مجهودك.</p>
-                            
+                            <i class="fa-solid text-sm transition-transform duration-300" :class="open ? 'fa-chevron-up text-emerald-500' : 'fa-chevron-down text-gray-500'"></i>
+                        </button>
+                        <div x-show="open" x-collapse class="p-5 border-t border-white/5 bg-black/20 text-center">
+                            <p class="text-[12px] text-gray-300 mb-4 font-semibold leading-relaxed">عشان مجهودك ميضيعش لو غيرت الموبايل، نزل نسخة احتياطية من هنا.</p>
                             <div class="flex gap-3">
-                                <button @click="exportData()" class="flex-1 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/20 font-extrabold py-3.5 rounded-xl transition-all shadow-sm text-sm flex items-center justify-center gap-2">
+                                <button @click="exportData()" class="flex-1 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/20 font-extrabold py-3.5 rounded-xl transition-all shadow-sm text-[12px] flex items-center justify-center gap-1.5">
                                     <i class="fa-solid fa-download"></i> حمل نسخة
                                 </button>
-                                
-                                <label class="flex-1 bg-hevy-blue/10 hover:bg-hevy-blue/20 text-hevy-blue border border-hevy-blue/20 font-extrabold py-3.5 rounded-xl transition-all cursor-pointer text-sm flex justify-center items-center gap-2 shadow-sm">
+                                <label class="flex-1 bg-hevy-blue/10 hover:bg-hevy-blue/20 text-hevy-blue border border-hevy-blue/20 font-extrabold py-3.5 rounded-xl transition-all cursor-pointer text-[12px] flex justify-center items-center gap-1.5 shadow-sm">
                                     <input type="file" accept=".json" class="hidden" @change="importData($event)">
-                                    <i class="fa-solid fa-upload"></i> استرجع بياناتك
+                                    <i class="fa-solid fa-upload"></i> استرجع ملف
                                 </label>
                             </div>
                         </div>
                     </div>
 
-                    <!-- تصفير الإحصائيات -->
-                    <div>
-                        <h2 class="text-orange-500 text-xs font-bold mb-4 uppercase tracking-widest pl-1">تصفير الأرقام</h2>
-                        <div class="glass-card overflow-hidden p-6 text-center border-t-2 border-t-orange-500">
-                            <div class="w-16 h-16 mx-auto rounded-full bg-orange-500/10 flex items-center justify-center text-orange-500 mb-4 border border-orange-500/20 shadow-[0_0_15px_rgba(249,115,22,0.2)]">
-                                <i class="fa-solid fa-chart-pie text-3xl"></i>
+                    <!-- 5. منطقة الخطر (إعادة ضبط) -->
+                    <div x-data="{ open: false }" class="glass-card overflow-hidden border-t-2 border-t-red-500">
+                        <button @click="open = !open" class="w-full flex items-center justify-between p-4 bg-red-500/5 hover:bg-red-500/10 transition-colors text-white font-bold">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-full bg-red-500/20 flex items-center justify-center text-red-500 shadow-[0_0_10px_rgba(244,63,94,0.2)]"><i class="fa-solid fa-triangle-exclamation text-sm"></i></div>
+                                <span class="text-sm text-red-400">منطقة الخطر (فرمتة)</span>
                             </div>
-                            <h3 class="font-extrabold text-white text-lg mb-2">امسح أرقام الرئيسية</h3>
-                            <p class="text-[13px] text-gray-400 mb-6 font-semibold leading-relaxed">الميزة دي هتصفر إحصائياتك اللي في الصفحة الرئيسية بس، وهتحافظ على كل تمارينك متسجلة.</p>
-                            <button @click="clearHomeStats()" class="w-full bg-orange-500/10 hover:bg-orange-500/20 text-orange-500 border border-orange-500/20 font-extrabold py-3.5 rounded-xl transition-all shadow-sm text-sm">
-                                صفر الإحصائيات دلوقتي
+                            <i class="fa-solid text-sm transition-transform duration-300" :class="open ? 'fa-chevron-up text-red-500' : 'fa-chevron-down text-gray-500'"></i>
+                        </button>
+                        <div x-show="open" x-collapse class="p-5 border-t border-red-500/20 bg-red-500/5 text-center">
+                            <button @click="clearHomeStats()" class="w-full bg-orange-500/10 hover:bg-orange-500/20 text-orange-400 border border-orange-500/20 font-extrabold py-3.5 rounded-xl transition-all shadow-sm text-sm mb-3">
+                                صفر أرقام الرئيسية بس
                             </button>
-                        </div>
-                    </div>
-
-                    <!-- منطقة الخطر (مسح البيانات) -->
-                    <div>
-                        <h2 class="text-red-500 text-xs font-bold mb-4 uppercase tracking-widest pl-1">منطقة الخطر (Danger Zone)</h2>
-                        <div class="glass-card overflow-hidden p-6 text-center border-t-2 border-t-red-500">
-                            <div class="w-16 h-16 mx-auto rounded-full bg-red-500/10 flex items-center justify-center text-red-500 mb-4 border border-red-500/20 shadow-[0_0_15px_rgba(244,63,94,0.2)]">
-                                <i class="fa-solid fa-triangle-exclamation text-3xl"></i>
-                            </div>
-                            <h3 class="font-extrabold text-white text-lg mb-2">إعادة ضبط المصنع</h3>
-                            <p class="text-[13px] text-gray-400 mb-6 font-semibold leading-relaxed">الميزة دي هتمسح كل تاريخ تمارينك، والروتينات، والموسيقى، وهترجع الأبلكيشن زيرو.</p>
                             <button @click="resetApp()" class="w-full bg-red-500/10 hover:bg-red-500 text-red-400 hover:text-white border border-red-500/20 font-extrabold py-3.5 rounded-xl transition-all shadow-sm text-sm">
-                                امسح كل حاجة وابدأ من جديد
+                                <i class="fa-solid fa-skull"></i> امسح كل حاجة وابدأ من الصفر
                             </button>
                         </div>
                     </div>
 
                     <!-- إصدار التطبيق -->
-                    <div class="text-center pt-2 pb-6">
-                        <span class="text-hevy-blue text-sm font-black tracking-wider">GYM v2.5.0 Premium</span>
-                        <p class="text-xs text-gray-500 font-bold mt-1.5">Made with ❤️ By Adel Hany</p>
+                    <div class="text-center pt-4 pb-8">
+                        <span class="text-hevy-blue text-sm font-black tracking-wider">GYM v3.0.0 Pro</span>
+                        <p class="text-[11px] text-gray-500 font-bold mt-1.5">تم التطوير بـ ❤️ للوحوش</p>
+                    </div>
+                </div>
+
+                <!-- 7. NUTRITION TAB (التغذية والماكروز والدليل) 🚀 -->
+                <div x-show="currentTab === 'nutrition'" class="p-5 space-y-6 animate__animated animate__fadeIn">
+                    
+                    <!-- أزرار التبديل العلوية (Tabs) -->
+                    <div class="flex gap-1.5 bg-black/40 p-1.5 rounded-xl border border-white/5 shadow-inner">
+                        <button @click="nutritionView = 'calc'" class="flex-1 py-2.5 rounded-lg text-[11px] font-black transition-all" :class="nutritionView === 'calc' ? 'bg-emerald-500 text-white shadow-md' : 'text-gray-400 hover:text-white'">
+                            <i class="fa-solid fa-calculator mb-1 block text-sm"></i> حاسبة الوحش
+                        </button>
+                        <button @click="nutritionView = 'guide'" class="flex-1 py-2.5 rounded-lg text-[11px] font-black transition-all" :class="nutritionView === 'guide' ? 'bg-emerald-500 text-white shadow-md' : 'text-gray-400 hover:text-white'">
+                            <i class="fa-solid fa-book-open mb-1 block text-sm"></i> دليل الأكل
+                        </button>
+                    </div>
+
+                    <!-- القسم الأول: حاسبة الوحش الغذائية -->
+                    <div x-show="nutritionView === 'calc'" class="space-y-6 animate__animated animate__fadeIn">
+                        <!-- لو لسه مدخلش بياناته -->
+                        <div x-show="!userProfile.nutrition" class="glass-card p-6 border-emerald-500/30 text-center relative overflow-hidden">
+                            <div class="absolute -right-10 -top-10 w-48 h-48 bg-[radial-gradient(circle,rgba(16,185,129,0.15)_0%,transparent_70%)] rounded-full transform translate-z-0 pointer-events-none"></div>
+                            <i class="fa-solid fa-calculator text-5xl text-emerald-400 mb-4 drop-shadow-[0_0_15px_rgba(16,185,129,0.4)]"></i>
+                            <h2 class="text-2xl font-black text-white mb-2">حاسبة السعرات</h2>
+                            <p class="text-xs text-gray-400 font-bold mb-6 leading-relaxed">عشان تبني فورمة، التمرين بيمثل 30% بس، والـ 70% الباقية مطبخك. دخل بياناتك عشان نحسبلك بالظبط جسمك محتاج إيه.</p>
+                            
+                            <div class="space-y-4 text-right">
+                                <div class="flex gap-3">
+                                    <div class="flex-1 bg-white/5 p-3 rounded-xl border border-white/10">
+                                        <label class="text-[10px] text-gray-400 font-bold block mb-1">الوزن (كجم)</label>
+                                        <input type="number" x-model="nutritionInput.weight" class="w-full bg-transparent text-white font-black outline-none font-mono text-lg">
+                                    </div>
+                                    <div class="flex-1 bg-white/5 p-3 rounded-xl border border-white/10">
+                                        <label class="text-[10px] text-gray-400 font-bold block mb-1">الطول (سم)</label>
+                                        <input type="number" x-model="nutritionInput.height" class="w-full bg-transparent text-white font-black outline-none font-mono text-lg">
+                                    </div>
+                                    <div class="flex-1 bg-white/5 p-3 rounded-xl border border-white/10">
+                                        <label class="text-[10px] text-gray-400 font-bold block mb-1">السن</label>
+                                        <input type="number" x-model="nutritionInput.age" class="w-full bg-transparent text-white font-black outline-none font-mono text-lg">
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-white/5 p-3 rounded-xl border border-white/10">
+                                    <label class="text-[10px] text-gray-400 font-bold block mb-2">مجهودك بره الجيم</label>
+                                    <select x-model="nutritionInput.activity" class="w-full bg-transparent text-white font-bold outline-none text-sm cursor-pointer">
+                                        <option value="1.2">قاعد على مكتب طول اليوم</option>
+                                        <option value="1.375">حركة خفيفة (مشي بسيط)</option>
+                                        <option value="1.55">حركة متوسطة (شغلانة فيها حركة)</option>
+                                        <option value="1.725">شغل شاق جداً (بتحرق طول اليوم)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <button @click="calculateNutrition()" class="w-full mt-6 bg-emerald-500 hover:bg-emerald-600 text-white font-black py-4 rounded-xl transition-all shadow-[0_0_20px_rgba(16,185,129,0.3)] active:scale-95 text-sm">
+                                احسبلي السعرات والماكروز
+                            </button>
+                        </div>
+
+                        <!-- الداشبورد الغذائي (بعد ما يحسب) -->
+                        <div x-show="userProfile.nutrition" style="display: none;" class="space-y-6">
+                            <div class="glass-card p-6 text-center border-t-2 border-t-emerald-500">
+                                <h3 class="text-[11px] text-gray-400 font-bold uppercase tracking-widest mb-1">سعراتك الهدف يومياً</h3>
+                                <div class="text-4xl font-black text-white font-mono drop-shadow-md mb-4"><span x-text="userProfile.nutrition?.calories"></span> <span class="text-sm text-emerald-400">كالوري</span></div>
+                                
+                                <div class="flex justify-between gap-3">
+                                    <div class="flex-1 bg-hevy-blue/10 p-3 rounded-xl border border-hevy-blue/20">
+                                        <span class="block text-[10px] text-hevy-blue font-bold mb-1">بروتين (عضلات)</span>
+                                        <span class="text-lg font-black text-white font-mono" x-text="userProfile.nutrition?.protein + 'g'"></span>
+                                    </div>
+                                    <div class="flex-1 bg-yellow-500/10 p-3 rounded-xl border border-yellow-500/20">
+                                        <span class="block text-[10px] text-yellow-500 font-bold mb-1">كارب (طاقة)</span>
+                                        <span class="text-lg font-black text-white font-mono" x-text="userProfile.nutrition?.carbs + 'g'"></span>
+                                    </div>
+                                    <div class="flex-1 bg-rose-500/10 p-3 rounded-xl border border-rose-500/20">
+                                        <span class="block text-[10px] text-rose-500 font-bold mb-1">دهون (هرمونات)</span>
+                                        <span class="text-lg font-black text-white font-mono" x-text="userProfile.nutrition?.fats + 'g'"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button @click="userProfile.nutrition = null" class="w-full bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white border border-white/10 font-bold py-3.5 rounded-xl transition-all shadow-sm text-sm">
+                                إعادة حساب السعرات من جديد
+                            </button>
+                        </div>
+                    </div>
+
+                    
+
+                    <!-- القسم التالت: دليل التغذية الشامل بالفلتر الذكي -->
+                    <div x-show="nutritionView === 'guide'" style="display: none;" class="space-y-5 animate__animated animate__fadeIn">
+                        
+                        <!-- شريط البحث والترتيب -->
+                        <div class="space-y-3 sticky top-0 bg-hevy-bg/95 backdrop-blur-xl pb-2 z-10 pt-1">
+                            <div class="flex gap-2">
+                                <div class="relative flex-1">
+                                    <i class="fa-solid fa-magnifying-glass absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 text-sm"></i>
+                                    <input type="text" x-model="foodSearch" @input="nutritionVisibleCount = 10" placeholder="دور على أكلة..." class="w-full bg-white/5 border border-white/10 rounded-xl pr-9 pl-3 py-3 outline-none text-xs font-bold focus:border-emerald-500 transition-all text-white placeholder-gray-500 shadow-inner">
+                                </div>
+                                <select x-model="foodSort" @change="nutritionVisibleCount = 10" class="bg-white/5 border border-white/10 rounded-xl px-3 py-3 outline-none text-xs font-bold text-gray-300 focus:border-emerald-500 transition-all cursor-pointer">
+                                    <option value="default">الترتيب العادي</option>
+                                    <option value="high_protein">الأعلى بروتين</option>
+                                    <option value="low_protein">الأقل بروتين</option>
+                                    <option value="high_cals">الأعلى سعرات (تضخيم)</option>
+                                    <option value="low_cal">الأقل سعرات</option>
+                                    <option value="high_carbs">الأعلى كارب (باور)</option>
+                                    <option value="low_carbs">الأقل كارب (تنشيف)</option>
+                                </select>
+                            </div>
+                            
+                            <!-- فلتر التصنيفات (Pills) -->
+                            <div class="flex gap-2 overflow-x-auto py-1 scrollbar-none">
+                                <template x-for="cat in ['الكل', 'لحوم', 'ألبان وبيض', 'نشويات', 'خضروات', 'فواكه ومكسرات']">
+                                    <button @click="foodCategory = cat; nutritionVisibleCount = 10" 
+                                            class="px-4 py-2 rounded-xl text-[11px] font-extrabold whitespace-nowrap transition-all border shadow-sm"
+                                            :class="foodCategory === cat ? 'bg-emerald-500 text-white border-emerald-500 drop-shadow-[0_0_8px_rgba(16,185,129,0.4)]' : 'bg-white/5 border-white/10 text-gray-400 hover:bg-white/10 hover:text-white'">
+                                        <span x-text="cat"></span>
+                                    </button>
+                                </template>
+                            </div>
+                        </div>
+
+                        <!-- كروت الأطعمة -->
+                        <div class="space-y-4 pb-10">
+                            <template x-if="filteredFoods.length === 0">
+                                <div class="text-center py-10 opacity-50">
+                                    <i class="fa-solid fa-plate-wheat text-4xl text-gray-500 mb-3"></i>
+                                    <p class="text-sm font-bold text-gray-400">مفيش أكل بالاسم ده يا وحش!</p>
+                                </div>
+                            </template>
+                            
+                            <template x-for="food in paginatedFoods" :key="food.id">
+                                <div x-data="{ expanded: false }" class="glass-card overflow-hidden transition-all duration-300">
+                                    <div @click="expanded = !expanded" class="p-4 flex items-center justify-between cursor-pointer hover:bg-white/5 transition-colors">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center border border-white/10 shadow-inner text-xl" :class="food.color">
+                                                <i class="fa-solid" :class="food.icon"></i>
+                                            </div>
+                                            <div>
+                                                <h4 class="font-black text-white text-[14px]" x-text="food.name"></h4>
+                                                <div class="flex items-center gap-1 mt-1">
+                                                    <span class="text-[10px] text-gray-400 font-bold bg-white/5 px-2 py-0.5 rounded border border-white/5 inline-block" x-text="food.amount"></span>
+                                                    <span class="text-[9px] font-black px-1.5 py-0.5 rounded border" 
+                                                          :class="food.price === 'رخيص' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : (food.price === 'غالي' ? 'bg-red-500/10 text-red-400 border-red-500/20' : 'bg-amber-500/10 text-amber-400 border-amber-500/20')" 
+                                                          x-text="food.price"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="text-right">
+                                            <div class="font-mono font-black text-emerald-400 text-sm" x-text="food.cals + ' Cal'"></div>
+                                            <i class="fa-solid text-xs text-gray-500 mt-1 transition-transform" :class="expanded ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                                        </div>
+                                    </div>
+                                    
+                                    <div x-show="expanded" x-collapse class="px-4 pb-4 border-t border-white/5 bg-black/20 pt-4">
+                                        <!-- الماكروز الأساسية -->
+                                        <div class="grid grid-cols-3 gap-2 mb-4">
+                                            <div class="bg-hevy-blue/10 p-2 rounded-lg text-center border border-hevy-blue/20">
+                                                <span class="block text-[9px] text-hevy-blue font-bold mb-0.5">بروتين</span>
+                                                <span class="font-mono text-white font-black text-xs" x-text="food.protein + 'g'"></span>
+                                            </div>
+                                            <div class="bg-yellow-500/10 p-2 rounded-lg text-center border border-yellow-500/20">
+                                                <span class="block text-[9px] text-yellow-500 font-bold mb-0.5">كارب</span>
+                                                <span class="font-mono text-white font-black text-xs" x-text="food.carbs + 'g'"></span>
+                                            </div>
+                                            <div class="bg-rose-500/10 p-2 rounded-lg text-center border border-rose-500/20">
+                                                <span class="block text-[9px] text-rose-500 font-bold mb-0.5">دهون</span>
+                                                <span class="font-mono text-white font-black text-xs" x-text="food.fats + 'g'"></span>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- الربط الذكي مع حاسبة المستخدم (لو حاسب سعراته) -->
+                                        <template x-if="userProfile.nutrition">
+                                            <div class="mb-4 space-y-2 bg-emerald-500/5 p-3 rounded-xl border border-emerald-500/10">
+                                                <div class="text-[10px] text-emerald-400 font-black mb-1.5 flex items-center gap-1.5"><i class="fa-solid fa-bullseye"></i> الأكلة دي بتغطيلك كام % من تارجت النهاردة:</div>
+                                                <!-- شريط السعرات -->
+                                                <div class="w-full bg-white/5 rounded-full h-1.5 overflow-hidden">
+                                                    <div class="bg-gray-400 h-full rounded-full" :style="'width: ' + getMacroPercentage(food.cals, 'calories') + '%'"></div>
+                                                </div>
+                                                <div class="flex justify-between text-[9px] text-gray-500 font-bold mb-2"><span>سعرات</span><span x-text="getMacroPercentage(food.cals, 'calories') + '%'"></span></div>
+                                                
+                                                <!-- شريط البروتين -->
+                                                <div class="w-full bg-white/5 rounded-full h-1.5 overflow-hidden">
+                                                    <div class="bg-hevy-blue h-full rounded-full shadow-[0_0_5px_var(--primary-glow)]" :style="'width: ' + getMacroPercentage(food.protein, 'protein') + '%'"></div>
+                                                </div>
+                                                <div class="flex justify-between text-[9px] text-hevy-blue/80 font-bold"><span>بروتين</span><span x-text="getMacroPercentage(food.protein, 'protein') + '%'"></span></div>
+                                            </div>
+                                        </template>
+
+                                        <!-- الفوائد والمعلومات -->
+                                        <div class="bg-white/5 p-3 rounded-xl border border-white/5 text-[11px] text-gray-300 font-semibold leading-relaxed">
+                                            <span class="text-white block font-bold mb-1"><i class="fa-solid fa-circle-info text-emerald-500 mr-1"></i> الكوتش بيقولك:</span>
+                                            <span x-text="food.benefits"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+
+                            <!-- زرار عرض المزيد (مش هيظهر غير لو فيه أكل مستخبي) -->
+                            <button x-show="filteredFoods.length > nutritionVisibleCount" @click="loadMoreNutrition()" class="w-full glass-card border border-white/10 text-emerald-400 hover:text-white hover:bg-emerald-500 font-extrabold py-4 rounded-xl transition-all active:scale-[0.98] mt-4 mb-8 flex justify-center items-center gap-2 text-sm shadow-sm">
+                                <i class="fa-solid fa-angles-down animate-bounce"></i> عرض المزيد يا وحش
+                            </button>
+                        </div>
                     </div>
                 </div>
 
             </div>
 
             <!-- Fixed Bottom Navigation (Premium iOS Style) -->
-            <div class="absolute bottom-0 left-0 w-full bg-[#09090B]/90 backdrop-blur-lg border-t border-white/5 flex justify-around items-center pt-3 pb-safe px-2 shadow-[0_-5px_20px_rgba(0,0,0,0.4)] z-20 will-change-transform transform translate-z-0">
-                <button @click="changeTab('home')" class="flex flex-col items-center gap-1.5 p-2 flex-1 transition-all duration-300" :class="currentTab === 'home' ? 'text-hevy-blue transform -translate-y-1' : 'text-hevy-muted hover:text-gray-300'">
+            <div class="absolute bottom-0 left-0 w-full bg-[#09090B]/90 backdrop-blur-lg border-t border-white/5 flex justify-around items-center pt-3 pb-safe px-1 shadow-[0_-5px_20px_rgba(0,0,0,0.4)] z-20 will-change-transform transform translate-z-0 overflow-x-auto scrollbar-none">
+                <button @click="changeTab('home')" class="flex flex-col items-center gap-1 p-2 min-w-[60px] flex-1 transition-all duration-300" :class="currentTab === 'home' ? 'text-hevy-blue transform -translate-y-1' : 'text-hevy-muted hover:text-gray-300'">
                     <i class="fa-solid fa-house text-xl" :class="currentTab === 'home' ? 'drop-shadow-[0_0_8px_var(--primary-glow)]' : ''"></i>
-                    <span class="text-[11px] font-bold tracking-wide">الرئيسية</span>
+                    <span class="text-[10px] font-bold tracking-wide">الرئيسية</span>
                 </button>
-                <button @click="changeTab('workout')" class="flex flex-col items-center gap-1.5 p-2 flex-1 transition-all duration-300" :class="currentTab === 'workout' ? 'text-hevy-blue transform -translate-y-1' : 'text-hevy-muted hover:text-gray-300'">
+                <button @click="changeTab('workout')" class="flex flex-col items-center gap-1 p-2 min-w-[60px] flex-1 transition-all duration-300" :class="currentTab === 'workout' ? 'text-hevy-blue transform -translate-y-1' : 'text-hevy-muted hover:text-gray-300'">
                     <i class="fa-solid fa-dumbbell text-xl" :class="currentTab === 'workout' ? 'drop-shadow-[0_0_8px_var(--primary-glow)]' : ''"></i>
-                    <span class="text-[11px] font-bold tracking-wide">تمرين</span>
+                    <span class="text-[10px] font-bold tracking-wide">تمرين</span>
                 </button>
-                <button @click="changeTab('exercises')" class="flex flex-col items-center gap-1.5 p-2 flex-1 transition-all duration-300" :class="currentTab === 'exercises' || currentTab === 'exerciseDetails' ? 'text-hevy-blue transform -translate-y-1' : 'text-hevy-muted hover:text-gray-300'">
+                <button @click="changeTab('exercises')" class="flex flex-col items-center gap-1 p-2 min-w-[60px] flex-1 transition-all duration-300" :class="currentTab === 'exercises' || currentTab === 'exerciseDetails' ? 'text-hevy-blue transform -translate-y-1' : 'text-hevy-muted hover:text-gray-300'">
                     <i class="fa-solid fa-book-bookmark text-xl" :class="currentTab === 'exercises' || currentTab === 'exerciseDetails' ? 'drop-shadow-[0_0_8px_var(--primary-glow)]' : ''"></i>
-                    <span class="text-[11px] font-bold tracking-wide">التمارين</span>
+                    <span class="text-[10px] font-bold tracking-wide">التمارين</span>
                 </button>
-                <button @click="changeTab('profile')" class="flex flex-col items-center gap-1.5 p-2 flex-1 transition-all duration-300" :class="currentTab === 'profile' || currentTab === 'dayHistory' ? 'text-hevy-blue transform -translate-y-1' : 'text-hevy-muted hover:text-gray-300'">
+                <!-- 🚀 تحديثات: قسم التغذية (Nutrition) -->
+                <button @click="changeTab('nutrition')" class="flex flex-col items-center gap-1 p-2 min-w-[60px] flex-1 transition-all duration-300" :class="currentTab === 'nutrition' ? 'text-emerald-400 transform -translate-y-1' : 'text-hevy-muted hover:text-gray-300'">
+                    <i class="fa-solid fa-utensils text-xl" :class="currentTab === 'nutrition' ? 'drop-shadow-[0_0_8px_rgba(16,185,129,0.5)]' : ''"></i>
+                    <span class="text-[10px] font-bold tracking-wide">التغذية</span>
+                </button>
+                <button @click="changeTab('profile')" class="flex flex-col items-center gap-1 p-2 min-w-[60px] flex-1 transition-all duration-300" :class="currentTab === 'profile' || currentTab === 'dayHistory' ? 'text-hevy-blue transform -translate-y-1' : 'text-hevy-muted hover:text-gray-300'">
                     <i class="fa-solid fa-chart-simple text-xl" :class="currentTab === 'profile' || currentTab === 'dayHistory' ? 'drop-shadow-[0_0_8px_var(--primary-glow)]' : ''"></i>
-                    <span class="text-[11px] font-bold tracking-wide">الملف</span>
+                    <span class="text-[10px] font-bold tracking-wide">الملف</span>
                 </button>
-                <button @click="changeTab('settings')" class="flex flex-col items-center gap-1.5 p-2 flex-1 transition-all duration-300" :class="currentTab === 'settings' ? 'text-hevy-blue transform -translate-y-1' : 'text-hevy-muted hover:text-gray-300'">
+                <button @click="changeTab('settings')" class="flex flex-col items-center gap-1 p-2 min-w-[60px] flex-1 transition-all duration-300" :class="currentTab === 'settings' ? 'text-hevy-blue transform -translate-y-1' : 'text-hevy-muted hover:text-gray-300'">
                     <i class="fa-solid fa-gear text-xl" :class="currentTab === 'settings' ? 'drop-shadow-[0_0_8px_var(--primary-glow)]' : ''"></i>
-                    <span class="text-[11px] font-bold tracking-wide">الإعدادات</span>
+                    <span class="text-[10px] font-bold tracking-wide">الإعدادات</span>
                 </button>
             </div>
         </div>
 
 
-        <!-- ================= ACTIVE WORKOUT LOGGING ENGINE (Hevy Core UI) ================= -->
+        <!-- ================= 🚀 PSYCHOLOGICAL ONBOARDING (التهيئة النفسية) ================= -->
+        <div x-show="!userProfile.onboardingDone" class="absolute inset-0 bg-[#09090B] z-[100] flex flex-col items-center justify-center p-6 animate__animated animate__fadeIn">
+            
+            <!-- خلفية متحركة تحفيزية -->
+            <div class="absolute inset-0 overflow-hidden pointer-events-none opacity-20">
+                <div class="absolute -top-32 -right-32 w-96 h-96 bg-hevy-blue rounded-full mix-blend-screen filter blur-[100px] animate-float"></div>
+                <div class="absolute -bottom-32 -left-32 w-96 h-96 bg-purple-600 rounded-full mix-blend-screen filter blur-[100px] animate-float" style="animation-delay: 1.5s;"></div>
+            </div>
+
+            <!-- محتوى الـ Onboarding -->
+            <div class="w-full max-w-sm relative z-10">
+                
+                <!-- Progress Bar -->
+                <div class="w-full bg-white/10 rounded-full h-1.5 mb-8">
+                    <div class="bg-gradient-to-r from-hevy-blue to-emerald-400 h-1.5 rounded-full transition-all duration-500" :style="'width: ' + ((onboardingStep / 3) * 100) + '%'"></div>
+                </div>
+
+                <!-- الخطوة 1: التعارف -->
+                <div x-show="onboardingStep === 1" class="text-center slide-up">
+                    <i class="fa-solid fa-hand-fist text-6xl text-hevy-blue mb-6 drop-shadow-[0_0_15px_rgba(59,130,246,0.5)]"></i>
+                    <h1 class="text-3xl font-black text-white mb-2">أهلاً بيك يا بطل</h1>
+                    <p class="text-sm text-gray-400 font-bold mb-8">الرحلة بتبدأ من هنا.. تحب نناديك بإيه؟</p>
+                    <input type="text" x-model="userProfile.name" placeholder="اكتب اسمك (مثال: البيج رامي)" class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white text-center font-black text-lg outline-none focus:border-hevy-blue focus:bg-white/10 transition-colors shadow-inner mb-6">
+                    <button @click="if(userProfile.name) onboardingStep = 2" class="w-full bg-hevy-blue text-white font-black py-4 rounded-xl shadow-[0_0_20px_var(--primary-glow)] active:scale-95 transition-transform">كمل يا وحش <i class="fa-solid fa-arrow-left ml-2"></i></button>
+                </div>
+
+                <!-- الخطوة 2: الهدف -->
+                <div x-show="onboardingStep === 2" style="display: none;" class="text-center slide-up">
+                    <i class="fa-solid fa-bullseye text-6xl text-rose-500 mb-6 drop-shadow-[0_0_15px_rgba(244,63,94,0.5)]"></i>
+                    <h1 class="text-3xl font-black text-white mb-2">إيه هدفك الأساسي؟</h1>
+                    <p class="text-sm text-gray-400 font-bold mb-8">عشان الكوتش الذكي يظبطلك أرقامك.</p>
+                    <div class="space-y-3 mb-8">
+                        <button @click="userProfile.goal = 'تضخيم'; onboardingStep = 3" class="w-full bg-white/5 hover:bg-white/10 border border-white/10 text-white font-black py-4 rounded-xl flex items-center justify-center gap-3 transition-colors text-lg"><i class="fa-solid fa-mountain text-hevy-blue"></i> تضخيم (عضلات صافي)</button>
+                        <button @click="userProfile.goal = 'تنشيف'; onboardingStep = 3" class="w-full bg-white/5 hover:bg-white/10 border border-white/10 text-white font-black py-4 rounded-xl flex items-center justify-center gap-3 transition-colors text-lg"><i class="fa-solid fa-fire text-orange-500"></i> تنشيف (حرق دهون)</button>
+                    </div>
+                </div>
+
+                <!-- الخطوة 3: التعهد -->
+                <div x-show="onboardingStep === 3" style="display: none;" class="text-center slide-up">
+                    <i class="fa-solid fa-calendar-check text-6xl text-emerald-400 mb-6 drop-shadow-[0_0_15px_rgba(16,185,129,0.5)]"></i>
+                    <h1 class="text-3xl font-black text-white mb-2">التعهد الأسبوعي</h1>
+                    <p class="text-sm text-gray-400 font-bold mb-6">هتنزل الجيم كام يوم في الأسبوع؟ (الرقم ده هيبقى التارجت بتاعك)</p>
+                    
+                    <div class="flex justify-center items-center gap-6 mb-8 bg-white/5 p-4 rounded-2xl border border-white/10">
+                        <button @click="userProfile.targetDays > 1 ? userProfile.targetDays-- : null" class="w-12 h-12 rounded-full bg-white/10 text-white font-black text-xl hover:bg-white/20">-</button>
+                        <span class="text-5xl font-black text-emerald-400 font-mono" x-text="userProfile.targetDays"></span>
+                        <button @click="userProfile.targetDays < 7 ? userProfile.targetDays++ : null" class="w-12 h-12 rounded-full bg-white/10 text-white font-black text-xl hover:bg-white/20">+</button>
+                    </div>
+
+                    <button @click="completeOnboarding()" class="w-full bg-emerald-500 text-white font-black py-4 rounded-xl shadow-[0_0_20px_rgba(16,185,129,0.4)] active:scale-95 transition-transform text-lg">
+                        أنا جاهز أكسر الدنيا 🚀
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <!-- ================= ACTIVE WORKOUT LOGGING ENGINE (Premium UI) ================= -->
         <div x-show="isWorkingOut" style="display: none;" class="absolute inset-0 bg-hevy-bg z-50 flex flex-col slide-up">
             
@@ -1391,6 +1717,10 @@
                                                         <i class="fa-solid fa-check text-sm"></i>
                                                     </button>
                                                 </div>
+                                            </div>
+                                            <!-- 🚀 تحديثات: الوحش الأوتوماتيكي (اقتراح الوزن الهادي) -->
+                                            <div x-show="set.suggestedWeight && !set.completed" class="mt-2.5 flex items-center bg-emerald-500/10 border border-emerald-500/20 px-3 py-2.5 rounded-lg overflow-hidden relative">
+                                                <span class="text-[11px] text-emerald-100/90 font-bold flex items-center gap-2"><i class="fa-solid fa-lightbulb text-emerald-400 animate-pulse"></i> اقتراح الكوتش: جرب تلعب الدور ده بـ <span class="font-black font-mono text-white text-xs bg-black/30 px-1.5 py-0.5 rounded" x-text="set.suggestedWeight"></span> كجم.</span>
                                             </div>
                                         </div>
                                     </template>
@@ -1898,6 +2228,112 @@
             </div>
         </div>
 
+        <!-- ================= EQUIPMENT MODAL (أجهزة الجيم التفصيلية) 🚀 ================= -->
+        <div x-show="showEquipmentModal" style="display: none;" class="absolute inset-0 bg-[#09090B]/98 backdrop-blur-md z-[80] flex flex-col animate__animated animate__fadeInUp">
+            <div class="px-5 py-4 border-b border-white/5 bg-white/5 flex justify-between items-center shadow-sm sticky top-0 z-10">
+                <h2 class="text-xl font-black text-white tracking-wide flex items-center gap-2">
+                    <i class="fa-solid fa-gears text-purple-500 drop-shadow-[0_0_8px_rgba(168,85,247,0.5)]"></i> أجهزة الجيم بتاعتك
+                </h2>
+                <button @click="showEquipmentModal = false" class="w-10 h-10 rounded-full bg-white/5 text-gray-300 hover:bg-red-500/20 hover:text-red-400 flex items-center justify-center transition-colors border border-white/10"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            
+            <div class="flex-1 overflow-y-auto p-5 pb-24 space-y-6 scrollbar-none">
+                <p class="text-xs text-gray-400 font-bold leading-relaxed mb-2 bg-purple-500/10 p-3 rounded-xl border border-purple-500/20"><i class="fa-solid fa-circle-info text-purple-400"></i> الكوتش الذكي هيشيل التمارين اللي بتعتمد على الأجهزة المقفولة من خطتك أوتوماتيك.</p>
+
+                <!-- 1. الأوزان الحرة -->
+                <div x-data="{ open: true }" class="glass-card overflow-hidden">
+                    <button @click="open = !open" class="w-full flex items-center justify-between p-4 bg-white/5 hover:bg-white/10 transition-colors text-white font-bold">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-hevy-blue/20 flex items-center justify-center text-hevy-blue"><i class="fa-solid fa-dumbbell text-sm"></i></div>
+                            <span class="text-sm">الأوزان الحرة (Free Weights)</span>
+                        </div>
+                        <i class="fa-solid text-sm transition-transform duration-300" :class="open ? 'fa-chevron-up text-hevy-blue' : 'fa-chevron-down text-gray-500'"></i>
+                    </button>
+                    <div x-show="open" x-collapse class="p-4 border-t border-white/5 space-y-3 bg-black/20">
+                        <div class="flex justify-between items-center"><span class="text-sm text-gray-300 font-bold">بار أوليمبي مستقيم</span><input type="checkbox" x-model="userEquipment.freeWeights.barbell" @change="saveEquipment()" class="toggle toggle-primary toggle-sm border-white/20" /></div>
+                        <div class="w-full h-px bg-white/5"></div>
+                        <div class="flex justify-between items-center"><span class="text-sm text-gray-300 font-bold">دمبلز بكل الأوزان</span><input type="checkbox" x-model="userEquipment.freeWeights.dumbbell" @change="saveEquipment()" class="toggle toggle-primary toggle-sm border-white/20" /></div>
+                        <div class="w-full h-px bg-white/5"></div>
+                        <div class="flex justify-between items-center"><span class="text-sm text-gray-300 font-bold">بار زجزاج (EZ Bar)</span><input type="checkbox" x-model="userEquipment.freeWeights.ezBar" @change="saveEquipment()" class="toggle toggle-primary toggle-sm border-white/20" /></div>
+                        <div class="w-full h-px bg-white/5"></div>
+                        <div class="flex justify-between items-center"><span class="text-sm text-gray-300 font-bold">كتل بيل (Kettlebell)</span><input type="checkbox" x-model="userEquipment.freeWeights.kettlebell" @change="saveEquipment()" class="toggle toggle-primary toggle-sm border-white/20" /></div>
+                    </div>
+                </div>
+
+                <!-- 2. أجهزة الرجل -->
+                <div x-data="{ open: true }" class="glass-card overflow-hidden">
+                    <button @click="open = !open" class="w-full flex items-center justify-between p-4 bg-white/5 hover:bg-white/10 transition-colors text-white font-bold">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-orange-500/20 flex items-center justify-center text-orange-500"><i class="fa-solid fa-person-walking text-sm"></i></div>
+                            <span class="text-sm">أجهزة الرجل والمقاعد</span>
+                        </div>
+                        <i class="fa-solid text-sm transition-transform duration-300" :class="open ? 'fa-chevron-up text-orange-500' : 'fa-chevron-down text-gray-500'"></i>
+                    </button>
+                    <div x-show="open" x-collapse class="p-4 border-t border-white/5 space-y-3 bg-black/20">
+                        <div class="flex justify-between items-center"><span class="text-sm text-gray-300 font-bold">مكبس رجلين (Leg Press)</span><input type="checkbox" x-model="userEquipment.machines.legPress" @change="saveEquipment()" class="toggle toggle-warning toggle-sm border-white/20" /></div>
+                        <div class="w-full h-px bg-white/5"></div>
+                        <div class="flex justify-between items-center"><span class="text-sm text-gray-300 font-bold">هاك سكوات (Hack Squat)</span><input type="checkbox" x-model="userEquipment.machines.hackSquat" @change="saveEquipment()" class="toggle toggle-warning toggle-sm border-white/20" /></div>
+                        <div class="w-full h-px bg-white/5"></div>
+                        <div class="flex justify-between items-center"><span class="text-sm text-gray-300 font-bold">رفرفة أمامي (Leg Extension)</span><input type="checkbox" x-model="userEquipment.machines.legExtension" @change="saveEquipment()" class="toggle toggle-warning toggle-sm border-white/20" /></div>
+                        <div class="w-full h-px bg-white/5"></div>
+                        <div class="flex justify-between items-center"><span class="text-sm text-gray-300 font-bold">جهاز خلفي (Leg Curl)</span><input type="checkbox" x-model="userEquipment.machines.legCurl" @change="saveEquipment()" class="toggle toggle-warning toggle-sm border-white/20" /></div>
+                        <div class="w-full h-px bg-white/5"></div>
+                        <div class="flex justify-between items-center"><span class="text-sm text-gray-300 font-bold">جهاز سمانة (Calf Machine)</span><input type="checkbox" x-model="userEquipment.machines.calfMachine" @change="saveEquipment()" class="toggle toggle-warning toggle-sm border-white/20" /></div>
+                    </div>
+                </div>
+
+                <!-- 3. أجهزة الجزء العلوي -->
+                <div x-data="{ open: true }" class="glass-card overflow-hidden">
+                    <button @click="open = !open" class="w-full flex items-center justify-between p-4 bg-white/5 hover:bg-white/10 transition-colors text-white font-bold">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-500"><i class="fa-solid fa-robot text-sm"></i></div>
+                            <span class="text-sm">أجهزة الجزء العلوي (Machines)</span>
+                        </div>
+                        <i class="fa-solid text-sm transition-transform duration-300" :class="open ? 'fa-chevron-up text-emerald-500' : 'fa-chevron-down text-gray-500'"></i>
+                    </button>
+                    <div x-show="open" x-collapse class="p-4 border-t border-white/5 space-y-3 bg-black/20">
+                        <div class="flex justify-between items-center"><span class="text-sm text-gray-300 font-bold">جهاز السميث (Smith Machine)</span><input type="checkbox" x-model="userEquipment.machines.smith" @change="saveEquipment()" class="toggle toggle-success toggle-sm border-white/20" /></div>
+                        <div class="w-full h-px bg-white/5"></div>
+                        <div class="flex justify-between items-center"><span class="text-sm text-gray-300 font-bold">ضغط صدر (Chest Press)</span><input type="checkbox" x-model="userEquipment.machines.chestPress" @change="saveEquipment()" class="toggle toggle-success toggle-sm border-white/20" /></div>
+                        <div class="w-full h-px bg-white/5"></div>
+                        <div class="flex justify-between items-center"><span class="text-sm text-gray-300 font-bold">فراشة / بييك ديك (Pec Deck)</span><input type="checkbox" x-model="userEquipment.machines.pecDeck" @change="saveEquipment()" class="toggle toggle-success toggle-sm border-white/20" /></div>
+                        <div class="w-full h-px bg-white/5"></div>
+                        <div class="flex justify-between items-center"><span class="text-sm text-gray-300 font-bold">سحب عالي (Lat Pulldown)</span><input type="checkbox" x-model="userEquipment.machines.latPulldown" @change="saveEquipment()" class="toggle toggle-success toggle-sm border-white/20" /></div>
+                        <div class="w-full h-px bg-white/5"></div>
+                        <div class="flex justify-between items-center"><span class="text-sm text-gray-300 font-bold">سحب أرضي (Seated Row)</span><input type="checkbox" x-model="userEquipment.machines.seatedRow" @change="saveEquipment()" class="toggle toggle-success toggle-sm border-white/20" /></div>
+                    </div>
+                </div>
+
+                <!-- 4. الكابلات ووزن الجسم -->
+                <div x-data="{ open: true }" class="glass-card overflow-hidden">
+                    <button @click="open = !open" class="w-full flex items-center justify-between p-4 bg-white/5 hover:bg-white/10 transition-colors text-white font-bold">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-rose-500/20 flex items-center justify-center text-rose-500"><i class="fa-solid fa-plug text-sm"></i></div>
+                            <span class="text-sm">الكابلات ووزن الجسم</span>
+                        </div>
+                        <i class="fa-solid text-sm transition-transform duration-300" :class="open ? 'fa-chevron-up text-rose-500' : 'fa-chevron-down text-gray-500'"></i>
+                    </button>
+                    <div x-show="open" x-collapse class="p-4 border-t border-white/5 space-y-3 bg-black/20">
+                        <div class="flex justify-between items-center"><span class="text-sm text-gray-300 font-bold">بكرة كابل فردية (Single Cable)</span><input type="checkbox" x-model="userEquipment.cables.single" @change="saveEquipment()" class="toggle toggle-error toggle-sm border-white/20" /></div>
+                        <div class="w-full h-px bg-white/5"></div>
+                        <div class="flex justify-between items-center"><span class="text-sm text-gray-300 font-bold">كابل كروس مزدوج (Dual Cable)</span><input type="checkbox" x-model="userEquipment.cables.dualCross" @change="saveEquipment()" class="toggle toggle-error toggle-sm border-white/20" /></div>
+                        <div class="w-full h-px bg-white/5"></div>
+                        <div class="flex justify-between items-center"><span class="text-sm text-gray-300 font-bold">بار عقلة (Pullup Bar)</span><input type="checkbox" x-model="userEquipment.bodyweight.pullupBar" @change="saveEquipment()" class="toggle toggle-error toggle-sm border-white/20" /></div>
+                        <div class="w-full h-px bg-white/5"></div>
+                        <div class="flex justify-between items-center"><span class="text-sm text-gray-300 font-bold">جهاز غطس ومتوازي (Dip Station)</span><input type="checkbox" x-model="userEquipment.bodyweight.dipStation" @change="saveEquipment()" class="toggle toggle-error toggle-sm border-white/20" /></div>
+                        <div class="w-full h-px bg-white/5"></div>
+                        <div class="flex justify-between items-center"><span class="text-sm text-gray-300 font-bold">دكة فلات حرة (Flat Bench)</span><input type="checkbox" x-model="userEquipment.bodyweight.flatBench" @change="saveEquipment()" class="toggle toggle-error toggle-sm border-white/20" /></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="p-5 border-t border-white/5 bg-[#09090B]/95 backdrop-blur-md sticky bottom-0 z-20">
+                <button @click="showEquipmentModal = false; saveEquipment();" class="w-full bg-purple-500 hover:bg-purple-600 text-white font-black py-4 rounded-xl transition-all shadow-[0_0_20px_rgba(168,85,247,0.4)] active:scale-95 text-sm flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-check"></i> حفظ الأجهزة المتاحة
+                </button>
+            </div>
+        </div>
+
         <!-- ================= FLOATING MUSIC PLAYER (مشغل الأغاني) 🚀 ================= -->
         <div x-show="showMusicPlayer && musicPlaylist.length > 0" style="display: none;" class="absolute bottom-[90px] right-4 w-64 bg-black/85 backdrop-blur-md border border-white/10 rounded-2xl p-4 z-[65] shadow-[0_5px_15px_rgba(0,0,0,0.6)] animate__animated animate__fadeInUp transform translate-z-0">
             <div class="flex justify-between items-center mb-3">
@@ -1973,11 +2409,13 @@
 
     <!-- AUDIO NOTIFICATION ELEMENT (Beep) -->
     <audio id="beepSound" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-84.wav" preload="auto"></audio>
+    <!-- SILENT AUDIO FOR WAKELOCK (iOS/Android Hack) عشان التايمر ميقفلش والشاشة مطفية -->
+    <audio id="silentAudio" loop src="data:audio/mp3;base64,//NExAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq//NExAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq" preload="auto"></audio>
 
     <script>
         // ================= INDEXED DB HELPER FUNCTIONS =================
         const DB_NAME = 'HevyClone_xR9pQ2m_db';
-        const DB_VERSION = 2; // تم الترقية للإصدار الثاني
+        const DB_VERSION = 3; // تم الترقية للإصدار الثالث: إضافة dietData
         let dbInstance = null;
 
         async function getDB() {
@@ -2009,6 +2447,10 @@
                     }
                     if (!db.objectStoreNames.contains('userMedia')) {
                         db.createObjectStore('userMedia', { keyPath: 'id' });
+                    }
+                    // 🍽️ جدول حفظ الدايت المولد وبيانات الحاسبة
+                    if (!db.objectStoreNames.contains('dietData')) {
+                        db.createObjectStore('dietData', { keyPath: 'id' });
                     }
                 };
 
@@ -2111,8 +2553,8 @@
 
         function hevyApp() {
             return {
-                currentTab: 'workout',
-                historyStack: ['workout'],
+                currentTab: 'home',
+                historyStack: ['home'],
                 isWorkingOut: false,
                 activeWorkout: null,
                 timerSeconds: 0,
@@ -2121,7 +2563,320 @@
                 
                 // 🚀 تحديثات الجيم المتقدمة (البروفايل، الإشعارات، الموسيقى، الأجهزة)
                 showProfileModal: false,
-                userProfile: { name: 'يا وحش', image: null },
+                userProfile: { name: 'يا وحش', image: null, onboardingDone: false, targetDays: 3, goal: 'تضخيم', nutrition: null },
+                onboardingStep: 1,
+                nutritionInput: { weight: 75, height: 175, age: 25, activity: '1.55', gender: 'ذكر' },
+                
+                // 🚀 تحديثات التغذية والدليل
+                nutritionView: 'calc', // 'calc' أو 'guide'
+                foodSearch: '',
+                foodSort: 'default',
+                foodCategory: 'الكل',
+                nutritionVisibleCount: 10, // عشان نعرض الأكل 10 بـ 10
+                showSplash: true, // تفعيل السبلاش سكرين
+                splashProgress: 0, // عداد التحميل
+                
+                // متغيرات مودال الأجهزة الجديد
+                showEquipmentModal: false,
+                foodDatabase: [
+                    // ================= 1. لحوم وبروتينات =================
+                    // القديم متحدث بالتسعيرة
+                    { id: 1, name: 'صدور فراخ (مشوية)', category: 'لحوم', amount: '100 جرام', price: 'متوسط', cals: 165, protein: 31, carbs: 0, fats: 3.6, benefits: 'أفضل وأنضف مصدر بروتين لبناء العضلات، هضمه خفيف ومبيعملش دهون.', icon: 'fa-drumstick-bite', color: 'text-amber-500' },
+                    { id: 2, name: 'لحمة مفرومة (قليلة الدسم)', category: 'لحوم', amount: '100 جرام', price: 'متوسط', cals: 250, protein: 26, carbs: 0, fats: 15, benefits: 'غنية بالزنك والحديد والكرياتين الطبيعي، ممتازة لزيادة القوة الغاشمة في الجيم.', icon: 'fa-cow', color: 'text-red-500' },
+                    { id: 3, name: 'تونة (متصفية من الزيت)', category: 'لحوم', amount: 'علبة (100 جرام صافي)', price: 'متوسط', cals: 110, protein: 24, carbs: 0, fats: 1, benefits: 'بروتين سريع التحضير ورخيص نسبياً، مليان أوميجا 3 لصحة المفاصل.', icon: 'fa-fish', color: 'text-blue-400' },
+                    { id: 4, name: 'سمك سلمون', category: 'لحوم', amount: '100 جرام', price: 'غالي', cals: 206, protein: 22, carbs: 0, fats: 13, benefits: 'ملك الأوميجا 3، بيقلل التهابات المفاصل بعد الأوزان التقيلة وبيحسن الريكفري.', icon: 'fa-fish-fins', color: 'text-orange-400' },
+                    { id: 5, name: 'كبدة بقري', category: 'لحوم', amount: '100 جرام', price: 'متوسط', cals: 135, protein: 20, carbs: 4, fats: 4, benefits: 'قنبلة فيتامينات (خاصة B12 والحديد)، بتديك طاقة وباور عالي جداً في التمرين.', icon: 'fa-bacon', color: 'text-rose-600' },
+                    { id: 26, name: 'كفتة بلدي (مشوية)', category: 'لحوم', amount: '100 جرام', price: 'متوسط', cals: 250, protein: 18, carbs: 5, fats: 18, benefits: 'أكلة شعبية سريعة غنية بالبروتين والدهون، ممتازة في أيام التضخيم.', icon: 'fa-burger', color: 'text-amber-700' },
+                    { id: 27, name: 'كبدة اسكندراني', category: 'لحوم', amount: '100 جرام', price: 'متوسط', cals: 175, protein: 26, carbs: 5, fats: 5, benefits: 'حديد وبروتين صافي، ممتازة للباور في الجيم ومبتعملش دهون كتير.', icon: 'fa-bacon', color: 'text-red-400' },
+                    { id: 28, name: 'حواوشي بلدي', category: 'لحوم', amount: 'رغيف متوسط', price: 'رخيص', cals: 350, protein: 15, carbs: 35, fats: 16, benefits: 'وجبة دمار شامل للتضخيم، مليانة سعرات وطاقة بتنفخ العضلات.', icon: 'fa-pizza-slice', color: 'text-orange-600' },
+                    { id: 29, name: 'فراخ بانيه (مقلية)', category: 'لحوم', amount: '100 جرام', price: 'متوسط', cals: 280, protein: 16, carbs: 18, fats: 15, benefits: 'بروتين لذيذ وسريع، بس خد بالك من دهون القلي لو بتنشف.', icon: 'fa-drumstick-bite', color: 'text-yellow-600' },
+                    { id: 30, name: 'شاورما لحمة', category: 'لحوم', amount: '100 جرام', price: 'متوسط', cals: 200, protein: 20, carbs: 10, fats: 9, benefits: 'طعم خيالي وبروتين محترم، خليها في الوجبة المفتوحة أو للتضخيم.', icon: 'fa-cow', color: 'text-red-700' },
+                    { id: 31, name: 'سجق بلدي', category: 'لحوم', amount: '100 جرام', price: 'متوسط', cals: 300, protein: 14, carbs: 4, fats: 25, benefits: 'دهون عالية بتساعد في رفع التستوستيرون، ممتاز للضخامة.', icon: 'fa-hotdog', color: 'text-rose-500' },
+                    { id: 32, name: 'لحمة راس', category: 'لحوم', amount: '100 جرام', price: 'متوسط', cals: 210, protein: 18, carbs: 0, fats: 15, benefits: 'كولاجين طبيعي لمفاصلك بعد الأوزان التقيلة.', icon: 'fa-bone', color: 'text-gray-300' },
+                    { id: 33, name: 'كوارع', category: 'لحوم', amount: '100 جرام', price: 'متوسط', cals: 150, protein: 15, carbs: 0, fats: 10, benefits: 'شوربة الكوارع هي الكولاجين السحري لترميم المفاصل المتهالكة.', icon: 'fa-bone', color: 'text-amber-200' },
+                    { id: 34, name: 'ممبار محشي', category: 'لحوم', amount: '100 جرام', price: 'متوسط', cals: 220, protein: 8, carbs: 25, fats: 10, benefits: 'كارب ودهون للباور، كل منه بحساب عشان السعرات.', icon: 'fa-bowl-rice', color: 'text-orange-400' },
+                    { id: 35, name: 'حمام محشي', category: 'لحوم', amount: 'حمامة واحدة', price: 'غالي', cals: 350, protein: 25, carbs: 30, fats: 14, benefits: 'وجبة البطل، بروتين طيور عالي الجودة مع كارب الرز.', icon: 'fa-dove', color: 'text-amber-500' },
+                    // 10 إضافات جديدة للحوم
+                    { id: 101, name: 'أجنحة فراخ (مشوية)', category: 'لحوم', amount: '100 جرام', price: 'رخيص', cals: 203, protein: 20, carbs: 0, fats: 13, benefits: 'بديل رخيص جداً للصدور، ممتاز للتضخيم عشان سعراته ودهونه عالية شوية.', icon: 'fa-drumstick-bite', color: 'text-orange-300' },
+                    { id: 102, name: 'كبد وقوانص فراخ', category: 'لحوم', amount: '100 جرام', price: 'رخيص', cals: 150, protein: 22, carbs: 1, fats: 6, benefits: 'كنز منسي! بروتين رخيص جداً ومليان حديد وفيتامينات، ممتاز للي ميزانيته ضايعة.', icon: 'fa-bacon', color: 'text-red-600' },
+                    { id: 103, name: 'سمك بلطي (مشوي)', category: 'لحوم', amount: '100 جرام', price: 'متوسط', cals: 128, protein: 26, carbs: 0, fats: 3, benefits: 'من أنضف مصادر البروتين الحيواني في مصر، زيرو كارب ودهون قليلة جداً.', icon: 'fa-fish', color: 'text-blue-300' },
+                    { id: 104, name: 'كفتة صويا (نباتي)', category: 'لحوم', amount: '100 جرام', price: 'رخيص', cals: 330, protein: 35, carbs: 30, fats: 1, benefits: 'بروتين نباتي جبار ورخيص، بيستخدموه لتزويد كمية اللحمة في التضخيم.', icon: 'fa-burger', color: 'text-amber-800' },
+                    { id: 105, name: 'سردين معلب', category: 'لحوم', amount: '100 جرام', price: 'رخيص', cals: 208, protein: 25, carbs: 0, fats: 11, benefits: 'أرخص مصدر للأوميجا 3، بيعالج المفاصل وبيديك بروتين محترم جداً.', icon: 'fa-fish-fins', color: 'text-gray-400' },
+                    { id: 106, name: 'رنجة', category: 'لحوم', amount: '100 جرام', price: 'رخيص', cals: 262, protein: 18, carbs: 0, fats: 20, benefits: 'أكلة شعبية، بروتين ودهون واملاح بتعوضك عرق الجيم، بس بلاش لو ضغطك عالي.', icon: 'fa-fish', color: 'text-yellow-600' },
+                    { id: 107, name: 'وراك فراخ (مخلية)', category: 'لحوم', amount: '100 جرام', price: 'متوسط', cals: 209, protein: 26, carbs: 0, fats: 11, benefits: 'أطرى من الصدور وأرخص سنة، ممتازة للتضخيم وللناس اللي بتزهق من الصدور.', icon: 'fa-drumstick-bite', color: 'text-red-400' },
+                    { id: 108, name: 'ستيك بقري مستورد', category: 'لحوم', amount: '100 جرام', price: 'غالي', cals: 271, protein: 25, carbs: 0, fats: 19, benefits: 'بروتين نخب أول وكرياتين طبيعي، وجبة المحترفين قبل التمارين العنيفة.', icon: 'fa-cow', color: 'text-rose-800' },
+                    { id: 109, name: 'جمبري (مسلوق)', category: 'لحوم', amount: '100 جرام', price: 'غالي', cals: 99, protein: 24, carbs: 0, fats: 0.3, benefits: 'بروتين صافي جداً سعراته معدومة، ملك فترة التنشيف للي معاه فلوس.', icon: 'fa-shrimp', color: 'text-orange-400' },
+                    { id: 110, name: 'شيش طاووق', category: 'لحوم', amount: '100 جرام', price: 'متوسط', cals: 190, protein: 22, carbs: 4, fats: 9, benefits: 'وجبة سريعة ولذيذة لو مسافر أو بره البيت، بروتينها حلو جداً.', icon: 'fa-fire-burner', color: 'text-red-500' },
+
+                    // ================= 2. ألبان وبيض =================
+                    // القديم متحدث بالتسعيرة
+                    { id: 6, name: 'بيض كامل (مسلوق)', category: 'ألبان وبيض', amount: 'بيضة واحدة كبيرة', price: 'رخيص', cals: 70, protein: 6, carbs: 0.5, fats: 5, benefits: 'أفضل كفاءة امتصاص بروتين خلقه ربنا، والصفار فيه كولسترول نافع بيصنع التستوستيرون.', icon: 'fa-egg', color: 'text-yellow-100' },
+                    { id: 7, name: 'بياض البيض', category: 'ألبان وبيض', amount: 'بياض بيضة واحدة', price: 'رخيص', cals: 17, protein: 3.6, carbs: 0.2, fats: 0, benefits: 'بروتين صافي 100% زيرو دهون، ممتاز أيام التنشيف القاسي.', icon: 'fa-egg', color: 'text-white' },
+                    { id: 8, name: 'جبنة قريش', category: 'ألبان وبيض', amount: '100 جرام', price: 'رخيص', cals: 98, protein: 11, carbs: 3.4, fats: 4.3, benefits: 'مليانة بروتين (كازين) بطيء الامتصاص، كُلها قبل النوم عشان العضلة تتغذى وأنت نايم.', icon: 'fa-cheese', color: 'text-gray-200' },
+                    { id: 9, name: 'زبادي يوناني', category: 'ألبان وبيض', amount: 'علبة (150 جرام)', price: 'غالي', cals: 100, protein: 15, carbs: 6, fats: 0, benefits: 'بروتين عالي وبروبيوتيك ممتاز لهضم الأكل، خفيف كوجبة سريعة.', icon: 'fa-bowl-food', color: 'text-blue-200' },
+                    { id: 10, name: 'لبن كامل الدسم', category: 'ألبان وبيض', amount: 'كوب (250 مللي)', price: 'رخيص', cals: 150, protein: 8, carbs: 12, fats: 8, benefits: 'ممتاز في فترات التضخيم (Bulking)، بيديك سعرات سائلة سهلة الشرب.', icon: 'fa-glass-water', color: 'text-white' },
+                    { id: 36, name: 'جبنة قديمة (مش)', category: 'ألبان وبيض', amount: '100 جرام', price: 'رخيص', cals: 260, protein: 12, carbs: 5, fats: 22, benefits: 'تفتح النفس وتديك أملاح تعوض عرق الجيم، بس بلاش تكتر.', icon: 'fa-cheese', color: 'text-amber-600' },
+                    { id: 37, name: 'جبنة رومي', category: 'ألبان وبيض', amount: '100 جرام', price: 'متوسط', cals: 390, protein: 26, carbs: 2, fats: 31, benefits: 'فيها بروتين أعلى من اللحمة! بس دهونها وسعراتها في السما، كُلها بحذر.', icon: 'fa-cheese', color: 'text-yellow-400' },
+                    { id: 38, name: 'عجة بيض بالخضار', category: 'ألبان وبيض', amount: 'قطعة متوسطة', price: 'رخيص', cals: 150, protein: 10, carbs: 5, fats: 10, benefits: 'فطار الأبطال، بروتين البيض مع فيتامينات الخضار.', icon: 'fa-plate-wheat', color: 'text-green-300' },
+                    { id: 39, name: 'رز بلبن', category: 'ألبان وبيض', amount: 'طبق صغير', price: 'رخيص', cals: 140, protein: 4, carbs: 22, fats: 4, benefits: 'سناك سريع بيديك طاقة حلوة قبل التمرين.', icon: 'fa-bowl-food', color: 'text-gray-100' },
+                    { id: 40, name: 'مهلبية', category: 'ألبان وبيض', amount: 'طبق صغير', price: 'رخيص', cals: 130, protein: 3, carbs: 20, fats: 4, benefits: 'خفيفة على المعدة وحلوة لتقفيل سعرات التضخيم.', icon: 'fa-bowl-rice', color: 'text-white' },
+                    { id: 41, name: 'لبن رايب', category: 'ألبان وبيض', amount: 'كوب', price: 'رخيص', cals: 60, protein: 3, carbs: 5, fats: 3, benefits: 'بيهضم الأكل التقيل وبيريح المعدة بعد وجبة دسمة.', icon: 'fa-glass-water', color: 'text-blue-100' },
+                    { id: 42, name: 'سمنة بلدي', category: 'ألبان وبيض', amount: 'معلقة كبيرة', price: 'غالي', cals: 110, protein: 0, carbs: 0, fats: 12, benefits: 'دهون صحية بتظبط هرموناتك، حطها على الفول والبيض.', icon: 'fa-spoon', color: 'text-yellow-200' },
+                    { id: 43, name: 'قشطة بلدي', category: 'ألبان وبيض', amount: 'معلقة كبيرة', price: 'متوسط', cals: 50, protein: 0.5, carbs: 0.5, fats: 5, benefits: 'طاقة ودهون مركزة، حتة صغيرة بتعلي الباور.', icon: 'fa-spoon', color: 'text-gray-100' },
+                    { id: 44, name: 'جبنة براميلي', category: 'ألبان وبيض', amount: '100 جرام', price: 'متوسط', cals: 250, protein: 10, carbs: 2, fats: 22, benefits: 'أملاحها عالية، هتعوضك لو بتعرق كتير في الصيف.', icon: 'fa-cheese', color: 'text-white' },
+                    { id: 45, name: 'جبنة بيضا (تلاجة)', category: 'ألبان وبيض', amount: '100 جرام', price: 'رخيص', cals: 280, protein: 11, carbs: 3, fats: 24, benefits: 'سناك سهل في العيش الفينو بعد التمرينة.', icon: 'fa-cheese', color: 'text-gray-200' },
+                    // 10 إضافات جديدة للألبان والبيض
+                    { id: 111, name: 'شرش اللبن (مصل اللبن طبيعي)', category: 'ألبان وبيض', amount: 'كوباية', price: 'رخيص', cals: 50, protein: 8, carbs: 5, fats: 0, benefits: 'الوُاي بروتين الفلاحي! ميه بتطلع من الجبنة القريش مليانة بروتين سريع الامتصاص ببلاش.', icon: 'fa-glass-water', color: 'text-yellow-100' },
+                    { id: 112, name: 'بيض أومليت بالزبدة', category: 'ألبان وبيض', amount: '2 بيضة', price: 'رخيص', cals: 190, protein: 12, carbs: 1, fats: 15, benefits: 'لو زهقت من المسلوق، الأومليت بيفتح النفس وبيديك دهون صحية.', icon: 'fa-bacon', color: 'text-yellow-400' },
+                    { id: 113, name: 'جبنة فيتا (نباتي الدهن)', category: 'ألبان وبيض', amount: '100 جرام', price: 'رخيص', cals: 264, protein: 8, carbs: 3, fats: 24, benefits: 'مش أنضف حاجة بسبب الزيوت النباتية، بس بتسد الجوع وتمشي الحال في الميزانية.', icon: 'fa-cheese', color: 'text-white' },
+                    { id: 114, name: 'سكوب واي بروتين', category: 'ألبان وبيض', amount: 'سكوب (30 جرام)', price: 'غالي', cals: 120, protein: 24, carbs: 3, fats: 1.5, benefits: 'أسرع بروتين يخش العضلة بعد التمرين، مريح للمعدة وسريع بس غالي.', icon: 'fa-jar', color: 'text-blue-500' },
+                    { id: 115, name: 'لبن خالي الدسم', category: 'ألبان وبيض', amount: 'كوب', price: 'رخيص', cals: 83, protein: 8, carbs: 12, fats: 0, benefits: 'الخيار الأول للتنشيف لو بتحب اللبن، زيرو دهون وبروتين وكارب محترمين.', icon: 'fa-glass-water', color: 'text-blue-300' },
+                    { id: 116, name: 'جبنة شيدر', category: 'ألبان وبيض', amount: '100 جرام', price: 'متوسط', cals: 402, protein: 25, carbs: 1, fats: 33, benefits: 'سعرات مجنونة وبروتين عالي جداً، كُلها لو بتضخم ومش قادر تقفل سعراتك.', icon: 'fa-cheese', color: 'text-orange-400' },
+                    { id: 117, name: 'لبن بودرة', category: 'ألبان وبيض', amount: 'معلقة كبيرة', price: 'متوسط', cals: 50, protein: 3, carbs: 5, fats: 2, benefits: 'سهل يتضاف على الشوفان أو العصير عشان يعلي السعرات والبروتين في الخباثة.', icon: 'fa-spoon', color: 'text-gray-100' },
+                    { id: 118, name: 'زبادي بلدي', category: 'ألبان وبيض', amount: 'كوب صغير', price: 'رخيص', cals: 60, protein: 4, carbs: 5, fats: 3, benefits: 'خمائر طبيعية بتهضم الزلط، ومريح جداً للمعدة بعد الأكل التقيل.', icon: 'fa-bowl-food', color: 'text-gray-200' },
+                    { id: 119, name: 'جبنة موتزاريلا', category: 'ألبان وبيض', amount: '100 جرام', price: 'متوسط', cals: 280, protein: 28, carbs: 2, fats: 17, benefits: 'بروتينها خرافي بجد! حطها على البيض أو العيش هتفرق معاك جداً.', icon: 'fa-cheese', color: 'text-yellow-200' },
+                    { id: 120, name: 'كريمة لباني', category: 'ألبان وبيض', amount: 'معلقة كبيرة', price: 'غالي', cals: 50, protein: 0.5, carbs: 1, fats: 5, benefits: 'دهون صافية وطعم غني، للي بيلعب نظام كيتو أو محتاج طاقة.', icon: 'fa-spoon', color: 'text-white' },
+
+                    // ================= 3. نشويات وكارب =================
+                    // القديم متحدث بالتسعيرة
+                    { id: 11, name: 'رز أبيض (مستوي)', category: 'نشويات', amount: '100 جرام', price: 'رخيص', cals: 130, protein: 2.7, carbs: 28, fats: 0.3, benefits: 'كارب سريع الهضم، كُله قبل التمرينة بساعة يديك باور، وبعدها يعوض الجليكوجين.', icon: 'fa-bowl-rice', color: 'text-gray-100' },
+                    { id: 12, name: 'شوفان', category: 'نشويات', amount: '100 جرام (ني)', price: 'متوسط', cals: 389, protein: 17, carbs: 66, fats: 7, benefits: 'كارب معقد بطيء الهضم، بيديك طاقة ثابتة طول اليوم ومليان ألياف بتشبع.', icon: 'fa-wheat-awn', color: 'text-amber-600' },
+                    { id: 13, name: 'بطاطا حلوة (مسلوقة)', category: 'نشويات', amount: '100 جرام', price: 'رخيص', cals: 86, protein: 1.6, carbs: 20, fats: 0.1, benefits: 'كارب نضيف جداً ومليان فيتامين A وبوتاسيوم، ومؤشره الجلايسيمي ممتاز.', icon: 'fa-root-plastic', color: 'text-orange-500' },
+                    { id: 14, name: 'مكرونة (مستوية)', category: 'نشويات', amount: '100 جرام', price: 'رخيص', cals: 158, protein: 5.8, carbs: 31, fats: 0.9, benefits: 'بتعبي العضلات جليكوجين بسرعة، وحلوة جداً لو عايز تزيد في الوزن.', icon: 'fa-plate-wheat', color: 'text-yellow-400' },
+                    { id: 15, name: 'عيش بلدي (أسمر)', category: 'نشويات', amount: 'رغيف واحد', price: 'رخيص', cals: 250, protein: 8, carbs: 50, fats: 1.5, benefits: 'مليان ردة وألياف، بيشبع وسعره في المتناول لتقفيل سعرات الكارب.', icon: 'fa-bread-slice', color: 'text-amber-700' },
+                    { id: 46, name: 'كشري مصري', category: 'نشويات', amount: 'طبق متوسط', price: 'رخيص', cals: 350, protein: 12, carbs: 60, fats: 7, benefits: 'قنبلة كارب قبل التمارين العنيفة، وفيه بروتين نباتي من العدس والحمص.', icon: 'fa-bowl-rice', color: 'text-red-500' },
+                    { id: 47, name: 'مكرونة بشاميل', category: 'نشويات', amount: 'قطعة متوسطة', price: 'متوسط', cals: 280, protein: 12, carbs: 25, fats: 14, benefits: 'وجبة العضلات، كارب من المكرونة وبروتين من اللحمة واللبن.', icon: 'fa-plate-wheat', color: 'text-yellow-300' },
+                    { id: 48, name: 'محشي كرنب', category: 'نشويات', amount: '100 جرام', price: 'رخيص', cals: 130, protein: 2, carbs: 25, fats: 3, benefits: 'كارب لذيذ وبيدفي، وبيديك طاقة حلوة للتمرين.', icon: 'fa-leaf', color: 'text-green-500' },
+                    { id: 49, name: 'بطاطس صوابع (مقلية)', category: 'نشويات', amount: '100 جرام', price: 'رخيص', cals: 312, protein: 3, carbs: 41, fats: 15, benefits: 'لو بتضخم ومش قادر تاكل، دي هتملالك السعرات في ثانية.', icon: 'fa-burger', color: 'text-yellow-500' },
+                    { id: 50, name: 'بطاطس مهروسة', category: 'نشويات', amount: '100 جرام', price: 'رخيص', cals: 110, protein: 2, carbs: 20, fats: 3, benefits: 'كارب نضيف ومريح للمعدة جداً.', icon: 'fa-bowl-food', color: 'text-yellow-200' },
+                    { id: 51, name: 'شعرية مطبوخة', category: 'نشويات', amount: '100 جرام', price: 'رخيص', cals: 190, protein: 5, carbs: 38, fats: 1, benefits: 'خفيفة وسريعة كوجبة قبل الجيم بنص ساعة.', icon: 'fa-bowl-rice', color: 'text-amber-200' },
+                    { id: 52, name: 'عيش فينو', category: 'نشويات', amount: 'رغيف', price: 'رخيص', cals: 280, protein: 9, carbs: 50, fats: 4, benefits: 'كارب سريع الامتصاص، ممتاز تعبي بيه العضلة بعد التمرين فوراً.', icon: 'fa-bread-slice', color: 'text-yellow-100' },
+                    { id: 53, name: 'رقاق باللحمة المفرومة', category: 'نشويات', amount: 'قطعة', price: 'متوسط', cals: 300, protein: 12, carbs: 28, fats: 15, benefits: 'وجبة متكاملة فيها كارب وبروتين، عظمة في التضخيم.', icon: 'fa-pizza-slice', color: 'text-orange-300' },
+                    { id: 54, name: 'فطير مشلتت', category: 'نشويات', amount: 'قطعة (100 جرام)', price: 'متوسط', cals: 400, protein: 6, carbs: 45, fats: 22, benefits: 'السعرات فيها بتضرب في السما، خليها ليوم الفري بس!', icon: 'fa-pizza-slice', color: 'text-amber-400' },
+                    { id: 55, name: 'قلقاس بالسلق', category: 'نشويات', amount: '100 جرام', price: 'رخيص', cals: 110, protein: 2, carbs: 20, fats: 3, benefits: 'مصدر كارب معقد ممتاز زيه زي البطاطس، بيمدك بطاقة ثابتة.', icon: 'fa-bowl-food', color: 'text-green-600' },
+                    // 10 إضافات جديدة للنشويات
+                    { id: 121, name: 'فول مدمس', category: 'نشويات', amount: '100 جرام', price: 'رخيص', cals: 110, protein: 8, carbs: 20, fats: 1, benefits: 'وجبة المصريين الأولى، كارب معقد بيقعد في بطنك سنين وبروتين نباتي رخيص.', icon: 'fa-bowl-food', color: 'text-amber-900' },
+                    { id: 122, name: 'عدس أصفر (شوربة)', category: 'نشويات', amount: 'طبق', price: 'رخيص', cals: 180, protein: 12, carbs: 30, fats: 2, benefits: 'اللحمة بتاعة الغلابة، كارب وبور وبروتين بيدفيك وبيدي طاقة جبارة.', icon: 'fa-bowl-food', color: 'text-yellow-500' },
+                    { id: 123, name: 'مكرونة اسباجتي', category: 'نشويات', amount: '100 جرام', price: 'رخيص', cals: 158, protein: 6, carbs: 31, fats: 1, benefits: 'سريعة الهضم وبتنزل تتخزن في العضلات جليكوجين على طول.', icon: 'fa-plate-wheat', color: 'text-yellow-400' },
+                    { id: 124, name: 'درة مشوي', category: 'نشويات', amount: 'كوز متوسط', price: 'رخيص', cals: 120, protein: 4, carbs: 27, fats: 1.5, benefits: 'سناك شعبي رخيص، مليان ألياف وكارب نضيف بيسد الجوع.', icon: 'fa-wheat-awn', color: 'text-yellow-300' },
+                    { id: 125, name: 'عيش سن (ناشف)', category: 'نشويات', amount: 'رغيف', price: 'رخيص', cals: 150, protein: 5, carbs: 30, fats: 1, benefits: 'ناشف ومليان ردة، ممتاز لو بتنشف ومعدتك بتجوع بسرعة.', icon: 'fa-bread-slice', color: 'text-amber-800' },
+                    { id: 126, name: 'رز بسمتي', category: 'نشويات', amount: '100 جرام', price: 'متوسط', cals: 120, protein: 3, carbs: 28, fats: 0.5, benefits: 'أخف من الرز المصري على المعدة ومؤشره الجلايسيمي أحسن.', icon: 'fa-bowl-rice', color: 'text-gray-200' },
+                    { id: 127, name: 'كورن فليكس (بدون سكر)', category: 'نشويات', amount: 'كوباية', price: 'متوسط', cals: 100, protein: 2, carbs: 24, fats: 0, benefits: 'وجبة سريعة مع لبن قبل الجيم الصبح بدري، هضمها طيارة.', icon: 'fa-bowl-food', color: 'text-yellow-500' },
+                    { id: 128, name: 'رايس كيك (كعك الأرز)', category: 'نشويات', amount: 'واحدة', price: 'غالي', cals: 35, protein: 1, carbs: 7, fats: 0, benefits: 'سناك التنشيف السحري، تقدر تاكل منه براحتك سعراته هفوة.', icon: 'fa-cookie', color: 'text-gray-300' },
+                    { id: 129, name: 'بسكوت شوفان', category: 'نشويات', amount: 'واحدة', price: 'متوسط', cals: 60, protein: 1, carbs: 9, fats: 2, benefits: 'لو مقفول من الشوفان المعجن، البسكوت ده بيسد مع كوباية قهوة.', icon: 'fa-cookie', color: 'text-amber-700' },
+                    { id: 130, name: 'بليلة باللبن', category: 'نشويات', amount: 'كوباية', price: 'رخيص', cals: 220, protein: 8, carbs: 35, fats: 5, benefits: 'قمح كامل مع لبن، وجبة متكاملة للتضخيم وبتدي باور مهول.', icon: 'fa-glass-water', color: 'text-white' },
+
+                    // ================= 4. خضروات =================
+                    // القديم متحدث بالتسعيرة
+                    { id: 16, name: 'بروكلي', category: 'خضروات', amount: '100 جرام', price: 'متوسط', cals: 34, protein: 2.8, carbs: 6.6, fats: 0.4, benefits: 'ملك الخضار للرياضيين، بيقلل الاستروجين ومضاد أكسدة قوي جداً.', icon: 'fa-tree', color: 'text-emerald-500' },
+                    { id: 17, name: 'سبانخ', category: 'خضروات', amount: '100 جرام', price: 'رخيص', cals: 23, protein: 2.9, carbs: 3.6, fats: 0.4, benefits: 'مليانة حديد وماغنسيوم، بتساعد في انقباض العضلات وبتقلل الشد العضلي.', icon: 'fa-leaf', color: 'text-green-600' },
+                    { id: 18, name: 'فلفل ألوان', category: 'خضروات', amount: '100 جرام', price: 'متوسط', cals: 31, protein: 1, carbs: 6, fats: 0.3, benefits: 'فيه فيتامين سي (C) أكتر من البرتقال! مهم جداً لإنتاج الكولاجين وحماية مفاصلك.', icon: 'fa-pepper-hot', color: 'text-red-400' },
+                    { id: 19, name: 'خيار', category: 'خضروات', amount: '100 جرام', price: 'رخيص', cals: 15, protein: 0.6, carbs: 3.6, fats: 0.1, benefits: 'أغلبه ميه، بيرطب الجسم وممتاز في التنشيف عشان تملى بطنك بزيرو سعرات تقريباً.', icon: 'fa-carrot', color: 'text-green-400' },
+                    { id: 20, name: 'جزر', category: 'خضروات', amount: '100 جرام', price: 'رخيص', cals: 41, protein: 0.9, carbs: 10, fats: 0.2, benefits: 'فيتامين A ونظر حديد، سناك خفيف بين الوجبات.', icon: 'fa-carrot', color: 'text-orange-500' },
+                    { id: 56, name: 'مسقعة بالزيت', category: 'خضروات', amount: '100 جرام', price: 'رخيص', cals: 150, protein: 2, carbs: 10, fats: 12, benefits: 'حديد من البتنجان، بس بتشرب زيت كتير، الأفضل تعملها في الفرن.', icon: 'fa-leaf', color: 'text-purple-500' },
+                    { id: 57, name: 'بامية بالصلصة', category: 'خضروات', amount: '100 جرام', price: 'رخيص', cals: 80, protein: 2, carbs: 10, fats: 4, benefits: 'مليانة ألياف بتنضف المعدة وممتازة للهضم.', icon: 'fa-leaf', color: 'text-green-500' },
+                    { id: 58, name: 'ملوخية', category: 'خضروات', amount: 'طبق صغير', price: 'رخيص', cals: 50, protein: 2, carbs: 8, fats: 1, benefits: 'حديد وفيتامينات، وبتتهضم بسرعة جداً ومريحة للمعدة.', icon: 'fa-bowl-food', color: 'text-green-600' },
+                    { id: 59, name: 'طماطم', category: 'خضروات', amount: 'ثمرة متوسطة', price: 'رخيص', cals: 18, protein: 1, carbs: 4, fats: 0, benefits: 'فيتامين سي عالي وأملاح بتعوض العرق، أكلها مع الجبنة عظمة.', icon: 'fa-apple-whole', color: 'text-red-500' },
+                    { id: 60, name: 'فلافل (طعمية مقلية)', category: 'خضروات', amount: 'قرص واحد', price: 'رخيص', cals: 110, protein: 4, carbs: 10, fats: 6, benefits: 'بروتين نباتي من الفول، بس دهونها عالية بسبب القلي.', icon: 'fa-cookie', color: 'text-green-700' },
+                    { id: 61, name: 'بتنجان مقلي', category: 'خضروات', amount: '100 جرام', price: 'رخيص', cals: 200, protein: 1, carbs: 8, fats: 18, benefits: 'حديد مركز، بس الأفضل تدهنه زيت وتشويه عشان السعرات.', icon: 'fa-leaf', color: 'text-purple-700' },
+                    { id: 62, name: 'قرنبيط مقلي', category: 'خضروات', amount: '100 جرام', price: 'رخيص', cals: 250, protein: 5, carbs: 15, fats: 20, benefits: 'مضادات أكسدة ممتازة وبديل لذيذ، بس بيعلي السعرات.', icon: 'fa-tree', color: 'text-amber-200' },
+                    { id: 63, name: 'سبانخ بالصلصة', category: 'خضروات', amount: '100 جرام', price: 'رخيص', cals: 60, protein: 3, carbs: 6, fats: 3, benefits: 'قوة باباي! حديد بيخليك ترفع أوزان خرافية.', icon: 'fa-leaf', color: 'text-emerald-700' },
+                    { id: 64, name: 'شوربة خضار', category: 'خضروات', amount: 'طبق', price: 'رخيص', cals: 40, protein: 1, carbs: 8, fats: 1, benefits: 'فيتامينات صافية، ممتازة للتنشيف لإنها بتشبع جداً بسعرات قليلة.', icon: 'fa-bowl-food', color: 'text-orange-300' },
+                    { id: 65, name: 'بصل أحمر', category: 'خضروات', amount: 'ثمرة صغيرة', price: 'رخيص', cals: 40, protein: 1, carbs: 9, fats: 0, benefits: 'بيقوي المناعة جداً، ومضاد حيوي طبيعي بيحافظ عليك من البرد.', icon: 'fa-seedling', color: 'text-purple-400' },
+                    // 10 إضافات جديدة للخضروات
+                    { id: 131, name: 'جرجير', category: 'خضروات', amount: 'حزمة', price: 'رخيص', cals: 10, protein: 1, carbs: 1, fats: 0, benefits: 'ببلاش تقريباً، مفيد جداً لهرمون الذكورة وتوسيع الأوعية الدموية لضخ الدم.', icon: 'fa-leaf', color: 'text-green-500' },
+                    { id: 132, name: 'كرنب سلطة (ملفوف)', category: 'خضروات', amount: '100 جرام', price: 'رخيص', cals: 25, protein: 1, carbs: 6, fats: 0, benefits: 'لو قطّعته على السلطة بيشبع جداً وبيسد الجوع وقت التنشيف.', icon: 'fa-leaf', color: 'text-green-300' },
+                    { id: 133, name: 'توم', category: 'خضروات', amount: 'فص واحد', price: 'رخيص', cals: 5, protein: 0, carbs: 1, fats: 0, benefits: 'منشط دورة دموية فتاك قبل التمرين، بس خلي بالك من الريحة!', icon: 'fa-seedling', color: 'text-white' },
+                    { id: 134, name: 'خس بلدي', category: 'خضروات', amount: 'خساية', price: 'رخيص', cals: 15, protein: 1, carbs: 3, fats: 0, benefits: 'ألياف وميه بتملى البطن وترطب الجسم وقت التمرين.', icon: 'fa-leaf', color: 'text-green-400' },
+                    { id: 135, name: 'فاصوليا خضرا', category: 'خضروات', amount: '100 جرام', price: 'متوسط', cals: 31, protein: 2, carbs: 7, fats: 0.2, benefits: 'خضار مطبوخ خفيف على المعدة وبيديك كارب وألياف.', icon: 'fa-leaf', color: 'text-green-600' },
+                    { id: 136, name: 'بسلة (بازلاء)', category: 'خضروات', amount: '100 جرام', price: 'متوسط', cals: 81, protein: 5, carbs: 14, fats: 0.4, benefits: 'الخضار الوحيد اللي بروتينه عالي شوية وفيه كارب محترم.', icon: 'fa-leaf', color: 'text-green-500' },
+                    { id: 137, name: 'كوسة مطبوخة', category: 'خضروات', amount: '100 جرام', price: 'رخيص', cals: 17, protein: 1, carbs: 3, fats: 0.3, benefits: 'بتتزلط زلط! هضمها سهل جداً ومفيدة للقلب.', icon: 'fa-leaf', color: 'text-green-400' },
+                    { id: 138, name: 'أفوكادو', category: 'خضروات', amount: 'نص ثمرة', price: 'غالي', cals: 160, protein: 2, carbs: 9, fats: 15, benefits: 'أهم مصدر دهون صحية للهرمونات، غالي بس يستاهل لو بتنشف.', icon: 'fa-seedling', color: 'text-green-700' },
+                    { id: 139, name: 'عش الغراب (مشروم)', category: 'خضروات', amount: '100 جرام', price: 'غالي', cals: 22, protein: 3, carbs: 3, fats: 0.3, benefits: 'بروتين نباتي طعمه شبه اللحمة، بيتحط على البيض أو السلطة.', icon: 'fa-tree', color: 'text-gray-300' },
+                    { id: 140, name: 'بقدونس', category: 'خضروات', amount: 'حزمة', price: 'رخيص', cals: 10, protein: 1, carbs: 2, fats: 0, benefits: 'بينزل الميه الزايدة اللي تحت الجلد في فترة التنشيف، اعمله عصير واشربه.', icon: 'fa-leaf', color: 'text-green-600' },
+
+                    // ================= 5. فواكه ومكسرات =================
+                    // القديم متحدث بالتسعيرة
+                    { id: 21, name: 'موز', category: 'فواكه ومكسرات', amount: 'موزة متوسطة', price: 'رخيص', cals: 105, protein: 1.3, carbs: 27, fats: 0.3, benefits: 'سناك ما قبل التمرين العظيم، بوتاسيوم بيمنع الشد العضلي (الكرامبات) وكارب سريع.', icon: 'fa-lemon', color: 'text-yellow-300' },
+                    { id: 22, name: 'تفاح', category: 'فواكه ومكسرات', amount: 'تفاحة متوسطة', price: 'متوسط', cals: 95, protein: 0.5, carbs: 25, fats: 0.3, benefits: 'ألياف وطاقة مستقرة، كويسة جداً للفطار أو قبل التمرين بساعتين.', icon: 'fa-apple-whole', color: 'text-red-500' },
+                    { id: 23, name: 'زبدة فول سوداني', category: 'فواكه ومكسرات', amount: 'معلقة كبيرة (15 جرام)', price: 'متوسط', cals: 94, protein: 4, carbs: 3, fats: 8, benefits: 'دهون صحية وطاقة كثيفة، بتعلي السعرات بسهولة لو بتضخم ومش قادر تاكل كتير.', icon: 'fa-jar', color: 'text-amber-800' },
+                    { id: 24, name: 'لوز ني', category: 'فواكه ومكسرات', amount: 'قبضة إيد (30 جرام)', price: 'غالي', cals: 164, protein: 6, carbs: 6, fats: 14, benefits: 'دهون صحية وفيتامين E، مفيد لصحة القلب وتصنيع هرمونات الذكورة.', icon: 'fa-seedling', color: 'text-amber-600' },
+                    { id: 25, name: 'أفوكادو', category: 'فواكه ومكسرات', amount: 'نص ثمرة', price: 'غالي', cals: 160, protein: 2, carbs: 9, fats: 15, benefits: 'أفضل مصدر للدهون الأحادية الصحية، بيظبط الكولسترول وبيدعم التستوستيرون.', icon: 'fa-seedling', color: 'text-green-500' },
+                    { id: 66, name: 'بلح زغلول', category: 'فواكه ومكسرات', amount: '100 جرام', price: 'رخيص', cals: 120, protein: 1, carbs: 30, fats: 0, benefits: 'باور جبار وسريع قبل التمرينة، بيرفع السكر في الدم فوراً.', icon: 'fa-lemon', color: 'text-red-600' },
+                    { id: 67, name: 'جوافة', category: 'فواكه ومكسرات', amount: 'ثمرة متوسطة', price: 'رخيص', cals: 68, protein: 2.5, carbs: 14, fats: 1, benefits: 'فيتامين سي فيها أكتر من البرتقال بمراحل! وحلوة جداً للتنشيف.', icon: 'fa-apple-whole', color: 'text-green-200' },
+                    { id: 68, name: 'مانجة عويسي', category: 'فواكه ومكسرات', amount: '100 جرام', price: 'متوسط', cals: 90, protein: 1, carbs: 22, fats: 0.5, benefits: 'سكر طبيعي لذيذ، بس لو بتنشف بلاش تدوس فيها كتير.', icon: 'fa-lemon', color: 'text-yellow-500' },
+                    { id: 69, name: 'تين شوكي', category: 'فواكه ومكسرات', amount: 'ثمرة واحدة', price: 'رخيص', cals: 41, protein: 1, carbs: 9, fats: 0.5, benefits: 'منعش ومليان ميه وألياف وبيشبع بسعرات تكاد تكون معدومة.', icon: 'fa-seedling', color: 'text-orange-400' },
+                    { id: 70, name: 'بطيخ', category: 'فواكه ومكسرات', amount: 'شريحة كبيرة', price: 'رخيص', cals: 30, protein: 0.6, carbs: 8, fats: 0.2, benefits: 'كله ميه، بيعمل بامب (Pump) حلو في الجيم عشان بيرطب الجسم.', icon: 'fa-lemon', color: 'text-red-400' },
+                    { id: 71, name: 'عصير قصب', category: 'فواكه ومكسرات', amount: 'كوباية', price: 'رخيص', cals: 180, protein: 0, carbs: 45, fats: 0, benefits: 'مشروب الباور الشعبي، اضرب كوباية وادخل كسر الجيم.', icon: 'fa-glass-water', color: 'text-green-400' },
+                    { id: 72, name: 'لب سوبر', category: 'فواكه ومكسرات', amount: '100 جرام', price: 'متوسط', cals: 580, protein: 25, carbs: 20, fats: 45, benefits: 'بروتين عالي جداً ودهون صحية، ممتاز للتضخيم والتسالي.', icon: 'fa-seedling', color: 'text-gray-400' },
+                    { id: 73, name: 'لب سوري', category: 'فواكه ومكسرات', amount: '100 جرام', price: 'رخيص', cals: 584, protein: 20, carbs: 20, fats: 51, benefits: 'دهون مفيدة للهرمونات وبروتين، بس سعراته بتضرب في السما.', icon: 'fa-seedling', color: 'text-gray-500' },
+                    { id: 74, name: 'سوداني مقشر', category: 'فواكه ومكسرات', amount: '100 جرام', price: 'رخيص', cals: 567, protein: 25, carbs: 16, fats: 49, benefits: 'أرخص وأقوى مصدر بروتين ودهون صحية، حطه على الشوفان.', icon: 'fa-seedling', color: 'text-amber-700' },
+                    { id: 75, name: 'حمص الشام (حلبسة)', category: 'فواكه ومكسرات', amount: 'كوباية', price: 'رخيص', cals: 160, protein: 8, carbs: 27, fats: 2, benefits: 'بروتين وكارب مع بعض بيدفوا الجسم في الشتا وبيدوك طاقة.', icon: 'fa-glass-water', color: 'text-orange-500' },
+                    // 10 إضافات جديدة للفواكه والمكسرات
+                    { id: 141, name: 'ترمس', category: 'فواكه ومكسرات', amount: '100 جرام', price: 'رخيص', cals: 119, protein: 16, carbs: 10, fats: 3, benefits: 'أرخص تسالي ممكن تاكلها فيها بروتين جبار وبيسلي وقتك بليل.', icon: 'fa-seedling', color: 'text-yellow-600' },
+                    { id: 142, name: 'يوسفي (سفندي)', category: 'فواكه ومكسرات', amount: 'ثمرة', price: 'رخيص', cals: 45, protein: 1, carbs: 11, fats: 0, benefits: 'سكر طبيعي وفيتامين سي بيروق الدماغ.', icon: 'fa-lemon', color: 'text-orange-400' },
+                    { id: 143, name: 'برتقال', category: 'فواكه ومكسرات', amount: 'ثمرة', price: 'رخيص', cals: 60, protein: 1, carbs: 15, fats: 0, benefits: 'كارب نضيف قبل التمرين بيرفع سكر الدم بدون هبوط مفاجئ.', icon: 'fa-apple-whole', color: 'text-orange-500' },
+                    { id: 144, name: 'حرنكش', category: 'فواكه ومكسرات', amount: '100 جرام', price: 'رخيص', cals: 50, protein: 2, carbs: 11, fats: 1, benefits: 'قنبلة فيتامينات، بيقوي المناعة ويسد الجوع.', icon: 'fa-lemon', color: 'text-yellow-500' },
+                    { id: 145, name: 'تمر مجدول', category: 'فواكه ومكسرات', amount: '3تمرات', price: 'متوسط', cals: 200, protein: 2, carbs: 54, fats: 0, benefits: 'تلات تمرات قبل الجيم كفيلين يخلوك تشيل أوزان متتخيلهاش.', icon: 'fa-seedling', color: 'text-amber-900' },
+                    { id: 146, name: 'زبيب', category: 'فواكه ومكسرات', amount: 'حفنة (30 جرام)', price: 'متوسط', cals: 90, protein: 1, carbs: 24, fats: 0, benefits: 'حديد وسكر سريع جداً لو حسيت بهبوط في نص التمرينة.', icon: 'fa-seedling', color: 'text-amber-800' },
+                    { id: 147, name: 'عين جمل', category: 'فواكه ومكسرات', amount: 'حفنة (30 جرام)', price: 'متوسط', cals: 196, protein: 4, carbs: 4, fats: 18, benefits: 'الأوميجا 3 اللي فيه بتبني خلايا المخ وبتقلل التهاب المفاصل.', icon: 'fa-seedling', color: 'text-amber-500' },
+                    { id: 148, name: 'فستق', category: 'فواكه ومكسرات', amount: 'حفنة (30 جرام)', price: 'غالي', cals: 160, protein: 6, carbs: 8, fats: 13, benefits: 'بروتينه عالي مقارنة بالمكسرات التانية بس غالي حبتين.', icon: 'fa-seedling', color: 'text-green-500' },
+                    { id: 149, name: 'كاجو', category: 'فواكه ومكسرات', amount: 'حفنة (30 جرام)', price: 'غالي', cals: 157, protein: 5, carbs: 9, fats: 12, benefits: 'طعم حكاية ودهون ممتازة للباور والهرمونات.', icon: 'fa-seedling', color: 'text-yellow-300' },
+                    { id: 150, name: 'خوخ', category: 'فواكه ومكسرات', amount: 'ثمرة', price: 'رخيص', cals: 40, protein: 1, carbs: 10, fats: 0, benefits: 'فاكهة صيفي ترطب عليك وسعراتها في الأرض.', icon: 'fa-apple-whole', color: 'text-red-400' },
+
+                    // ================= 6. الخضروات والأعشاب المضافة حديثاً =================
+                    { id: 151, name: 'بطاطس مسلوقة', category: 'خضروات', amount: '100 جرام', price: 'رخيص', cals: 87, protein: 2, carbs: 20, fats: 0.1, benefits: 'كارب نضيف وبيشبع جداً بدون زيوت القلي، ممتاز للتنشيف.', icon: 'fa-bowl-food', color: 'text-yellow-200' },
+                    { id: 152, name: 'كزبرة خضرا', category: 'خضروات', amount: 'حزمة', price: 'رخيص', cals: 23, protein: 2, carbs: 4, fats: 0.5, benefits: 'بتطرد السموم والمياه الزيادة المحتبسة تحت الجلد.', icon: 'fa-leaf', color: 'text-green-500' },
+                    { id: 153, name: 'كرفس', category: 'خضروات', amount: '100 جرام', price: 'رخيص', cals: 16, protein: 1, carbs: 3, fats: 0.2, benefits: 'سعراته سالبة! جسمك بيحرق سعرات عشان يهضمه أكتر من اللي بياخدها منه.', icon: 'fa-seedling', color: 'text-green-400' },
+                    { id: 154, name: 'فجل', category: 'خضروات', amount: 'ثمرة', price: 'رخيص', cals: 16, protein: 1, carbs: 3, fats: 0.1, benefits: 'ممتاز لحرق الدهون وتنشيط الكبد بعد الوجبات المفتوحة.', icon: 'fa-carrot', color: 'text-rose-400' },
+                    { id: 155, name: 'لفت', category: 'خضروات', amount: '100 جرام', price: 'رخيص', cals: 28, protein: 1, carbs: 6, fats: 0.1, benefits: 'مليان ألياف وبيسد الجوع وقت الدايت القاسي.', icon: 'fa-apple-whole', color: 'text-purple-300' },
+                    { id: 156, name: 'سلق', category: 'خضروات', amount: '100 جرام', price: 'رخيص', cals: 19, protein: 2, carbs: 4, fats: 0.2, benefits: 'غني بالحديد والمغنيسيوم اللي بيمنع الشد العضلي.', icon: 'fa-leaf', color: 'text-green-600' },
+                    { id: 157, name: 'نعناع فريش', category: 'خضروات', amount: 'حزمة', price: 'رخيص', cals: 70, protein: 4, carbs: 15, fats: 1, benefits: 'بيريح المعدة جداً بعد أي وجبة تقيلة في فترة التضخيم.', icon: 'fa-leaf', color: 'text-emerald-400' },
+                    { id: 158, name: 'بصل أخضر', category: 'خضروات', amount: '100 جرام', price: 'رخيص', cals: 32, protein: 2, carbs: 7, fats: 0.2, benefits: 'مضاد حيوي طبيعي بيحمي من برد الشتا ويرفع المناعة.', icon: 'fa-seedling', color: 'text-green-300' },
+                    { id: 159, name: 'شمر', category: 'خضروات', amount: '100 جرام', price: 'متوسط', cals: 31, protein: 1, carbs: 7, fats: 0.2, benefits: 'ممتاز للهضم وبيمنع الانتفاخات بتاعت الدايت العالي البروتين.', icon: 'fa-leaf', color: 'text-green-500' },
+                    { id: 160, name: 'صلصة طماطم طبيعية', category: 'خضروات', amount: 'معلقة كبيرة', price: 'رخيص', cals: 15, protein: 1, carbs: 3, fats: 0, benefits: 'فيها ليكوبين بيحمي البروستاتا ومضاد أكسدة قوي جداً.', icon: 'fa-jar', color: 'text-red-500' },
+
+                    // ================= 7. الفواكه والمكسرات والتوابل المضافة =================
+                    { id: 161, name: 'شمام', category: 'فواكه ومكسرات', amount: 'شريحة', price: 'رخيص', cals: 34, protein: 1, carbs: 8, fats: 0.2, benefits: 'مليان ميه بيرطب الجسم وبيعمل بامب (Pump) حلو في التمرين.', icon: 'fa-lemon', color: 'text-yellow-300' },
+                    { id: 162, name: 'عنب', category: 'فواكه ومكسرات', amount: 'عنقود صغير', price: 'متوسط', cals: 69, protein: 1, carbs: 18, fats: 0.2, benefits: 'كارب سريع جداً قبل الجيم بيديك طاقة فورية تكسر بيها الحديد.', icon: 'fa-apple-whole', color: 'text-purple-500' },
+                    { id: 163, name: 'تين طازج', category: 'فواكه ومكسرات', amount: 'ثمرة', price: 'متوسط', cals: 74, protein: 1, carbs: 19, fats: 0.3, benefits: 'مليان ألياف وسكر طبيعي ممتاز بعد التمرين للريكفري.', icon: 'fa-apple-whole', color: 'text-purple-400' },
+                    { id: 164, name: 'رمان', category: 'فواكه ومكسرات', amount: 'ثمرة', price: 'متوسط', cals: 83, protein: 2, carbs: 19, fats: 1, benefits: 'بيزود أكسيد النيتريك اللي بيوسع العروق ويضخ دم للعضلات.', icon: 'fa-apple-whole', color: 'text-red-600' },
+                    { id: 165, name: 'ليمون', category: 'فواكه ومكسرات', amount: 'ثمرة', price: 'رخيص', cals: 29, protein: 1, carbs: 9, fats: 0.3, benefits: 'فيتامين سي بيعزز المناعة وبيساعد في امتصاص الحديد من الأكل.', icon: 'fa-lemon', color: 'text-yellow-400' },
+                    { id: 166, name: 'كمثرى', category: 'فواكه ومكسرات', amount: 'ثمرة', price: 'متوسط', cals: 57, protein: 0.4, carbs: 15, fats: 0.1, benefits: 'خفيفة عالمعدة ومليانة ألياف بتشبع وتمنع الإمساك.', icon: 'fa-apple-whole', color: 'text-green-300' },
+                    { id: 167, name: 'مشمش', category: 'فواكه ومكسرات', amount: '3 ثمرات', price: 'متوسط', cals: 48, protein: 1.4, carbs: 11, fats: 0.4, benefits: 'فيتامين أ لصحة العين وبوتاسيوم بيمنع الكرامبات في الجيم.', icon: 'fa-apple-whole', color: 'text-orange-400' },
+                    { id: 168, name: 'فراولة', category: 'فواكه ومكسرات', amount: '100 جرام', price: 'متوسط', cals: 32, protein: 1, carbs: 8, fats: 0.3, benefits: 'سعراتها قليلة جداً ومضادات أكسدة خرافية لتنضيف الجسم.', icon: 'fa-apple-whole', color: 'text-red-500' },
+                    { id: 169, name: 'نبق', category: 'فواكه ومكسرات', amount: 'حفنة', price: 'رخيص', cals: 70, protein: 1, carbs: 17, fats: 0, benefits: 'فاكهة منسية مليانة طاقة وفيتامينات وبتسند في الدايت.', icon: 'fa-apple-whole', color: 'text-yellow-600' },
+                    { id: 170, name: 'زيتون أخضر', category: 'فواكه ومكسرات', amount: '10 حبات', price: 'رخيص', cals: 145, protein: 1, carbs: 4, fats: 15, benefits: 'دهون صحية بتدعم هرمون الذكورة (التستوستيرون).', icon: 'fa-seedling', color: 'text-green-600' },
+                    { id: 171, name: 'زيتون أسود', category: 'فواكه ومكسرات', amount: '10 حبات', price: 'رخيص', cals: 115, protein: 1, carbs: 6, fats: 11, benefits: 'مفيد للقلب وبيدي طعم حلو لأي وجبة دايت ناشفة.', icon: 'fa-seedling', color: 'text-gray-600' },
+                    { id: 172, name: 'سمسم', category: 'فواكه ومكسرات', amount: 'معلقة كبيرة', price: 'رخيص', cals: 52, protein: 2, carbs: 2, fats: 4, benefits: 'مليان كالسيوم وزنك، رشه على الأكل لزيادة السعرات الصحية.', icon: 'fa-seedling', color: 'text-yellow-200' },
+                    { id: 173, name: 'طحينة خام', category: 'فواكه ومكسرات', amount: 'معلقة كبيرة', price: 'متوسط', cals: 89, protein: 3, carbs: 3, fats: 8, benefits: 'دهون صحية وسعرات عالية جداً للناس اللي بتعاني في التضخيم.', icon: 'fa-jar', color: 'text-amber-200' },
+                    { id: 174, name: 'خل تفاح', category: 'فواكه ومكسرات', amount: 'معلقة كبيرة', price: 'متوسط', cals: 3, protein: 0, carbs: 0, fats: 0, benefits: 'بيظبط سكر الدم وبيحسن الهضم لو شربته مخفف بميه الصبح.', icon: 'fa-bottle-droplet', color: 'text-amber-600' },
+                    { id: 175, name: 'كركم', category: 'فواكه ومكسرات', amount: 'معلقة صغيرة', price: 'رخيص', cals: 9, protein: 0.3, carbs: 2, fats: 0.1, benefits: 'أقوى مضاد التهاب طبيعي للمفاصل بعد الأوزان التقيلة.', icon: 'fa-spoon', color: 'text-yellow-500' },
+                    { id: 176, name: 'زنجبيل', category: 'فواكه ومكسرات', amount: 'معلقة صغيرة', price: 'رخيص', cals: 5, protein: 0.1, carbs: 1, fats: 0, benefits: 'بيزود معدل الحرق في الجسم وبيهدي وجع المعدة.', icon: 'fa-spoon', color: 'text-yellow-100' },
+                    { id: 177, name: 'قرفة', category: 'فواكه ومكسرات', amount: 'معلقة صغيرة', price: 'رخيص', cals: 6, protein: 0.1, carbs: 2, fats: 0, benefits: 'بتحسن حساسية الأنسولين عشان جسمك يستفيد بالكارب اللي بتاكله.', icon: 'fa-spoon', color: 'text-amber-800' },
+                    { id: 178, name: 'مشروب حلبة', category: 'فواكه ومكسرات', amount: 'كوباية', price: 'رخيص', cals: 15, protein: 1, carbs: 3, fats: 0, benefits: 'مشهورة بزيادة هرمون التستوستيرون وفتح الشهية للتضخيم السريع.', icon: 'fa-mug-hot', color: 'text-yellow-400' },
+
+                    // ================= 8. النشويات (البقوليات والحبوب) المضافة =================
+                    { id: 179, name: 'عدس بجبة (أخضر)', category: 'نشويات', amount: '100 جرام', price: 'رخيص', cals: 116, protein: 9, carbs: 20, fats: 0.4, benefits: 'كارب معقد وبروتين نباتي بيقعد في البطن يشبعك فترات طويلة.', icon: 'fa-bowl-food', color: 'text-green-800' },
+                    { id: 180, name: 'حمص مسلوق', category: 'نشويات', amount: '100 جرام', price: 'رخيص', cals: 164, protein: 9, carbs: 27, fats: 2.6, benefits: 'بروتين وكارب ممتاز تقدر تضيفه على سلطة الجيم.', icon: 'fa-bowl-food', color: 'text-yellow-400' },
+                    { id: 181, name: 'لوبيا مسلوقة', category: 'نشويات', amount: '100 جرام', price: 'رخيص', cals: 114, protein: 8, carbs: 21, fats: 0.5, benefits: 'خفيفة ع المعدة وفيها ألياف بتظبط الهضم.', icon: 'fa-bowl-food', color: 'text-red-200' },
+                    { id: 182, name: 'فاصوليا بيضا مسلوقة', category: 'نشويات', amount: '100 جرام', price: 'رخيص', cals: 139, protein: 10, carbs: 25, fats: 0.4, benefits: 'من أعلى البقوليات في نسبة البروتين النضيف.', icon: 'fa-bowl-food', color: 'text-white' },
+                    { id: 183, name: 'فاصوليا حمرا', category: 'نشويات', amount: '100 جرام', price: 'متوسط', cals: 127, protein: 9, carbs: 23, fats: 0.5, benefits: 'مضادات أكسدة أعلى وبروتين محترم جداً بيبني عضلات.', icon: 'fa-bowl-food', color: 'text-red-700' },
+                    { id: 184, name: 'رز بني', category: 'نشويات', amount: '100 جرام', price: 'متوسط', cals: 112, protein: 3, carbs: 24, fats: 1, benefits: 'مؤشره الجلايسيمي واطي، مابيرفعش السكر فجأة وممتاز للتنشيف.', icon: 'fa-bowl-rice', color: 'text-amber-800' },
+                    { id: 185, name: 'شعير (تلبينة)', category: 'نشويات', amount: '100 جرام (ني)', price: 'رخيص', cals: 354, protein: 12.5, carbs: 73, fats: 2.3, benefits: 'بينضف الكلى وممتاز للريكفري وطاقة التمرين.', icon: 'fa-wheat-awn', color: 'text-amber-200' },
+                    { id: 186, name: 'برغل', category: 'نشويات', amount: '100 جرام (ني)', price: 'رخيص', cals: 342, protein: 12, carbs: 76, fats: 1.3, benefits: 'بديل صحي جداً للرز الأبيض ومليان حديد.', icon: 'fa-wheat-awn', color: 'text-amber-600' },
+                    { id: 187, name: 'عيش توست (شريحتين)', category: 'نشويات', amount: '50 جرام', price: 'متوسط', cals: 130, protein: 4, carbs: 24, fats: 1, benefits: 'سريع التحضير لعمل سناك زبدة الفول السوداني.', icon: 'fa-bread-slice', color: 'text-yellow-100' },
+                    { id: 188, name: 'عيش أسمر (ردة)', category: 'نشويات', amount: 'رغيف', price: 'رخيص', cals: 220, protein: 8, carbs: 45, fats: 1, benefits: 'مليان ألياف بيقفل المعدة في فترات الدايت و التنشيف.', icon: 'fa-bread-slice', color: 'text-amber-900' },
+                    { id: 189, name: 'فريك', category: 'نشويات', amount: '100 جرام (ني)', price: 'متوسط', cals: 352, protein: 15, carbs: 72, fats: 2, benefits: 'نسبة البروتين فيه عالية جداً وطعمه عظمة في الحشو.', icon: 'fa-wheat-awn', color: 'text-green-700' },
+                    { id: 190, name: 'سميد', category: 'نشويات', amount: '100 جرام (ني)', price: 'رخيص', cals: 360, protein: 13, carbs: 73, fats: 1.1, benefits: 'بيتعمل بيه بسبوسة أو حلويات صحية لزيادة السعرات.', icon: 'fa-bowl-food', color: 'text-yellow-200' },
+                    { id: 191, name: 'عسل نحل بلدي', category: 'نشويات', amount: 'معلقة كبيرة', price: 'غالي', cals: 64, protein: 0, carbs: 17, fats: 0, benefits: 'كارب سريع جداً قبل التمرين لرفع الباور فوراً.', icon: 'fa-jar', color: 'text-yellow-500' },
+
+                    // ================= 9. اللحوم والأسماك المضافة =================
+                    { id: 192, name: 'فرخة مشوية كاملة', category: 'لحوم', amount: '100 جرام (ميكس)', price: 'متوسط', cals: 195, protein: 29, carbs: 0, fats: 8, benefits: 'فيها دهون صحية من الوراك وبروتين صافي من الصدور (وجبة متكاملة).', icon: 'fa-drumstick-bite', color: 'text-amber-500' },
+                    { id: 193, name: 'أرانب', category: 'لحوم', amount: '100 جرام', price: 'غالي', cals: 173, protein: 33, carbs: 0, fats: 3.5, benefits: 'أنضف بروتين حيواني ممكن تاكله، هضمه طلقة وزيرو دهون تقريباً.', icon: 'fa-bone', color: 'text-gray-200' },
+                    { id: 194, name: 'لحمة ضاني', category: 'لحوم', amount: '100 جرام', price: 'غالي', cals: 294, protein: 25, carbs: 0, fats: 21, benefits: 'دهون بتعلي التستوستيرون في السما، كُلها في يوم فري أو لو بتضخم عنيف.', icon: 'fa-cow', color: 'text-red-800' },
+                    { id: 195, name: 'كرشة', category: 'لحوم', amount: '100 جرام', price: 'رخيص', cals: 85, protein: 12, carbs: 0, fats: 4, benefits: 'كولاجين وبروتين رخيص بيحمي المفاصل، بس نضفها كويس!', icon: 'fa-bowl-food', color: 'text-gray-100' },
+                    { id: 196, name: 'صدر ديك رومي', category: 'لحوم', amount: '100 جرام', price: 'غالي', cals: 135, protein: 30, carbs: 0, fats: 1, benefits: 'بروتين صافي 100%، ملك فترات التنشيف البطولي بسعرات لا تذكر.', icon: 'fa-drumstick-bite', color: 'text-orange-300' },
+                    { id: 197, name: 'قلوب دجاج', category: 'لحوم', amount: '100 جرام', price: 'رخيص', cals: 153, protein: 16, carbs: 0, fats: 9, benefits: 'عضلة غنية جداً بإنزيم CoQ10 اللي بيدي طاقة للقلب والعضلات.', icon: 'fa-heart', color: 'text-red-600' },
+                    { id: 198, name: 'سمك بوري مشوي', category: 'لحوم', amount: '100 جرام', price: 'متوسط', cals: 150, protein: 24, carbs: 0, fats: 5, benefits: 'أوميجا 3 عالي بيحمي المفاصل وبيزيت الركب للرفعات التقيلة.', icon: 'fa-fish', color: 'text-blue-200' },
+                    { id: 199, name: 'سمك مكرونة مقلي', category: 'لحوم', amount: '100 جرام', price: 'متوسط', cals: 220, protein: 18, carbs: 8, fats: 12, benefits: 'طعم حكاية وسعرات عالية ممتازة للناس اللي بتعاني من النحافة.', icon: 'fa-fish-fins', color: 'text-amber-400' },
+                    { id: 200, name: 'فسيخ', category: 'لحوم', amount: '100 جرام', price: 'غالي', cals: 250, protein: 20, carbs: 0, fats: 18, benefits: 'أملاح عالية جداً بتعبي العضلة ميه وتعمل (بامب وهمي)، بس احذر لو ضغطك عالي.', icon: 'fa-fish', color: 'text-gray-500' },
+                    { id: 201, name: 'سمكة مبروكة', category: 'لحوم', amount: '100 جرام', price: 'رخيص', cals: 120, protein: 20, carbs: 0, fats: 4, benefits: 'بروتين سمك رخيص وعلى قد الإيد ومليان فوايد.', icon: 'fa-fish', color: 'text-blue-400' },
+                    { id: 202, name: 'سمك دنيس', category: 'لحوم', amount: '100 جرام', price: 'غالي', cals: 105, protein: 20, carbs: 0, fats: 2, benefits: 'سمك بحر نضيف جداً خفيف في الهضم وبروتينه جبار ومفيهوش زفارة.', icon: 'fa-fish', color: 'text-cyan-300' },
+
+                    // ================= 10. الألبان والبيض المضافة (والزيوت) =================
+                    { id: 203, name: 'بيض سمان', category: 'ألبان وبيض', amount: '5 بيضات', price: 'متوسط', cals: 79, protein: 6, carbs: 0.4, fats: 5, benefits: 'فيتامينات مركزة أكتر من بيض الفراخ بكتير وممتاز للمناعة والباور.', icon: 'fa-egg', color: 'text-yellow-50' },
+                    { id: 204, name: 'زبدة بقري صفرا طبيعي', category: 'ألبان وبيض', amount: 'معلقة كبيرة', price: 'غالي', cals: 102, protein: 0, carbs: 0, fats: 11, benefits: 'فيها كولسترول نافع بيبني الهرمونات البناءة (التستوستيرون) وبيشحم المفاصل.', icon: 'fa-cheese', color: 'text-yellow-300' },
+                    { id: 205, name: 'زيت زيتون بكر', category: 'ألبان وبيض', amount: 'معلقة كبيرة', price: 'غالي', cals: 119, protein: 0, carbs: 0, fats: 14, benefits: 'ملك الدهون الصحية، بيقوي القلب ويحمي الشرايين من أضرار التضخيم العنيف.', icon: 'fa-bottle-droplet', color: 'text-green-600' }
+                ],
+
+                // دالة التصنيف الذكي: بتحدد الأكلة دي تنفع لإيه بناءً على اسمها وتصنيفها
+                getFoodTiming(food) {
+                    let timings = [];
+                    const name = food.name.toLowerCase();
+                    const cat = food.category;
+
+                    // 1. الألبان والبيض (معظمها فطار وعشا وسناك)
+                    if (cat === 'ألبان وبيض') {
+                        if (name.includes('رومي') || name.includes('قديمة') || name.includes('شيدر')) timings = ['فطار', 'سناك'];
+                        else timings = ['فطار', 'عشا', 'سناك'];
+                    }
+                    // 2. اللحوم (غدا وعشا)
+                    else if (cat === 'لحوم') {
+                        if (name.includes('تونة') || name.includes('بانيه') || name.includes('شيش')) timings = ['غدا', 'عشا', 'سناك'];
+                        else timings = ['غدا', 'عشا'];
+                    }
+                    // 3. النشويات
+                    else if (cat === 'نشويات') {
+                        if (name.includes('شوفان') || name.includes('كورن') || name.includes('بليلة') || name.includes('فينو') || name.includes('بسكوت')) timings = ['فطار', 'سناك'];
+                        else if (name.includes('رز') || name.includes('مكرونة') || name.includes('محشي') || name.includes('كشري')) timings = ['غدا', 'عشا'];
+                        else timings = ['فطار', 'غدا', 'عشا', 'سناك']; // العيش والبطاطس يمشوا في كله
+                    }
+                    // 4. الفواكه والمكسرات
+                    else if (cat === 'فواكه ومكسرات') {
+                        timings = ['فطار', 'سناك'];
+                    }
+                    // 5. الخضروات
+                    else if (cat === 'خضروات') {
+                        if (name.includes('خيار') || name.includes('طماطم') || name.includes('جزر') || name.includes('فلفل') || name.includes('جرجير') || name.includes('خس')) {
+                            timings = ['فطار', 'غدا', 'عشا', 'سناك']; // خضار السلطة يمشي في كله
+                        } else {
+                            timings = ['غدا', 'عشا']; // الخضار المطبوخ (بامية، سبانخ، الخ)
+                        }
+                    }
+                    // ديفولت لو حاجة فلتت
+                    if (timings.length === 0) timings = ['غدا', 'سناك'];
+                    return timings;
+                },
+
+                get filteredFoods() {
+                    let result = this.foodDatabase;
+                    
+                    if (this.foodCategory !== 'الكل') {
+                        result = result.filter(f => f.category === this.foodCategory);
+                    }
+                    
+                    if (this.foodSearch.trim() !== '') {
+                        const s = this.foodSearch.toLowerCase();
+                        result = result.filter(f => f.name.toLowerCase().includes(s));
+                    }
+                    
+                    // الفلاتر الجديدة القديمة والجديدة
+                    if (this.foodSort === 'high_protein') {
+                        result = result.slice().sort((a, b) => b.protein - a.protein);
+                    } else if (this.foodSort === 'low_cal') {
+                        result = result.slice().sort((a, b) => a.cals - b.cals);
+                    } else if (this.foodSort === 'low_carbs') {
+                        result = result.slice().sort((a, b) => a.carbs - b.cals);
+                    } else if (this.foodSort === 'high_cals') {
+                        result = result.slice().sort((a, b) => b.cals - a.cals);
+                    } else if (this.foodSort === 'high_carbs') {
+                        result = result.slice().sort((a, b) => b.carbs - a.carbs);
+                    } else if (this.foodSort === 'low_protein') {
+                        result = result.slice().sort((a, b) => a.protein - b.protein);
+                    }
+                    
+                    return result;
+                },
+
+                // الدالة دي اللي هتعرض الأكل 10 بـ 10 عشان الموبايل ميهنجش (Lazy Rendering)
+                get paginatedFoods() {
+                    return this.filteredFoods.slice(0, this.nutritionVisibleCount);
+                },
+
+                // الدالة اللي بتزود 10 أصناف لما تدوس على زرار عرض المزيد
+                loadMoreNutrition() {
+                    this.nutritionVisibleCount += 10;
+                },
+
+                
+
+                getMacroPercentage(foodValue, macroType) {
+                    if (!this.userProfile.nutrition) return 0;
+                    let target = this.userProfile.nutrition[macroType]; // calories, protein, carbs, fats
+                    if (!target || target === 0) return 0;
+                    return Math.min(100, Math.round((foodValue / target) * 100));
+                },
                 
                 showNotificationsModal: false,
                 notifications: [],
@@ -2135,8 +2890,20 @@
                 customRestSound: null, // نغمة الراحة المخصصة (Base64)
                 
                 userEquipment: {
-                    barbell: true, dumbbell: true, cables: true, machines: true, bodyweight: true
-                }, // الأجهزة المتاحة في الجيم لذكاء اصطناعي أدق
+                    // تم تحويل الأجهزة لتفصيلية عشان الـ AI Coach يكون دقيق 100%
+                    freeWeights: {
+                        barbell: true, dumbbell: true, ezBar: true, kettlebell: true
+                    },
+                    machines: {
+                        smith: true, legPress: true, hackSquat: true, chestPress: true, pecDeck: true, latPulldown: true, seatedRow: true, legExtension: true, legCurl: true, calfMachine: true
+                    },
+                    cables: {
+                        single: true, dualCross: true
+                    },
+                    bodyweight: {
+                        pullupBar: true, dipStation: true, flatBench: true
+                    }
+                }, // الأجهزة التفصيلية المتاحة في الجيم
                 
                 // Rest Timer Variables
                 showRest: false,
@@ -3543,8 +4310,13 @@
                     ],
 
                 async initApp() {
+                    // تفعيل السبلاش سكرين والبدء في التحميل
+                    this.showSplash = true;
+                    this.splashProgress = 5;
+
                     // تشغيل دالة الهجرة عشان ننقل البيانات لو دي أول مرة بعد التحديث
                     await migrateFromLocalStorage();
+                    this.splashProgress = 20;
 
                     // حساب عدد أيام الشهر الحالي
                     const today = new Date();
@@ -3577,6 +4349,11 @@
                             window.history.pushState({ tab: this.currentTab }, '');
                             return;
                         }
+                        if (this.showEquipmentModal) {
+                            this.showEquipmentModal = false;
+                            window.history.pushState({ tab: this.currentTab }, '');
+                            return;
+                        }
 
                         if (e.state && e.state.tab) {
                             this.currentTab = e.state.tab;
@@ -3590,6 +4367,7 @@
                     // تحميل البرامج، السجل، التمارين المخصصة والمحذوفة
                     try {
                         this.savedRoutines = await dbGetAll('routines') || [];
+                        this.splashProgress = 35;
                         
                         const parsedEx = await dbGetAll('customExercises');
                         if (parsedEx && parsedEx.length > 0) this.exercisesList = [...this.exercisesList, ...parsedEx];
@@ -3599,16 +4377,19 @@
                             this.deletedExercises = deletedExObjects.map(d => d.name);
                             this.exercisesList = this.exercisesList.filter(ex => !this.deletedExercises.includes(ex.name));
                         }
+                        this.splashProgress = 50;
                         
                         const savedHistory = await dbGetAll('workoutHistory');
                         if (savedHistory && savedHistory.length > 0) {
                             this.workoutHistory = savedHistory.sort((a, b) => b.id - a.id);
                         }
+                        this.splashProgress = 65;
                         
                         // 🚀 تحميل بيانات البروفايل، الإشعارات، الأغاني
                         const profileData = await dbGetAll('userProfile');
                         if (profileData && profileData.length > 0) {
-                            this.userProfile = profileData[0];
+                            // دمج البيانات القديمة مع المتغيرات الجديدة عشان منخسرش الأهداف والـ Onboarding
+                            this.userProfile = { ...this.userProfile, ...profileData[0] };
                         }
                         
                         const notifData = await dbGetAll('notifications');
@@ -3616,6 +4397,7 @@
                             this.notifications = notifData.sort((a, b) => b.time - a.time);
                             this.unreadNotifications = this.notifications.filter(n => !n.read).length;
                         }
+                        this.splashProgress = 80;
 
                         const mediaData = await dbGetAll('userMedia');
                         if (mediaData && mediaData.length > 0) {
@@ -3626,7 +4408,22 @@
                             if (tracks.length > 0) this.musicPlaylist = tracks;
                         }
 
+                        // 🚀 تحميل بيانات الدايت المحفوظة (حاسبة الوحش + الأكل المختار + الجدول المولد)
+                        const dietDataAll = await dbGetAll('dietData');
+                        if (dietDataAll && dietDataAll.length > 0) {
+                            // 1. استرجاع حاسبة الوحش والسعرات (عشان متروحش)
+                            const savedInput = dietDataAll.find(d => d.id === 'nutritionInput');
+                            if (savedInput) {
+                                if (savedInput.input) this.nutritionInput = { ...this.nutritionInput, ...savedInput.input };
+                                if (savedInput.profileNutrition) this.userProfile.nutrition = savedInput.profileNutrition;
+                            }
+                            
+                            
+                        }
+
                     } catch(e) { console.error('خطأ في تحميل قاعدة البيانات', e); }
+
+                    this.splashProgress = 90;
 
                     // الإعدادات الخفيفة في localStorage
                     const clearedDate = localStorage.getItem('hevyStatsClearedDate');
@@ -3659,6 +4456,18 @@
                         .then(registration => console.log('عاش يا بطل! السيرفيس وركر شغال:', registration.scope))
                         .catch(error => console.log('مشكلة في السيرفيس وركر:', error));
                     }
+
+                    // 🚀 تحديثات: فحص إشعار الصباح التحفيزي
+                    this.checkMorningNotification();
+                    
+                    // 🚀 تحديثات: تجهيز الصوت الصامت عشان التايمر يفضل شغال والموبايل مقفول
+                    this.initSilentAudio();
+                    
+                    // تقفيل العداد لـ 100% وإخفاء الشاشة الفخمة ببطء
+                    this.splashProgress = 100;
+                    setTimeout(() => {
+                        this.showSplash = false;
+                    }, 800); // 800 ملي ثانية عشان اليوزر يلحق يشوف الـ 100% ويستمتع بالدوبامين
                 },
 
                 changeTheme() {
@@ -4463,10 +5272,10 @@
                     // 3. فلترة جراحية للإصابات + 🚀 فلترة الأجهزة المتاحة في الجيم
                     let safeExercises = this.exercisesList;
                     
-                    // تطبيق فلتر الأجهزة (Equipment Filter)
+                    // تطبيق فلتر الأجهزة (Equipment Filter) - التعديل الجديد عشان يشتغل مع الدالة المعقدة
                     safeExercises = safeExercises.filter(ex => {
-                        let eq = this.getExerciseEquipment(ex.name);
-                        return this.userEquipment[eq] === true;
+                        // الدالة الجديدة بترجع true أو false مباشرة
+                        return this.getExerciseEquipment(ex.name) === true;
                     });
 
                     // لو اليوزر قفل كل الأجهزة (حماية من الكراش)، هنرجع كل التمارين كبديل
@@ -4800,6 +5609,182 @@
                     }, 3200);
                 },
 
+                // ================= 🚀 الدوال الجديدة (Onboarding, Zeigarnik, Nutrition, AI Recovery, WakeLock) ================= //
+
+                // 1. إنهاء تهيئة المستخدم
+                async completeOnboarding() {
+                    this.userProfile.onboardingDone = true;
+                    await dbPut('userProfile', { id: 'profile', ...this.userProfile });
+                    this.calculateStats(); // تحديث الإحصائيات بناءً على التارجت الجديد
+                    Swal.fire({
+                        title: 'وحش جديد نزل الساحة!',
+                        text: 'جهزنا كل حاجة، الأبلكيشن دلوقتي متبرمج على هدفك.',
+                        icon: 'success',
+                        confirmButtonText: 'يلا بينا',
+                        confirmButtonColor: '#10B981',
+                        background: '#1c1f26', color: '#f3f4f6'
+                    });
+                },
+
+                // 2. رسالة حلقات زيجارنيك
+                getZeigarnikMessage() {
+                    let target = this.userProfile.targetDays || 3;
+                    let done = this.userStats.workoutsThisWeek || 0;
+                    if (done === 0) return 'لسه مبدأتش الأسبوع ده، اكسر الكسل!';
+                    if (done < target) return `فاضلك ${target - done} تمارين وتقفل دايرة الأسبوع، كمل ومتكسرش الستريك!`;
+                    return 'قفلت التارجت الأسبوعي! عظمة يا بطل 🏆';
+                },
+
+                // 3. خريطة الاستشفاء التفاعلية (Interactive Heatmap)
+                showMuscleRecoveryTip(muscleId, muscleName) {
+                    let status = this.recoveryHeatmap[muscleId];
+                    let title = '', text = '', iconColor = '';
+                    
+                    if (status === 'green') {
+                        title = `${muscleName} فريش وجاهزة! 🟢`;
+                        text = `العضلة دي مستريحة 100% ومستعدة تتفرتك النهاردة بأوزان تقيلة. متقلقش من حاجة ودوس!`;
+                        iconColor = '#10B981';
+                    } else if (status === 'yellow') {
+                        title = `${muscleName} نص نص 🟡`;
+                        text = `العضلة لسه فيها شوية إرهاق خفيف. تقدر تلعبها بس ركز على التكنيك واعمل إطالات ديناميكية (Dynamic Stretching) قبل ما تخش في الأوزان التقيلة.`;
+                        iconColor = '#F59E0B';
+                    } else {
+                        title = `${muscleName} متدمرة! 🔴`;
+                        text = `إنذار: العضلة دي متهالكة من آخر تمرينة لسه! عشان تبنيها صح لازم تريحها. اضربلك 150 جرام بروتين وناملك 8 ساعات عشان الريكفري يشتغل.`;
+                        iconColor = '#F43F5E';
+                    }
+
+                    Swal.fire({
+                        title: title,
+                        html: `<div class="text-sm font-bold text-gray-300 leading-relaxed mt-2">${text}</div>`,
+                        iconHtml: `<i class="fa-solid fa-heart-pulse" style="color: ${iconColor};"></i>`,
+                        customClass: { icon: 'border-none' },
+                        background: '#1c1f26', color: '#f3f4f6',
+                        confirmButtonColor: '#3b82f6', confirmButtonText: 'علم وينفذ 🫡'
+                    });
+                },
+
+                // 4. حاسبة التغذية الذكية (Mifflin-St Jeor)
+                async calculateNutrition() {
+                    let w = parseFloat(this.nutritionInput.weight);
+                    let h = parseFloat(this.nutritionInput.height);
+                    let a = parseInt(this.nutritionInput.age);
+                    let act = parseFloat(this.nutritionInput.activity);
+                    
+                    if(!w || !h || !a) return Swal.fire({toast:true, position:'top', icon:'error', title:'دخل أرقامك صح يا وحش!', showConfirmButton:false, timer:2000, background: '#1c1f26', color: '#f3f4f6'});
+
+                    // حساب الـ BMR للذكور (معدل الحرق الأساسي)
+                    let bmr = (10 * w) + (6.25 * h) - (5 * a) + 5;
+                    let tdee = bmr * act; // السعرات للحفاظ على الوزن
+                    
+                    let targetCals = tdee;
+                    let goal = this.userProfile.goal || 'تضخيم';
+                    
+                    if(goal === 'تضخيم') targetCals += 300; // فائض سعري
+                    else if(goal === 'تنشيف') targetCals -= 500; // عجز سعري
+
+                    // حساب الماكروز (Macros)
+                    let protein = Math.round(w * 2.2); // 2.2 جرام لكل كجم
+                    let fats = Math.round((targetCals * 0.25) / 9); // 25% من السعرات دهون
+                    let remainingCals = targetCals - ((protein * 4) + (fats * 9));
+                    let carbs = Math.round(remainingCals / 4); // الباقي كارب
+
+                    this.userProfile.nutrition = {
+                        calories: Math.round(targetCals),
+                        protein: protein,
+                        fats: fats,
+                        carbs: carbs
+                    };
+
+                    await dbPut('userProfile', { id: 'profile', ...this.userProfile });
+
+                    // 🚀 حفظ nutritionInput والسعرات المحسوبة عشان ميضيعش عند الخروج
+                    try {
+                        await dbPut('dietData', {
+                            id: 'nutritionInput',
+                            input: { ...this.nutritionInput },
+                            profileNutrition: this.userProfile.nutrition,
+                            savedAt: Date.now()
+                        });
+                    } catch(e) { console.warn('تعذر حفظ بيانات الحاسبة:', e); }
+                    
+                    // إطلاق دوبامين بصري
+                    confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 }, colors: ['#10b981', '#fbbf24'] });
+                },
+
+                // 5. الإشعار الصباحي التحفيزي (Morning Nudge)
+                checkMorningNotification() {
+                    if (!this.userProfile.onboardingDone) return; // حماية عشان ميظهرش وهو بيسجل بياناته
+
+                    const todayStr = new Date().toDateString();
+                    const lastNotif = localStorage.getItem('hevyMorningNotifDate');
+                    
+                    if (lastNotif === todayStr) return; // ظهر النهاردة خلاص
+
+                    const hour = new Date().getHours();
+                    // بيظهر الصبح من 6 لحد 11 الظهر
+                    if (hour >= 6 && hour <= 11) {
+                        setTimeout(() => {
+                            // نجيب عضلة فريش (خضراء) عشان نحفزه ينزل يلعبها
+                            let freshMuscle = Object.keys(this.recoveryHeatmap).find(m => this.recoveryHeatmap[m] === 'green');
+                            const muscleNamesAr = { 'Chest': 'البنش', 'Back': 'الضهر', 'Legs': 'الرجلين', 'Shoulders': 'الكتف', 'Arms': 'الدراع' };
+                            
+                            let msg = "صباح الفورمة يا دبابة ☀️! الكسل مش هيبني عضلات، مستني إيه عشان تنزل تكسر الحديد؟";
+                            if (freshMuscle) {
+                                msg = `صباح الفورمة ☀️! عضلة (${muscleNamesAr[freshMuscle]}) مستريحة 100% وجاهزة تتشحن أوزان النهاردة. يلا بينا؟`;
+                            }
+
+                            Swal.fire({
+                                title: 'رسالة الكوتش',
+                                text: msg,
+                                imageUrl: 'https://cdn-icons-png.flaticon.com/512/2964/2964514.png',
+                                imageWidth: 80,
+                                showCancelButton: true,
+                                confirmButtonText: 'نازل الجيم حالا',
+                                cancelButtonText: 'هنام شوية (إلغاء)',
+                                confirmButtonColor: '#10B981',
+                                background: '#1c1f26', color: '#f3f4f6'
+                            });
+                            localStorage.setItem('hevyMorningNotifDate', todayStr);
+                        }, 2000); // يظهر بعد فتح الأبلكيشن بثانيتين
+                    }
+                },
+
+                // 6. 🚀 هاك الصوت الصامت في الخلفية (Silent Audio Hack)
+                initSilentAudio() {
+                    const silentAudio = document.getElementById('silentAudio');
+                    if (silentAudio) {
+                        silentAudio.volume = 0.01; // صوت شبه معدوم عشان ميشوشش
+                    }
+                },
+                
+                playSilentAudio() {
+                    const silentAudio = document.getElementById('silentAudio');
+                    // بنشغل الصوت الصامت ده عشان الموبايل يفتكر إن في ميديا شغالة وميقفلش التايمر
+                    if (silentAudio && this.soundEnabled) {
+                        silentAudio.play().catch(e => console.log('Silent Audio Play Error:', e));
+                    }
+                },
+
+                stopSilentAudio() {
+                    const silentAudio = document.getElementById('silentAudio');
+                    if (silentAudio) {
+                        silentAudio.pause();
+                    }
+                },
+
+                // 7. 🚀 الـ Wake Lock API (لمنع الشاشة من القفل أثناء التايمر)
+                async requestWakeLock() {
+                    if ('wakeLock' in navigator) {
+                        try {
+                            this.wakeLock = await navigator.wakeLock.request('screen');
+                            this.wakeLock.addEventListener('release', () => {
+                                console.log('Wake Lock اتفك (الشاشة ممكن تقفل دلوقتي).');
+                            });
+                        } catch (err) { console.log(`Wake Lock Error: ${err.name}, ${err.message}`); }
+                    }
+                },
+
                 get filteredExercises() {
                     return this.exercisesList.filter(ex => {
                         const matchesSearch = ex.name.toLowerCase().includes(this.searchQuery.toLowerCase());
@@ -4948,20 +5933,31 @@
                             if (exItem.presetSets && exItem.presetSets.length > 0) {
                                 generatedSets = JSON.parse(JSON.stringify(exItem.presetSets)); 
                                 for(let i = 0; i < generatedSets.length; i++) {
+                                    let sugWeight = null;
                                     if (prevSetsData && prevSetsData[i]) {
                                         generatedSets[i].prev = `${prevSetsData[i].weight}kg x ${prevSetsData[i].reps}`;
+                                        // 🚀 الوحش الأوتوماتيكي: لو جاب 9 عدات أو أكتر المرة اللي فاتت، نقترح زيادة 2.5ك
+                                        if (parseInt(prevSetsData[i].reps) >= 9) {
+                                            sugWeight = parseFloat(prevSetsData[i].weight) + 2.5;
+                                        }
                                     } else {
                                         generatedSets[i].prev = '-';
                                     }
                                     generatedSets[i].dropsets = []; // دعم الدروب سيت بدلاً من RPE
+                                    generatedSets[i].suggestedWeight = sugWeight;
                                 }
                             } else {
                                 for(let i = 0; i < setsCount; i++) {
                                     let prevString = '-';
+                                    let sugWeight = null;
                                     if (prevSetsData && prevSetsData[i]) {
                                         prevString = `${prevSetsData[i].weight}kg x ${prevSetsData[i].reps}`;
+                                        // 🚀 الوحش الأوتوماتيكي
+                                        if (parseInt(prevSetsData[i].reps) >= 9) {
+                                            sugWeight = parseFloat(prevSetsData[i].weight) + 2.5;
+                                        }
                                     }
-                                    generatedSets.push({ type: 'normal', prev: prevString, weight: '', reps: '', dropsets: [], completed: false });
+                                    generatedSets.push({ type: 'normal', prev: prevString, weight: '', reps: '', dropsets: [], completed: false, suggestedWeight: sugWeight });
                                 }
                             }
 
@@ -4990,6 +5986,9 @@
                     this.workoutStartTime = Date.now();
                     this.timerSeconds = 0;
                     
+                    // 🚀 تحديثات: تفعيل الـ Wake Lock عشان الشاشة متقفلش لوحدها
+                    this.requestWakeLock();
+                    
                     this.timerInterval = setInterval(() => {
                         // بنحسب الفرق بين دلوقتي ووقت البداية، كده التايمر مش هيقف حتى لو الشاشة قفلت
                         this.timerSeconds = Math.floor((Date.now() - this.workoutStartTime) / 1000);
@@ -5009,7 +6008,8 @@
                         weight: lastSet ? lastSet.weight : '',
                         reps: lastSet ? lastSet.reps : '',
                         dropsets: [], // إضافة دعم الدروب سيت
-                        completed: false
+                        completed: false,
+                        suggestedWeight: null // الوحش الأوتوماتيكي
                     });
                     this.syncRoutineSets(); // حفظ العدد الجديد في الروتين
                 },
@@ -5088,25 +6088,7 @@
                         let currentW = parseFloat(set.weight) || 0;
                         let currentR = parseInt(set.reps) || 0;
 
-                        // 💡 محرك الزيادة التدريجية (Overload Nudge)
-                        if (set.prev && set.prev !== '-') {
-                            const prevParts = set.prev.split('x');
-                            if (prevParts.length === 2) {
-                                let prevW = parseFloat(prevParts[0].replace('kg','').trim()) || 0;
-                                let prevR = parseInt(prevParts[1].trim()) || 0;
-                                
-                                // لو جاب نفس الوزن والعدات والـ RPE بتاعه أقل من 8، نشجعه يزود
-                                let currentRpe = parseFloat(set.rpe) || 10;
-                                if (currentW === prevW && currentR === prevR && currentRpe <= 8 && set.type !== 'warmup') {
-                                    Swal.fire({
-                                        toast: true, position: 'bottom', icon: 'info', 
-                                        title: 'نفس الرقم؟ زود 2.5 كجم المرة الجاية يا وحش لإن المجهود كان سهل عليك! 📈', 
-                                        showConfirmButton: false, timer: 3000, background: '#1e293b', color: '#38bdf8'
-                                    });
-                                }
-                            }
-                        }
-
+                        // 💡 محرك الزيادة التدريجية (Overload Nudge) - تم تطويره في "الوحش الأوتوماتيكي"
                         // نظام احتفال الأرقام القياسية (PR Celebrations) 🎊
                         let isPR = false;
                         if (currentW > this.userStats.maxWeightSingle && currentW > 0) {
@@ -5255,10 +6237,15 @@
                             
                             for (let i = 0; i < oldSetsCount; i++) {
                                 let pStr = '-';
+                                let sugWeight = null;
                                 if (prevSetsData && prevSetsData[i]) {
                                     pStr = `${prevSetsData[i].weight}kg x ${prevSetsData[i].reps}`;
+                                    // الوحش الأوتوماتيكي
+                                    if (parseInt(prevSetsData[i].reps) >= 9) {
+                                        sugWeight = parseFloat(prevSetsData[i].weight) + 2.5;
+                                    }
                                 }
-                                newSets.push({ type: 'normal', prev: pStr, weight: '', reps: '', rpe: '', completed: false });
+                                newSets.push({ type: 'normal', prev: pStr, weight: '', reps: '', rpe: '', completed: false, suggestedWeight: sugWeight });
                             }
                             
                             // استبدال التمرين في نفس الـ Index
@@ -5272,12 +6259,16 @@
                             Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: 'تم التبديل السريع بنجاح 🔄', showConfirmButton: false, timer: 1500, background: '#1c1f26', color: '#f3f4f6' });
                         } else {
                             // لو إضافة تمرين جديد عادي في آخر اللستة
+                            let sugWeight = null;
+                            if (prevSetsData && prevSetsData[0] && parseInt(prevSetsData[0].reps) >= 9) {
+                                sugWeight = parseFloat(prevSetsData[0].weight) + 2.5;
+                            }
                             this.activeWorkout.exercises.push({
                                 name: ex.name,
                                 muscle: ex.muscle,
                                 collapsed: false,
                                 sets: [
-                                    { type: 'normal', prev: prevString, weight: '', reps: '', rpe: '', completed: false }
+                                    { type: 'normal', prev: prevString, weight: '', reps: '', rpe: '', completed: false, suggestedWeight: sugWeight }
                                 ]
                             });
                         }
@@ -5537,6 +6528,9 @@
                     this.restDuration = this.defaultRestTime;
                     this.restSeconds = this.restDuration;
                     
+                    // 🚀 تحديثات: تشغيل الصوت الصامت لمنع توقف التايمر والموبايل مغلق
+                    this.playSilentAudio();
+
                     // حساب وقت الانتهاء الحقيقي عشان يفضل شغال في الخلفية
                     this.restEndTime = Date.now() + (this.restDuration * 1000);
 
@@ -5580,9 +6574,9 @@
 
                 finishRest() {
                     this.stopRestTimer();
+                    this.stopSilentAudio(); 
                     
                     if (this.soundEnabled) {
-                        // 🚀 تشغيل النغمة المخصصة لو موجودة، غير كده شغل الـ Beep الافتراضي
                         if (this.customRestSound) {
                             try {
                                 const url = URL.createObjectURL(this.customRestSound);
@@ -5605,11 +6599,12 @@
                         }
                     }
                     
-                    // الاهتزاز
                     if (navigator.vibrate) {
                         try { navigator.vibrate([200, 100, 200, 100, 200]); } catch(e) {}
                     }
                 },
+
+                
 
                 cancelWorkout() {
                     Swal.fire({
@@ -6117,19 +7112,45 @@
 
                 // ================= 🚀 الدوال الجديدة (إشعارات، ميوزك، بروفايل، أجهزة) ================= //
 
-                // 1. تحديد نوع الجهاز لكل تمرين أوتوماتيك 
+                // 1. تحديد نوع الجهاز لكل تمرين أوتوماتيك (تم تطويره للتطابق مع الهيكل التفصيلي الجديد)
                 getExerciseEquipment(exName) {
-                    if(exName.includes('بار') || exName.includes('ديدليفت') || exName.includes('تي بار')) return 'barbell';
-                    if(exName.includes('دمبل')) return 'dumbbell';
-                    if(exName.includes('كابل') || exName.includes('سحب أرضي') || exName.includes('كروس')) return 'cables';
-                    if(exName.includes('جهاز') || exName.includes('مكبس') || exName.includes('هاك') || exName.includes('بييك ديك') || exName.includes('سميث')) return 'machines';
-                    if(exName.includes('عقلة') || exName.includes('غطس') || exName.includes('بوزن جسم')) return 'bodyweight';
-                    return 'dumbbell'; // الديفولت أوزان حرة لو مقدرش يحدد
+                    const ue = this.userEquipment;
+                    
+                    // الأوزان الحرة
+                    if(exName.includes('بار') && !exName.includes('سميث')) return ue.freeWeights.barbell;
+                    if(exName.includes('دمبل')) return ue.freeWeights.dumbbell;
+                    if(exName.includes('زجزاج') || exName.includes('كسار')) return ue.freeWeights.ezBar;
+                    
+                    // أجهزة الرجل
+                    if(exName.includes('مكبس')) return ue.machines.legPress;
+                    if(exName.includes('هاك')) return ue.machines.hackSquat;
+                    if(exName.includes('رفرفة أمامي') && exName.includes('جهاز')) return ue.machines.legExtension;
+                    if(exName.includes('جهاز خلفي')) return ue.machines.legCurl;
+                    if(exName.includes('سمانة على الجهاز') || exName.includes('سمانة على القاعد')) return ue.machines.calfMachine;
+                    
+                    // أجهزة الصدر والضهر
+                    if(exName.includes('سميث')) return ue.machines.smith;
+                    if(exName.includes('ضغط صدر') && exName.includes('جهاز')) return ue.machines.chestPress;
+                    if(exName.includes('بييك ديك') || exName.includes('فراشة')) return ue.machines.pecDeck;
+                    if(exName.includes('سحب عالي') || exName.includes('سحب أمامي')) return ue.machines.latPulldown;
+                    if(exName.includes('سحب أرضي')) return ue.machines.seatedRow;
+                    
+                    // الكابلات
+                    if(exName.includes('كروس') || exName.includes('متقاطع')) return ue.cables.dualCross;
+                    if(exName.includes('كابل')) return ue.cables.single;
+                    
+                    // وزن الجسم
+                    if(exName.includes('عقلة')) return ue.bodyweight.pullupBar;
+                    if(exName.includes('غطس') || exName.includes('متوازي')) return ue.bodyweight.dipStation;
+                    
+                    // الديفولت (أي تمرين مش محدد جهاز بنعتبره تمرين حر عشان الكوتش ميشيلوش بالغلط)
+                    return true;
                 },
 
                 saveEquipment() {
                     localStorage.setItem('hevyEquipment', JSON.stringify(this.userEquipment));
-                    this.sendNotification('تم حفظ إعدادات الأجهزة بتاعتك، الذكاء الاصطناعي هيستخدمها.', 'info');
+                    this.sendNotification('أجهزتك اتظبطت يا بطل، الكوتش الذكي هيحلل الجيم بتاعك من جديد 🤖', 'info');
+                    Swal.fire({ toast: true, position: 'top', icon: 'success', title: 'الأجهزة اتسجلت!', showConfirmButton: false, timer: 1500, background: '#1c1f26', color: '#f3f4f6' });
                 },
 
                 // 2. نظام الإشعارات (Notifications System)
